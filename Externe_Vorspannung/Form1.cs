@@ -24,6 +24,7 @@ namespace Externe_Vorspannung
         {
             InitializeComponent();
             nrKablaTypbox.SelectedIndex = 0;
+
         }
 
         public double[,] RysowanieKabla()
@@ -189,52 +190,11 @@ namespace Externe_Vorspannung
         private void SilaSum_Click(object sender, EventArgs e)
         {
 
-            double[,] SumaSil;
+            
+            SumowanieSil();
 
-            HashSet<double> rzedneXa;
-            rzedneXa = new HashSet<double>();
-            List<double> rzedneX;
-            Dictionary<double, double> SumaSilX;
-            Dictionary<double, double> SumaSilY;
-            //rzedneX = new List<double>();        // wszystkie rzedne X w modelu
-            //
-
-            for (int i = 1; i <= kable.Count(); i++)
-            {
-                for (int j = 0; j < kable[i].rzedneKabla[0].GetLength(0); j++)
-                {
-                    rzedneXa.Add(kable[i].rzedneKabla[0][j, 0]);
-                }
-            }
-            rzedneX = rzedneXa.ToList<double>();
-
-            SumaSil = new double[rzedneX.Count(), 2];
-            SumaSilX = new Dictionary<double, double>();
-            SumaSilY = new Dictionary<double, double>();
-
-            // tworzenie Dictionary
-            for (int i = 0; i < rzedneX.Count(); i++)
-            {
-                SumaSilX.Add(rzedneX[i], 0);
-                SumaSilY.Add(rzedneX[i], 0);
-            }
-
-
-            for (int i = 1; i <= kable.Count(); i++) // pętla po kablach
-            {
-                for (int j = 0; j < kable[i].rzedneKabla[0].GetLength(0); j++) // pętla po rzędnych kabla poszczegolnego kabla
-                {
-                    for (int k = 0; k < rzedneX.Count(); k++) // pętla poszukujaca wspolnego "X"
-                    {
-                        if (kable[i].rzedneKabla[0][j, 0] == rzedneX[k])
-                        {
-                            SumaSilX[rzedneX[k]] = kable[i].Sily()[j, 0] + SumaSilX[rzedneX[k]];
-                            SumaSilY[rzedneX[k]] = kable[i].Sily()[j, 1] + SumaSilY[rzedneX[k]];
-                        }
-                    }
-                }
-            }
-
+            
+            
             Sumasil openForm = new Sumasil(SumaSilX, SumaSilY, rzedneX);
             openForm.Show();
         }
@@ -267,7 +227,7 @@ namespace Externe_Vorspannung
                     sw.WriteLine("Siła sprężająca [kN]: " + kable[i].silaSprez);
                     sw.WriteLine("Współczynnik tarcia: " + kable[i].tarcie);
                     sw.WriteLine("Ilość kabli: " + kable[i].iloscKabli+"\n");
-                    sw.WriteLine("Rzędne kabla [m]");
+                    sw.WriteLine("Rzędne kabla nr " + i + "[m]");
                     sw.WriteLine("Nr" + "\t" + "X" + "\t" + "Y");
 
                     for (int j = 0; j < kable[i].rzedneKabla[0].GetLength(0); j++)
@@ -276,7 +236,39 @@ namespace Externe_Vorspannung
                     }
 
                     sw.WriteLine("\n");
+
+                    // -----------------------------SILY W JEDNYM KABLU-------------------------------------//
+                    sw.WriteLine("Sily od kabla nr "+i+" [kN]");
+                    sw.WriteLine("Nr" + "\t" + "X" + "\t" + "Y");
+
+                    for (int j = 0; j < kable[i].Sily().GetLength(0); j++)
+                    {
+                        sw.WriteLine((j + 1) + "\t" + kable[i].Sily()[j,0].ToString("N2") + "\t" + kable[i].Sily()[j, 1].ToString("N2"));
+                    }
+                    sw.WriteLine("\n");
+
+                    // -----------------------------SUMA SIL -------------------------------------//
+
+                    
+
                 }
+
+                SumowanieSil();
+                sw.WriteLine("Sily calkowite");
+                sw.WriteLine("Nr" + "\t" + "X" + "\t" + "Y");
+
+                
+                int n = 0;
+                foreach (double key in SumaSilX.Keys)
+                {
+                    n++;
+                    sw.WriteLine((n) + "\t" + SumaSilX[key].ToString("N2") + "\t" + SumaSilY[key].ToString("N2"));
+                }
+                sw.WriteLine("\n");
+
+
+
+
 
                 sw.Close();
             }
@@ -341,8 +333,6 @@ namespace Externe_Vorspannung
 
                 }
 
-                
-
                 nazwaSystexTextbox.Text = kable[1].nazwaSystemu;
                 silaSprezTextbox.Text = kable[1].silaSprez.ToString();
                 iloscKabliTextbox.Text = kable[1].iloscKabli.ToString();
@@ -354,11 +344,66 @@ namespace Externe_Vorspannung
                 }
                 RysowanieKabla();
                 nrKablaTypbox.Text = "1";
+
             }
             else
             {
                 MessageBox.Show("Plik nie istnieje!", "Błąd");
             }
+        }
+
+
+        Dictionary<double, double> SumaSilX;
+        Dictionary<double, double> SumaSilY;
+        List<double> rzedneX;
+
+        public void SumowanieSil()
+        {
+            double[,] SumaSil;
+
+            HashSet<double> rzedneXa;
+            rzedneXa = new HashSet<double>();
+            
+            
+            //rzedneX = new List<double>();        // wszystkie rzedne X w modelu
+            //
+
+            for (int i = 1; i <= kable.Count(); i++)
+            {
+                for (int j = 0; j < kable[i].rzedneKabla[0].GetLength(0); j++)
+                {
+                    rzedneXa.Add(kable[i].rzedneKabla[0][j, 0]);
+                }
+            }
+            rzedneX = rzedneXa.ToList<double>();
+
+            SumaSil = new double[rzedneX.Count(), 2];
+            SumaSilX = new Dictionary<double, double>();
+            SumaSilY = new Dictionary<double, double>();
+
+            // tworzenie Dictionary
+            for (int i = 0; i < rzedneX.Count(); i++)
+            {
+                SumaSilX.Add(rzedneX[i], 0);
+                SumaSilY.Add(rzedneX[i], 0);
+            }
+
+
+            for (int i = 1; i <= kable.Count(); i++) // pętla po kablach
+            {
+                for (int j = 0; j < kable[i].rzedneKabla[0].GetLength(0); j++) // pętla po rzędnych kabla poszczegolnego kabla
+                {
+                    for (int k = 0; k < rzedneX.Count(); k++) // pętla poszukujaca wspolnego "X"
+                    {
+                        if (kable[i].rzedneKabla[0][j, 0] == rzedneX[k])
+                        {
+                            SumaSilX[rzedneX[k]] = kable[i].Sily()[j, 0] + SumaSilX[rzedneX[k]];
+                            SumaSilY[rzedneX[k]] = kable[i].Sily()[j, 1] + SumaSilY[rzedneX[k]];
+                        }
+                    }
+                }
+            }
+
         }
     }
 

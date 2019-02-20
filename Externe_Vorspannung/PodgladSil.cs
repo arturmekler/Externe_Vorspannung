@@ -19,6 +19,7 @@ namespace Externe_Vorspannung
             for (int i = 0; i < k.Sily().GetLength(0); i++)
             {
                 silyDataGridView.Rows.Add((i+1).ToString(), k.Sily()[i, 0].ToString("N2"), k.Sily()[i, 1].ToString("N2"));
+                
             }
         }
     }
