@@ -15,10 +15,7 @@ namespace Externe_Vorspannung
         public Sumasil(Dictionary<double,double> SumaSilX,Dictionary<double,double> SumaSilY, List<double> rzedneX)
         {
             InitializeComponent();
-            //for (int i = 0; i < rzedneX.Count();i++)
-            //{
-            //    sumaSilDataGridView.Rows.Add(i+1,rzedneX[i],SumaSilX[i],SumaSilY[i]);
-            //}
+
             int i = 0;
             foreach (double x in rzedneX)
             {

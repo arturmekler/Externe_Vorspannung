@@ -211,67 +211,8 @@ namespace Externe_Vorspannung
 
         private void zapiszToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            SaveFileDialog saveFileDialog1 = new SaveFileDialog();
+            zapiszDoTxt();
 
-            if (saveFileDialog1.ShowDialog() == System.Windows.Forms.DialogResult.OK)
-            {
-
-                FileStream fs = (System.IO.FileStream)saveFileDialog1.OpenFile();
-
-                StreamWriter sw = new StreamWriter(fs);
-
-                for (int i = 1; i <= kable.Count; i++)
-                {
-                    sw.WriteLine("Kabel nr: " + kable[i].nrKabla);
-                    sw.WriteLine("Nazwa systemu: " + kable[i].nazwaSystemu);
-                    sw.WriteLine("Siła sprężająca [kN]: " + kable[i].silaSprez);
-                    sw.WriteLine("Współczynnik tarcia: " + kable[i].tarcie);
-                    sw.WriteLine("Ilość kabli: " + kable[i].iloscKabli+"\n");
-                    sw.WriteLine("Rzędne kabla nr " + i + "[m]");
-                    sw.WriteLine("Nr" + "\t" + "X" + "\t" + "Y");
-
-                    for (int j = 0; j < kable[i].rzedneKabla[0].GetLength(0); j++)
-                    {
-                        sw.WriteLine((j + 1) + "\t" + kable[i].rzedneKabla[0][j, 0] + "\t" + kable[i].rzedneKabla[0][j, 1]);
-                    }
-
-                    sw.WriteLine("\n");
-
-                    // -----------------------------SILY W JEDNYM KABLU-------------------------------------//
-                    sw.WriteLine("Sily od kabla nr "+i+" [kN]");
-                    sw.WriteLine("Nr" + "\t" + "X" + "\t" + "Y");
-
-                    for (int j = 0; j < kable[i].Sily().GetLength(0); j++)
-                    {
-                        sw.WriteLine((j + 1) + "\t" + kable[i].Sily()[j,0].ToString("N2") + "\t" + kable[i].Sily()[j, 1].ToString("N2"));
-                    }
-                    sw.WriteLine("\n");
-
-                    // -----------------------------SUMA SIL -------------------------------------//
-
-                    
-
-                }
-
-                SumowanieSil();
-                sw.WriteLine("Sily calkowite");
-                sw.WriteLine("Nr" + "\t" + "X" + "\t" + "Y");
-
-                
-                int n = 0;
-                foreach (double key in SumaSilX.Keys)
-                {
-                    n++;
-                    sw.WriteLine((n) + "\t" + SumaSilX[key].ToString("N2") + "\t" + SumaSilY[key].ToString("N2"));
-                }
-                sw.WriteLine("\n");
-
-
-
-
-
-                sw.Close();
-            }
         }
 
         private void otwórzToolStripMenuItem_Click(object sender, EventArgs e)
@@ -352,6 +293,140 @@ namespace Externe_Vorspannung
             }
         }
 
+        private void zapiszJakoToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+         
+        }
+
+        private void zapiszDoTxt()
+        {
+            SaveFileDialog saveFileDialog1 = new SaveFileDialog();
+            saveFileDialog1.Filter = "excel files (*.xls)|*.xls|txt files (*.txt)|*.txt|All files (*.*)|*.*";
+
+            if (saveFileDialog1.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+            {
+
+                FileStream fs = (System.IO.FileStream)saveFileDialog1.OpenFile();
+
+                StreamWriter sw = new StreamWriter(fs);
+
+                for (int i = 1; i <= kable.Count; i++)
+                {
+                    sw.WriteLine("Kabel nr: " + kable[i].nrKabla);
+                    sw.WriteLine("Nazwa systemu: " + kable[i].nazwaSystemu);
+                    sw.WriteLine("Siła sprężająca [kN]: " + kable[i].silaSprez);
+                    sw.WriteLine("Współczynnik tarcia: " + kable[i].tarcie);
+                    sw.WriteLine("Ilość kabli: " + kable[i].iloscKabli + "\n");
+                    sw.WriteLine("Rzędne kabla nr " + i + "[m]");
+                    sw.WriteLine("Nr" + "\t" + "X" + "\t" + "Y");
+
+                    for (int j = 0; j < kable[i].rzedneKabla[0].GetLength(0); j++)
+                    {
+                        sw.WriteLine((j + 1) + "\t" + kable[i].rzedneKabla[0][j, 0] + "\t" + kable[i].rzedneKabla[0][j, 1]);
+                    }
+
+                    sw.WriteLine("\n");
+
+                    // -----------------------------SILY W JEDNYM KABLU-------------------------------------//
+                    sw.WriteLine("Sily od kabla nr " + i + " [kN]");
+                    sw.WriteLine("Nr" + "\t" + "X" + "\t" + "Y");
+
+                    for (int j = 0; j < kable[i].Sily().GetLength(0); j++)
+                    {
+                        sw.WriteLine((j + 1) + "\t" + kable[i].Sily()[j, 0].ToString("N2") + "\t" + kable[i].Sily()[j, 1].ToString("N2"));
+                    }
+                    sw.WriteLine("\n");
+
+                    // -----------------------------SUMA SIL -------------------------------------//
+
+                }
+
+                SumowanieSil();
+                sw.WriteLine("Sily calkowite");
+                sw.WriteLine("Nr" + "\t" + "X" + "\t" + "Y");
+
+
+                int n = 0;
+                foreach (double key in SumaSilX.Keys)
+                {
+                    n++;
+                    sw.WriteLine((n) + "\t" + SumaSilX[key].ToString("N2") + "\t" + SumaSilY[key].ToString("N2"));
+                }
+                sw.WriteLine("\n");
+
+                sw.Close();
+            }
+        }
+
+        private void zapiszDoExcel()
+        {
+            SaveFileDialog saveFileDialog1 = new SaveFileDialog();
+            saveFileDialog1.Filter = "excel files (*.xls)|*.xls|txt files (*.txt)|*.txt|All files (*.*)|*.*";
+
+            if (saveFileDialog1.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+            {
+
+                FileStream fs = (System.IO.FileStream)saveFileDialog1.OpenFile();
+
+                StreamWriter sw = new StreamWriter(fs);
+
+                _Application excel = new _Excel.Application();
+                Workbook wb;
+                Worksheet ws;
+
+                wb = excel.Workbooks.Open("C:\\Programowanie\\moj_projekt_praca\\Externe_Vorspann");
+
+
+
+                for (int i = 1; i <= kable.Count; i++)
+                {
+                    sw.WriteLine("Kabel nr: " + kable[i].nrKabla);
+                    sw.WriteLine("Nazwa systemu: " + kable[i].nazwaSystemu);
+                    sw.WriteLine("Siła sprężająca [kN]: " + kable[i].silaSprez);
+                    sw.WriteLine("Współczynnik tarcia: " + kable[i].tarcie);
+                    sw.WriteLine("Ilość kabli: " + kable[i].iloscKabli + "\n");
+                    sw.WriteLine("Rzędne kabla nr " + i + "[m]");
+                    sw.WriteLine("Nr" + "\t" + "X" + "\t" + "Y");
+
+                    for (int j = 0; j < kable[i].rzedneKabla[0].GetLength(0); j++)
+                    {
+                        sw.WriteLine((j + 1) + "\t" + kable[i].rzedneKabla[0][j, 0] + "\t" + kable[i].rzedneKabla[0][j, 1]);
+                    }
+
+                    sw.WriteLine("\n");
+
+                    // -----------------------------SILY W JEDNYM KABLU-------------------------------------//
+                    sw.WriteLine("Sily od kabla nr " + i + " [kN]");
+                    sw.WriteLine("Nr" + "\t" + "X" + "\t" + "Y");
+
+                    for (int j = 0; j < kable[i].Sily().GetLength(0); j++)
+                    {
+                        sw.WriteLine((j + 1) + "\t" + kable[i].Sily()[j, 0].ToString("N2") + "\t" + kable[i].Sily()[j, 1].ToString("N2"));
+                    }
+                    sw.WriteLine("\n");
+
+                    // -----------------------------SUMA SIL -------------------------------------//
+
+                }
+
+                SumowanieSil();
+                sw.WriteLine("Sily calkowite");
+                sw.WriteLine("Nr" + "\t" + "X" + "\t" + "Y");
+
+
+                int n = 0;
+                foreach (double key in SumaSilX.Keys)
+                {
+                    n++;
+                    sw.WriteLine((n) + "\t" + SumaSilX[key].ToString("N2") + "\t" + SumaSilY[key].ToString("N2"));
+                }
+                sw.WriteLine("\n");
+
+                sw.Close();
+            }
+        }
+
+
 
         Dictionary<double, double> SumaSilX;
         Dictionary<double, double> SumaSilY;
@@ -405,6 +480,8 @@ namespace Externe_Vorspannung
             }
 
         }
+
+        
     }
 
 }
