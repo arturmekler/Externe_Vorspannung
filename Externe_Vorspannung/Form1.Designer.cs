@@ -1,6 +1,6 @@
 ﻿namespace Externe_Vorspannung
 {
-    partial class Form1
+    partial class Externe_Vorspannung
     {
         /// <summary>
         /// Wymagana zmienna projektanta.
@@ -41,15 +41,15 @@
             this.saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
             this.tabPage2 = new System.Windows.Forms.TabPage();
-            this.silaSprezTextbox = new System.Windows.Forms.TextBox();
+            this.prestressForceTextbox = new System.Windows.Forms.TextBox();
             this.silaSprez = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
-            this.iloscKabliTextbox = new System.Windows.Forms.TextBox();
+            this.quantitiyCableTextbox = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
-            this.nazwaSystexTextbox = new System.Windows.Forms.TextBox();
+            this.systemNameTextbox = new System.Windows.Forms.TextBox();
             this.label6 = new System.Windows.Forms.Label();
-            this.nrKablaTypbox = new System.Windows.Forms.ComboBox();
+            this.nrCableTypbox = new System.Windows.Forms.ComboBox();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.dataGridView2 = new System.Windows.Forms.DataGridView();
             this.rzednaY = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -58,7 +58,7 @@
             this.label3 = new System.Windows.Forms.Label();
             this.chart1 = new System.Windows.Forms.DataVisualization.Charting.Chart();
             this.podgladSil = new System.Windows.Forms.Button();
-            this.tarcieTextBox = new System.Windows.Forms.TextBox();
+            this.frictionTextBox = new System.Windows.Forms.TextBox();
             this.labeltarcie = new System.Windows.Forms.Label();
             this.SilaSum = new System.Windows.Forms.Button();
             this.tabPage1 = new System.Windows.Forms.TabPage();
@@ -115,7 +115,7 @@
             this.otwórzToolStripMenuItem.Name = "otwórzToolStripMenuItem";
             this.otwórzToolStripMenuItem.Size = new System.Drawing.Size(127, 22);
             this.otwórzToolStripMenuItem.Text = "Otwórz";
-            this.otwórzToolStripMenuItem.Click += new System.EventHandler(this.otwórzToolStripMenuItem_Click);
+            this.otwórzToolStripMenuItem.Click += new System.EventHandler(this.openToolStripMenuItem_Click);
             // 
             // zapiszToolStripMenuItem
             // 
@@ -129,7 +129,7 @@
             this.zapiszJakoToolStripMenuItem.Name = "zapiszJakoToolStripMenuItem";
             this.zapiszJakoToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.zapiszJakoToolStripMenuItem.Text = "Zapisz jako";
-            this.zapiszJakoToolStripMenuItem.Click += new System.EventHandler(this.zapiszJakoToolStripMenuItem_Click);
+            this.zapiszJakoToolStripMenuItem.Click += new System.EventHandler(this.saveAsToolStripMenuItem_Click);
             // 
             // zakończToolStripMenuItem
             // 
@@ -151,16 +151,16 @@
             // 
             this.tabPage2.Controls.Add(this.SilaSum);
             this.tabPage2.Controls.Add(this.labeltarcie);
-            this.tabPage2.Controls.Add(this.tarcieTextBox);
-            this.tabPage2.Controls.Add(this.nazwaSystexTextbox);
-            this.tabPage2.Controls.Add(this.iloscKabliTextbox);
-            this.tabPage2.Controls.Add(this.silaSprezTextbox);
+            this.tabPage2.Controls.Add(this.frictionTextBox);
+            this.tabPage2.Controls.Add(this.systemNameTextbox);
+            this.tabPage2.Controls.Add(this.quantitiyCableTextbox);
+            this.tabPage2.Controls.Add(this.prestressForceTextbox);
             this.tabPage2.Controls.Add(this.podgladSil);
             this.tabPage2.Controls.Add(this.chart1);
             this.tabPage2.Controls.Add(this.label3);
             this.tabPage2.Controls.Add(this.dodajKabelbutton);
             this.tabPage2.Controls.Add(this.groupBox2);
-            this.tabPage2.Controls.Add(this.nrKablaTypbox);
+            this.tabPage2.Controls.Add(this.nrCableTypbox);
             this.tabPage2.Controls.Add(this.label6);
             this.tabPage2.Controls.Add(this.label4);
             this.tabPage2.Controls.Add(this.label2);
@@ -176,10 +176,10 @@
             // 
             // silaSprezTextbox
             // 
-            this.silaSprezTextbox.Location = new System.Drawing.Point(92, 32);
-            this.silaSprezTextbox.Name = "silaSprezTextbox";
-            this.silaSprezTextbox.Size = new System.Drawing.Size(48, 20);
-            this.silaSprezTextbox.TabIndex = 2;
+            this.prestressForceTextbox.Location = new System.Drawing.Point(92, 32);
+            this.prestressForceTextbox.Name = "silaSprezTextbox";
+            this.prestressForceTextbox.Size = new System.Drawing.Size(48, 20);
+            this.prestressForceTextbox.TabIndex = 2;
             // 
             // silaSprez
             // 
@@ -201,10 +201,10 @@
             // 
             // iloscKabliTextbox
             // 
-            this.iloscKabliTextbox.Location = new System.Drawing.Point(92, 60);
-            this.iloscKabliTextbox.Name = "iloscKabliTextbox";
-            this.iloscKabliTextbox.Size = new System.Drawing.Size(48, 20);
-            this.iloscKabliTextbox.TabIndex = 3;
+            this.quantitiyCableTextbox.Location = new System.Drawing.Point(92, 60);
+            this.quantitiyCableTextbox.Name = "iloscKabliTextbox";
+            this.quantitiyCableTextbox.Size = new System.Drawing.Size(48, 20);
+            this.quantitiyCableTextbox.TabIndex = 3;
             // 
             // label2
             // 
@@ -226,10 +226,10 @@
             // 
             // nazwaSystexTextbox
             // 
-            this.nazwaSystexTextbox.Location = new System.Drawing.Point(92, 6);
-            this.nazwaSystexTextbox.Name = "nazwaSystexTextbox";
-            this.nazwaSystexTextbox.Size = new System.Drawing.Size(217, 20);
-            this.nazwaSystexTextbox.TabIndex = 1;
+            this.systemNameTextbox.Location = new System.Drawing.Point(92, 6);
+            this.systemNameTextbox.Name = "nazwaSystexTextbox";
+            this.systemNameTextbox.Size = new System.Drawing.Size(217, 20);
+            this.systemNameTextbox.TabIndex = 1;
             // 
             // label6
             // 
@@ -240,10 +240,10 @@
             this.label6.TabIndex = 10;
             this.label6.Text = "Nazwa systemu";
             // 
-            // nrKablaTypbox
+            // nrCableTypbox
             // 
-            this.nrKablaTypbox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.nrKablaTypbox.Items.AddRange(new object[] {
+            this.nrCableTypbox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.nrCableTypbox.Items.AddRange(new object[] {
             "1",
             "2",
             "3",
@@ -254,11 +254,11 @@
             "8",
             "9",
             "10"});
-            this.nrKablaTypbox.Location = new System.Drawing.Point(465, 6);
-            this.nrKablaTypbox.Name = "nrKablaTypbox";
-            this.nrKablaTypbox.Size = new System.Drawing.Size(41, 21);
-            this.nrKablaTypbox.TabIndex = 4;
-            this.nrKablaTypbox.SelectedIndexChanged += new System.EventHandler(this.nrKablaTypbox_SelectedIndexChanged);
+            this.nrCableTypbox.Location = new System.Drawing.Point(465, 6);
+            this.nrCableTypbox.Name = "nrCableTypbox";
+            this.nrCableTypbox.Size = new System.Drawing.Size(41, 21);
+            this.nrCableTypbox.TabIndex = 4;
+            this.nrCableTypbox.SelectedIndexChanged += new System.EventHandler(this.nrCableTypbox_SelectedIndexChanged);
             // 
             // groupBox2
             // 
@@ -299,7 +299,7 @@
             this.dodajKabelbutton.TabIndex = 6;
             this.dodajKabelbutton.Text = "Dodaj kabel";
             this.dodajKabelbutton.UseVisualStyleBackColor = true;
-            this.dodajKabelbutton.Click += new System.EventHandler(this.dodajKabelbutton_Click);
+            this.dodajKabelbutton.Click += new System.EventHandler(this.cableAddButton_Click);
             // 
             // label3
             // 
@@ -331,14 +331,14 @@
             this.podgladSil.TabIndex = 21;
             this.podgladSil.Text = "Podgląd sił";
             this.podgladSil.UseVisualStyleBackColor = true;
-            this.podgladSil.Click += new System.EventHandler(this.podgladSil_Click);
+            this.podgladSil.Click += new System.EventHandler(this.reviewForces_Click);
             // 
             // tarcieTextBox
             // 
-            this.tarcieTextBox.Location = new System.Drawing.Point(457, 35);
-            this.tarcieTextBox.Name = "tarcieTextBox";
-            this.tarcieTextBox.Size = new System.Drawing.Size(48, 20);
-            this.tarcieTextBox.TabIndex = 22;
+            this.frictionTextBox.Location = new System.Drawing.Point(457, 35);
+            this.frictionTextBox.Name = "tarcieTextBox";
+            this.frictionTextBox.Size = new System.Drawing.Size(48, 20);
+            this.frictionTextBox.TabIndex = 22;
             // 
             // labeltarcie
             // 
@@ -357,7 +357,7 @@
             this.SilaSum.TabIndex = 24;
             this.SilaSum.Text = "Suma sił";
             this.SilaSum.UseVisualStyleBackColor = true;
-            this.SilaSum.Click += new System.EventHandler(this.SilaSum_Click);
+            this.SilaSum.Click += new System.EventHandler(this.ForcesSum_Click);
             // 
             // tabPage1
             // 
@@ -433,7 +433,7 @@
             this.aktualizaca.TabIndex = 9;
             this.aktualizaca.Text = "Aktualizuj";
             this.aktualizaca.UseVisualStyleBackColor = true;
-            this.aktualizaca.Click += new System.EventHandler(this.aktualizaca_Click);
+            this.aktualizaca.Click += new System.EventHandler(this.update_Click);
             // 
             // tabControl1
             // 
@@ -445,7 +445,7 @@
             this.tabControl1.Size = new System.Drawing.Size(520, 396);
             this.tabControl1.TabIndex = 11;
             // 
-            // Form1
+            // Externe_Vorspannung
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -454,8 +454,8 @@
             this.Controls.Add(this.menuStrip1);
             this.MainMenuStrip = this.menuStrip1;
             this.MaximizeBox = false;
-            this.Name = "Form1";
-            this.Text = "Form1";
+            this.Name = "Externe_Vorspannung";
+            this.Text = "Externe_Vorspannung";
             this.Load += new System.EventHandler(this.Form1_Load);
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
@@ -488,10 +488,10 @@
         private System.Windows.Forms.TabPage tabPage2;
         private System.Windows.Forms.Button SilaSum;
         private System.Windows.Forms.Label labeltarcie;
-        public System.Windows.Forms.TextBox tarcieTextBox;
-        public System.Windows.Forms.TextBox nazwaSystexTextbox;
-        public System.Windows.Forms.TextBox iloscKabliTextbox;
-        public System.Windows.Forms.TextBox silaSprezTextbox;
+        public System.Windows.Forms.TextBox frictionTextBox;
+        public System.Windows.Forms.TextBox systemNameTextbox;
+        public System.Windows.Forms.TextBox quantitiyCableTextbox;
+        public System.Windows.Forms.TextBox prestressForceTextbox;
         private System.Windows.Forms.Button podgladSil;
         private System.Windows.Forms.DataVisualization.Charting.Chart chart1;
         private System.Windows.Forms.Label label3;
@@ -500,7 +500,7 @@
         private System.Windows.Forms.DataGridView dataGridView2;
         private System.Windows.Forms.DataGridViewTextBoxColumn rzednaX;
         private System.Windows.Forms.DataGridViewTextBoxColumn rzednaY;
-        private System.Windows.Forms.ComboBox nrKablaTypbox;
+        private System.Windows.Forms.ComboBox nrCableTypbox;
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Label label2;

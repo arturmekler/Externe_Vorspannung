@@ -10,9 +10,9 @@ using System.Windows.Forms;
 
 namespace Externe_Vorspannung
 {
-    public partial class Sumasil : Form
+    public partial class sumForces : Form
     {
-        public Sumasil(Dictionary<double,double> SumaSilX,Dictionary<double,double> SumaSilY, List<double> rzedneX)
+        public sumForces(Dictionary<double,double> SumaSilX,Dictionary<double,double> SumaSilY, List<double> rzedneX)
         {
             InitializeComponent();
 

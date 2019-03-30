@@ -10,15 +10,15 @@ using System.Windows.Forms;
 
 namespace Externe_Vorspannung
 {
-    public partial class PodgladSil : Form
+    public partial class reviewForces : Form
     {
-        public PodgladSil(Kabel k)
+        public reviewForces(Cable k)
         {
             InitializeComponent();
 
-            for (int i = 0; i < k.Sily().GetLength(0); i++)
+            for (int i = 0; i < k.Forces().GetLength(0); i++)
             {
-                silyDataGridView.Rows.Add((i+1).ToString(), k.Sily()[i, 0].ToString("N2"), k.Sily()[i, 1].ToString("N2"));
+                silyDataGridView.Rows.Add((i+1).ToString(), k.Forces()[i, 0].ToString("N2"), k.Forces()[i, 1].ToString("N2"));
                 
             }
         }

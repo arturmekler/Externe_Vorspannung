@@ -10,7 +10,7 @@ namespace ExVorspannungTest
         [TestMethod]
         public void TestMethod1()
         {
-            Kabel k = new Kabel();
+            Cable k = new Cable();
             Assert.AreEqual(1,1);
         }
     }

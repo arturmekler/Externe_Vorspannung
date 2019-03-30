@@ -1,6 +1,6 @@
 ﻿namespace Externe_Vorspannung
 {
-    partial class PodgladSil
+    partial class reviewForces
     {
         /// <summary>
         /// Required designer variable.

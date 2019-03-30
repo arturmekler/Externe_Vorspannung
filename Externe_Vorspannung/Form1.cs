@@ -15,19 +15,17 @@ using _Excel = Microsoft.Office.Interop.Excel;
 
 
 
-
 namespace Externe_Vorspannung
 {
-    public partial class Form1 : Form
+    public partial class Externe_Vorspannung : Form
     {
-        public Form1()
+        public Externe_Vorspannung()
         {
             InitializeComponent();
-            nrKablaTypbox.SelectedIndex = 0;
-
+            nrCableTypbox.SelectedIndex = 0;
         }
 
-        public double[,] RysowanieKabla()
+        public double[,] CableDrawing()
         {
             chart1.Series.Clear();
             //-------------------------------------RYSOWANIE KABLA---------------------------------//
@@ -42,32 +40,32 @@ namespace Externe_Vorspannung
             //chart.AxisY.Maximum = 12;
             chart.AxisX.Interval = 0;
             chart.AxisY.Interval = 0;
-            chart1.Series.Add("Kabel");
-            chart1.Series["Kabel"].ChartType = SeriesChartType.Line;
-            chart1.Series["Kabel"].Color = Color.Red;
+            chart1.Series.Add("Cable");
+            chart1.Series["Cable"].ChartType = SeriesChartType.Line;
+            chart1.Series["Cable"].Color = Color.Red;
 
             //-----------------------------------------------------------------------------------------//
-            double[,] rzedne = new double[dataGridView2.Rows.Count - 1, 2];
+            double[,] ordinates = new double[dataGridView2.Rows.Count - 1, 2];
 
             for (int i = 0; i < dataGridView2.Rows.Count - 1; i++)
             {
                 for (int j = 0; j <= 1; j++)
                 {
-                    rzedne[i, j] = Convert.ToDouble(dataGridView2.Rows[i].Cells[j].Value);
+                    ordinates[i, j] = Convert.ToDouble(dataGridView2.Rows[i].Cells[j].Value);
                 }
             }
             for (int i = 0; i < dataGridView2.Rows.Count - 1; i++)  // ---------przypisywanie rzednych------------
             {
-                chart1.Series["Kabel"].Points.AddXY(rzedne[i, 0], rzedne[i, 1]);
+                chart1.Series["Cable"].Points.AddXY(ordinates[i, 0], ordinates[i, 1]);
             }
-            return rzedne;
+            return ordinates;
         }
 
-        public void DodawanieKabla(int nrKabla, Kabel k)
+        public void CableAdd(int nrCable, Cable k)
         {
-            if (kable.ContainsKey(nrKabla) == false)
+            if (cables.ContainsKey(nrCable) == false)
             {
-                kable[nrKabla] = k;
+                cables[nrCable] = k;
             }
 
             else
@@ -75,21 +73,17 @@ namespace Externe_Vorspannung
                 DialogResult dialogResult = MessageBox.Show("Dany nr kabla już istnieje. Czy chcesz go nadpisać?", "Nadpisanie kabla", MessageBoxButtons.YesNo);
                 if (dialogResult == DialogResult.Yes)
                 {
-                    kable.Remove(nrKabla);
-                    kable[nrKabla] = k;
-                }
-                else if (dialogResult == DialogResult.No)
-                {
-
+                    cables.Remove(nrCable);
+                    cables[nrCable] = k;
                 }
             }
         }
 
-        public Dictionary<int, Kabel> kable = new Dictionary<int, Kabel>();
+        public Dictionary<int, Cable> cables = new Dictionary<int, Cable>();
 
-        public double[,] rzedne;
+        public double[,] ordinates;
 
-        private void aktualizaca_Click(object sender, EventArgs e)
+        private void update_Click(object sender, EventArgs e)
         {
             dataGridView1.Rows.Clear();
             if (textBoxIloscPrzesel.Text == "")
@@ -102,23 +96,30 @@ namespace Externe_Vorspannung
                 int x = Int32.Parse(textBoxIloscPrzesel.Text);
                 for (int i = 1; i <= x; i++)
                 {
-                    dataGridView1.Rows.Add(textBoxIloscPrzesel.Text = i.ToString(), silaSprezTextbox.Text);
+                    dataGridView1.Rows.Add(textBoxIloscPrzesel.Text = i.ToString(), prestressForceTextbox.Text);
                 }
             }
         }
 
-        private void dodajKabelbutton_Click(object sender, EventArgs e)
+        private void cableAddButton_Click(object sender, EventArgs e)
         {
-            if (nazwaSystexTextbox.Text == "" || nrKablaTypbox.Text == "" || iloscKabliTextbox.Text == "" || tarcieTextBox.Text == "")
+            if (systemNameTextbox.Text == "" || nrCableTypbox.Text == "" || quantitiyCableTextbox.Text == "" || frictionTextBox.Text == "")
             {
                 MessageBox.Show("Wypełnij wszystkie pola!", "Błąd");
             }
 
-            else if (System.Text.RegularExpressions.Regex.IsMatch(silaSprezTextbox.Text, "[^0-9]")
-                || System.Text.RegularExpressions.Regex.IsMatch(silaSprezTextbox.Text, "[^0-9]"))
+            else if (System.Text.RegularExpressions.Regex.IsMatch(prestressForceTextbox.Text, "[^0-9]"))
             {
                 MessageBox.Show("Prosze wpisać liczby w odpowiednim formacie.");
-                iloscKabliTextbox.Text = iloscKabliTextbox.Text.Remove(iloscKabliTextbox.Text.Length - 1);
+                prestressForceTextbox.Clear();
+
+                //iloscKabliTextbox.Text = iloscKabliTextbox.Text.Remove(iloscKabliTextbox.Text.Length - 1);
+            }
+
+            else if (System.Text.RegularExpressions.Regex.IsMatch(frictionTextBox.Text, "[^0-9]"))
+            {
+                MessageBox.Show("Prosze wpisać liczby w odpowiednim formacie.");
+                frictionTextBox.Clear();
             }
 
             else if (dataGridView2.Rows.Count < 3)
@@ -128,43 +129,48 @@ namespace Externe_Vorspannung
 
             else
             {
-                RysowanieKabla();
+                CableDrawing();
 
-                Kabel k = new Kabel(nazwaSystexTextbox.Text, Int32.Parse(nrKablaTypbox.Text), Int32.Parse(iloscKabliTextbox.Text),
-                    Double.Parse(silaSprezTextbox.Text), Double.Parse(tarcieTextBox.Text));
+                /*if(System.Text.RegularExpressions.Regex.IsMatch(silaSprezTextbox.Text, "[^0-9]"))
+                {
+                    
+                }*/
+
+                Cable k = new Cable(systemNameTextbox.Text, Int32.Parse(nrCableTypbox.Text), Int32.Parse(quantitiyCableTextbox.Text),
+                Double.Parse(prestressForceTextbox.Text), Double.Parse(frictionTextBox.Text));
 
 
-                rzedne = RysowanieKabla();
+                ordinates = CableDrawing();
 
-                k.rzedneKabla.Add(rzedne);
+                k.cableOrdinates.Add(ordinates);
 
-                DodawanieKabla(Int32.Parse(nrKablaTypbox.Text), k);
-                k.Sily();
+                CableAdd(Int32.Parse(nrCableTypbox.Text), k);
+                k.Forces();
 
             }
         }
 
-        private void nrKablaTypbox_SelectedIndexChanged(object sender, EventArgs e)
+        private void nrCableTypbox_SelectedIndexChanged(object sender, EventArgs e)
         {
-            int nrKabla = Int32.Parse(nrKablaTypbox.Text);
+            int nrCable = Int32.Parse(nrCableTypbox.Text);
 
 
-            if (kable.ContainsKey(nrKabla) == true)
+            if (cables.ContainsKey(nrCable) == true)
             {
                 dataGridView2.Rows.Clear();
-                silaSprezTextbox.Clear();
-                nazwaSystexTextbox.Text = kable[nrKabla].nazwaSystemu;
-                silaSprezTextbox.Text = kable[nrKabla].silaSprez.ToString();
-                iloscKabliTextbox.Text = kable[nrKabla].iloscKabli.ToString();
-                tarcieTextBox.Text = kable[nrKabla].tarcie.ToString();
+                prestressForceTextbox.Clear();
+                systemNameTextbox.Text = cables[nrCable].systemName;
+                prestressForceTextbox.Text = cables[nrCable].prestressForce.ToString();
+                quantitiyCableTextbox.Text = cables[nrCable].quantityCable.ToString();
+                frictionTextBox.Text = cables[nrCable].friction.ToString();
 
 
                 /////////////////////////////      PĘTLA PRZYPISUJACA RZEDNE DO DATAGRIDVIEW       //////////////////////////////////
-                for (int i = 0; i < kable[nrKabla].rzedneKabla[0].GetLength(0); i++)
+                for (int i = 0; i < cables[nrCable].cableOrdinates[0].GetLength(0); i++)
                 {
-                    dataGridView2.Rows.Add(kable[nrKabla].rzedneKabla[0][i, 0], kable[nrKabla].rzedneKabla[0][i, 1]);
+                    dataGridView2.Rows.Add(cables[nrCable].cableOrdinates[0][i, 0], cables[nrCable].cableOrdinates[0][i, 1]);
                 }
-                RysowanieKabla();
+                CableDrawing();
             }
             else
             {
@@ -173,29 +179,25 @@ namespace Externe_Vorspannung
             }
         }
 
-        private void podgladSil_Click(object sender, EventArgs e)
+        private void reviewForces_Click(object sender, EventArgs e)
         {
 
-            if (kable.ContainsKey(Int32.Parse(nrKablaTypbox.Text)) == false)
+            if (cables.ContainsKey(Int32.Parse(nrCableTypbox.Text)) == false)
             {
                 MessageBox.Show("Podany kabel nie istnieje", "Błąd");
             }
             else
             {
-                PodgladSil openForm = new PodgladSil(kable[Int32.Parse(nrKablaTypbox.Text)]);
+                reviewForces openForm = new reviewForces(cables[Int32.Parse(nrCableTypbox.Text)]);
                 openForm.Show();
             }
         }
 
-        private void SilaSum_Click(object sender, EventArgs e)
+        private void ForcesSum_Click(object sender, EventArgs e)
         {
+            summingForces();
 
-            
-            SumowanieSil();
-
-            
-            
-            Sumasil openForm = new Sumasil(SumaSilX, SumaSilY, rzedneX);
+            sumForces openForm = new sumForces(sumForcesX, sumForcesY, ordinatesX);
             openForm.Show();
         }
 
@@ -204,18 +206,13 @@ namespace Externe_Vorspannung
 
         }
 
-        private void tabPage2_Click(object sender, EventArgs e)
-        {
-
-        }
 
         private void zapiszToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            zapiszDoTxt();
-
+            saveToTxt();
         }
 
-        private void otwórzToolStripMenuItem_Click(object sender, EventArgs e)
+        private void openToolStripMenuItem_Click(object sender, EventArgs e)
         {
             OpenFileDialog openFileDialog1 = new OpenFileDialog();
 
@@ -223,29 +220,28 @@ namespace Externe_Vorspannung
             {             
                 FileStream fs = new FileStream(openFileDialog1.FileName, FileMode.Open);
                 StreamReader sr = new StreamReader(fs);
-                string linia;
-                string[] rzedneasd;
+                string line;
+                string[] ordinatesTemp;
                 List<string> text = new List<string>();
 
-                
 
-                while ((linia = sr.ReadLine()) != null)
+                while ((line = sr.ReadLine()) != null)
                 {
-                    text.Add(linia);
+                    text.Add(line);
                 }
 
                 for(int i=0; i<text.Count();i++)
                 {
 
-                    if (text[i].Contains("Kabel nr: "))
+                    if (text[i].Contains("Cable nr: "))
                     {
-                        Kabel k = new Kabel();
+                        Cable k = new Cable();
 
-                        k.nrKabla = Int32.Parse(text[i].Remove(0, 9));
-                        k.nazwaSystemu = text[i + 1].Remove(0, 15);
-                        k.silaSprez = Double.Parse(text[i + 2].Remove(0, 22));
-                        k.tarcie = Double.Parse(text[i + 3].Remove(0, 21));
-                        k.iloscKabli = Int32.Parse(text[i + 4].Remove(0, 13));
+                        k.nrCable = Int32.Parse(text[i].Remove(0, 9));
+                        k.systemName = text[i + 1].Remove(0, 15);
+                        k.prestressForce = Double.Parse(text[i + 2].Remove(0, 22));
+                        k.friction = Double.Parse(text[i + 3].Remove(0, 21));
+                        k.quantityCable = Int32.Parse(text[i + 4].Remove(0, 13));
 
 
                         //----------------------------------PRZYPISYWANIE DANCYH DO RZEDNYCH--------------------------------------------
@@ -254,37 +250,36 @@ namespace Externe_Vorspannung
                         {
                             n++;
                         }
-                        rzedne = new double[n,2];
+                        ordinates = new double[n,2];
 
 
                         n = 0;
                         for(int j=i+8;text[j]!=""; j++)
                         {
-                            rzedneasd = (Regex.Split(text[j], "\t"));
-                            
-                            rzedne[n, 0] = Double.Parse(rzedneasd[1]);
-                            rzedne[n, 1] = Double.Parse(rzedneasd[2]);
+                            ordinatesTemp = (Regex.Split(text[j], "\t"));
+                            ordinates[n, 0] = Double.Parse(ordinatesTemp[1]);
+                            ordinates[n, 1] = Double.Parse(ordinatesTemp[2]);
                             n++;
                         }
 
-                        k.rzedneKabla.Add(rzedne);
+                        k.cableOrdinates.Add(ordinates);
 
-                        kable[k.nrKabla] = k;
+                        cables[k.nrCable] = k;
                     }
 
                 }
 
-                nazwaSystexTextbox.Text = kable[1].nazwaSystemu;
-                silaSprezTextbox.Text = kable[1].silaSprez.ToString();
-                iloscKabliTextbox.Text = kable[1].iloscKabli.ToString();
-                tarcieTextBox.Text = kable[1].tarcie.ToString();
+                systemNameTextbox.Text = cables[1].systemName;
+                prestressForceTextbox.Text = cables[1].prestressForce.ToString();
+                quantitiyCableTextbox.Text = cables[1].quantityCable.ToString();
+                frictionTextBox.Text = cables[1].friction.ToString();
 
-                for (int i = 0; i < kable[1].rzedneKabla[0].GetLength(0); i++)
+                for (int i = 0; i < cables[1].cableOrdinates[0].GetLength(0); i++)
                 {
-                    dataGridView2.Rows.Add(kable[1].rzedneKabla[0][i, 0], kable[1].rzedneKabla[0][i, 1]);
+                    dataGridView2.Rows.Add(cables[1].cableOrdinates[0][i, 0], cables[1].cableOrdinates[0][i, 1]);
                 }
-                RysowanieKabla();
-                nrKablaTypbox.Text = "1";
+                CableDrawing();
+                nrCableTypbox.Text = "1";
 
             }
             else
@@ -293,12 +288,12 @@ namespace Externe_Vorspannung
             }
         }
 
-        private void zapiszJakoToolStripMenuItem_Click(object sender, EventArgs e)
+        private void saveAsToolStripMenuItem_Click(object sender, EventArgs e)
         {
          
         }
 
-        private void zapiszDoTxt()
+        private void saveToTxt()
         {
             SaveFileDialog saveFileDialog1 = new SaveFileDialog();
             saveFileDialog1.Filter = "excel files (*.xls)|*.xls|txt files (*.txt)|*.txt|All files (*.*)|*.*";
@@ -310,19 +305,19 @@ namespace Externe_Vorspannung
 
                 StreamWriter sw = new StreamWriter(fs);
 
-                for (int i = 1; i <= kable.Count; i++)
+                for (int i = 1; i <= cables.Count; i++)
                 {
-                    sw.WriteLine("Kabel nr: " + kable[i].nrKabla);
-                    sw.WriteLine("Nazwa systemu: " + kable[i].nazwaSystemu);
-                    sw.WriteLine("Siła sprężająca [kN]: " + kable[i].silaSprez);
-                    sw.WriteLine("Współczynnik tarcia: " + kable[i].tarcie);
-                    sw.WriteLine("Ilość kabli: " + kable[i].iloscKabli + "\n");
+                    sw.WriteLine("Cable nr: " + cables[i].nrCable);
+                    sw.WriteLine("Nazwa systemu: " + cables[i].systemName);
+                    sw.WriteLine("Siła sprężająca [kN]: " + cables[i].prestressForce);
+                    sw.WriteLine("Współczynnik tarcia: " + cables[i].friction);
+                    sw.WriteLine("Ilość kabli: " + cables[i].quantityCable + "\n");
                     sw.WriteLine("Rzędne kabla nr " + i + "[m]");
                     sw.WriteLine("Nr" + "\t" + "X" + "\t" + "Y");
 
-                    for (int j = 0; j < kable[i].rzedneKabla[0].GetLength(0); j++)
+                    for (int j = 0; j < cables[i].cableOrdinates[0].GetLength(0); j++)
                     {
-                        sw.WriteLine((j + 1) + "\t" + kable[i].rzedneKabla[0][j, 0] + "\t" + kable[i].rzedneKabla[0][j, 1]);
+                        sw.WriteLine((j + 1) + "\t" + cables[i].cableOrdinates[0][j, 0] + "\t" + cables[i].cableOrdinates[0][j, 1]);
                     }
 
                     sw.WriteLine("\n");
@@ -331,9 +326,9 @@ namespace Externe_Vorspannung
                     sw.WriteLine("Sily od kabla nr " + i + " [kN]");
                     sw.WriteLine("Nr" + "\t" + "X" + "\t" + "Y");
 
-                    for (int j = 0; j < kable[i].Sily().GetLength(0); j++)
+                    for (int j = 0; j < cables[i].Forces().GetLength(0); j++)
                     {
-                        sw.WriteLine((j + 1) + "\t" + kable[i].Sily()[j, 0].ToString("N2") + "\t" + kable[i].Sily()[j, 1].ToString("N2"));
+                        sw.WriteLine((j + 1) + "\t" + cables[i].Forces()[j, 0].ToString("N2") + "\t" + cables[i].Forces()[j, 1].ToString("N2"));
                     }
                     sw.WriteLine("\n");
 
@@ -341,16 +336,16 @@ namespace Externe_Vorspannung
 
                 }
 
-                SumowanieSil();
+                summingForces();
                 sw.WriteLine("Sily calkowite");
                 sw.WriteLine("Nr" + "\t" + "X" + "\t" + "Y");
 
 
                 int n = 0;
-                foreach (double key in SumaSilX.Keys)
+                foreach (double key in sumForcesX.Keys)
                 {
                     n++;
-                    sw.WriteLine((n) + "\t" + SumaSilX[key].ToString("N2") + "\t" + SumaSilY[key].ToString("N2"));
+                    sw.WriteLine((n) + "\t" + sumForcesX[key].ToString("N2") + "\t" + sumForcesY[key].ToString("N2"));
                 }
                 sw.WriteLine("\n");
 
@@ -358,7 +353,7 @@ namespace Externe_Vorspannung
             }
         }
 
-        private void zapiszDoExcel()
+        private void saveToExcel()
         {
             SaveFileDialog saveFileDialog1 = new SaveFileDialog();
             saveFileDialog1.Filter = "excel files (*.xls)|*.xls|txt files (*.txt)|*.txt|All files (*.*)|*.*";
@@ -378,19 +373,19 @@ namespace Externe_Vorspannung
 
 
 
-                for (int i = 1; i <= kable.Count; i++)
+                for (int i = 1; i <= cables.Count; i++)
                 {
-                    sw.WriteLine("Kabel nr: " + kable[i].nrKabla);
-                    sw.WriteLine("Nazwa systemu: " + kable[i].nazwaSystemu);
-                    sw.WriteLine("Siła sprężająca [kN]: " + kable[i].silaSprez);
-                    sw.WriteLine("Współczynnik tarcia: " + kable[i].tarcie);
-                    sw.WriteLine("Ilość kabli: " + kable[i].iloscKabli + "\n");
+                    sw.WriteLine("Cable nr: " + cables[i].nrCable);
+                    sw.WriteLine("Nazwa systemu: " + cables[i].systemName);
+                    sw.WriteLine("Siła sprężająca [kN]: " + cables[i].prestressForce);
+                    sw.WriteLine("Współczynnik tarcia: " + cables[i].friction);
+                    sw.WriteLine("Ilość kabli: " + cables[i].quantityCable + "\n");
                     sw.WriteLine("Rzędne kabla nr " + i + "[m]");
                     sw.WriteLine("Nr" + "\t" + "X" + "\t" + "Y");
 
-                    for (int j = 0; j < kable[i].rzedneKabla[0].GetLength(0); j++)
+                    for (int j = 0; j < cables[i].cableOrdinates[0].GetLength(0); j++)
                     {
-                        sw.WriteLine((j + 1) + "\t" + kable[i].rzedneKabla[0][j, 0] + "\t" + kable[i].rzedneKabla[0][j, 1]);
+                        sw.WriteLine((j + 1) + "\t" + cables[i].cableOrdinates[0][j, 0] + "\t" + cables[i].cableOrdinates[0][j, 1]);
                     }
 
                     sw.WriteLine("\n");
@@ -399,26 +394,25 @@ namespace Externe_Vorspannung
                     sw.WriteLine("Sily od kabla nr " + i + " [kN]");
                     sw.WriteLine("Nr" + "\t" + "X" + "\t" + "Y");
 
-                    for (int j = 0; j < kable[i].Sily().GetLength(0); j++)
+                    for (int j = 0; j < cables[i].Forces().GetLength(0); j++)
                     {
-                        sw.WriteLine((j + 1) + "\t" + kable[i].Sily()[j, 0].ToString("N2") + "\t" + kable[i].Sily()[j, 1].ToString("N2"));
+                        sw.WriteLine((j + 1) + "\t" + cables[i].Forces()[j, 0].ToString("N2") + "\t" + cables[i].Forces()[j, 1].ToString("N2"));
                     }
                     sw.WriteLine("\n");
 
                     // -----------------------------SUMA SIL -------------------------------------//
-
                 }
 
-                SumowanieSil();
+                summingForces();
                 sw.WriteLine("Sily calkowite");
                 sw.WriteLine("Nr" + "\t" + "X" + "\t" + "Y");
 
 
                 int n = 0;
-                foreach (double key in SumaSilX.Keys)
+                foreach (double key in sumForcesX.Keys)
                 {
                     n++;
-                    sw.WriteLine((n) + "\t" + SumaSilX[key].ToString("N2") + "\t" + SumaSilY[key].ToString("N2"));
+                    sw.WriteLine((n) + "\t" + sumForcesX[key].ToString("N2") + "\t" + sumForcesY[key].ToString("N2"));
                 }
                 sw.WriteLine("\n");
 
@@ -428,52 +422,53 @@ namespace Externe_Vorspannung
 
 
 
-        Dictionary<double, double> SumaSilX;
-        Dictionary<double, double> SumaSilY;
-        List<double> rzedneX;
+        Dictionary<double, double> sumForcesX;
+        Dictionary<double, double> sumForcesY;
+        List<double> ordinatesX;
 
-        public void SumowanieSil()
+        public void summingForces()
         {
-            double[,] SumaSil;
+            double[,] sumForces;
 
-            HashSet<double> rzedneXa;
-            rzedneXa = new HashSet<double>();
+            HashSet<double> globalOrdinatesX;
+            globalOrdinatesX = new HashSet<double>();
             
             
-            //rzedneX = new List<double>();        // wszystkie rzedne X w modelu
+            //rzedneX = new List<double>();        // wszystkie ordinates X w modelu
             //
 
-            for (int i = 1; i <= kable.Count(); i++)
+            for (int i = 1; i <= cables.Count(); i++)
             {
-                for (int j = 0; j < kable[i].rzedneKabla[0].GetLength(0); j++)
+                for (int j = 0; j < cables[i].cableOrdinates[0].GetLength(0); j++)
                 {
-                    rzedneXa.Add(kable[i].rzedneKabla[0][j, 0]);
+                    globalOrdinatesX.Add(cables[i].cableOrdinates[0][j, 0]);
                 }
             }
-            rzedneX = rzedneXa.ToList<double>();
+            ordinatesX = globalOrdinatesX.ToList<double>();
 
-            SumaSil = new double[rzedneX.Count(), 2];
-            SumaSilX = new Dictionary<double, double>();
-            SumaSilY = new Dictionary<double, double>();
+            sumForces = new double[ordinatesX.Count(), 2];
+            sumForcesX = new Dictionary<double, double>(ordinatesX.Count());
+            sumForcesY = new Dictionary<double, double>(2);
+
 
             // tworzenie Dictionary
-            for (int i = 0; i < rzedneX.Count(); i++)
-            {
-                SumaSilX.Add(rzedneX[i], 0);
-                SumaSilY.Add(rzedneX[i], 0);
-            }
+            //for (int i = 0; i < ordinatesX.Count(); i++)
+            //{
+            //    sumForcesX.Add(ordinatesX[i], 0);
+            //    sumForcesY.Add(ordinatesX[i], 0);
+            //}
 
 
-            for (int i = 1; i <= kable.Count(); i++) // pętla po kablach
+            for (int i = 1; i <= cables.Count(); i++) // pętla po kablach
             {
-                for (int j = 0; j < kable[i].rzedneKabla[0].GetLength(0); j++) // pętla po rzędnych kabla poszczegolnego kabla
+                for (int j = 0; j < cables[i].cableOrdinates[0].GetLength(0); j++) // pętla po rzędnych kabla poszczegolnego kabla
                 {
-                    for (int k = 0; k < rzedneX.Count(); k++) // pętla poszukujaca wspolnego "X"
+                    for (int k = 0; k < ordinatesX.Count(); k++) // pętla poszukujaca wspolnego "X"
                     {
-                        if (kable[i].rzedneKabla[0][j, 0] == rzedneX[k])
+                        if (cables[i].cableOrdinates[0][j, 0] == ordinatesX[k])
                         {
-                            SumaSilX[rzedneX[k]] = kable[i].Sily()[j, 0] + SumaSilX[rzedneX[k]];
-                            SumaSilY[rzedneX[k]] = kable[i].Sily()[j, 1] + SumaSilY[rzedneX[k]];
+                            sumForcesX[ordinatesX[k]] = cables[i].Forces()[j, 0] + sumForcesX[ordinatesX[k]];
+                            sumForcesY[ordinatesX[k]] = cables[i].Forces()[j, 1] + sumForcesY[ordinatesX[k]];
                         }
                     }
                 }
