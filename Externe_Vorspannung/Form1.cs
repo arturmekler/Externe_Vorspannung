@@ -25,10 +25,10 @@ namespace Externe_Vorspannung
             nrCableTypbox.SelectedIndex = 0;
         }
 
-        public double[,] CableDrawing()
+        public void CableDrawing()
         {
             chart1.Series.Clear();
-            //-------------------------------------RYSOWANIE KABLA---------------------------------//
+
             var chart = chart1.ChartAreas[0];
             chart.AxisX.IntervalType = DateTimeIntervalType.Number;
             chart.AxisX.LabelStyle.Format = "";
@@ -44,7 +44,16 @@ namespace Externe_Vorspannung
             chart1.Series["Cable"].ChartType = SeriesChartType.Line;
             chart1.Series["Cable"].Color = Color.Red;
 
-            //-----------------------------------------------------------------------------------------//
+            for (int i = 0; i < Ordinates().GetLength(0); i++)
+            {
+                chart1.Series["Cable"].Points.AddXY(Ordinates()[i, 0], Ordinates()[i, 1]);
+            }
+
+
+        }
+
+        public double[,] Ordinates()
+        {
             double[,] ordinates = new double[dataGridView2.Rows.Count - 1, 2];
 
             for (int i = 0; i < dataGridView2.Rows.Count - 1; i++)
@@ -54,10 +63,7 @@ namespace Externe_Vorspannung
                     ordinates[i, j] = Convert.ToDouble(dataGridView2.Rows[i].Cells[j].Value);
                 }
             }
-            for (int i = 0; i < dataGridView2.Rows.Count - 1; i++)  // ---------przypisywanie rzednych------------
-            {
-                chart1.Series["Cable"].Points.AddXY(ordinates[i, 0], ordinates[i, 1]);
-            }
+
             return ordinates;
         }
 
@@ -130,23 +136,15 @@ namespace Externe_Vorspannung
             else
             {
                 CableDrawing();
-
-                /*if(System.Text.RegularExpressions.Regex.IsMatch(silaSprezTextbox.Text, "[^0-9]"))
-                {
-                    
-                }*/
+                Ordinates();
 
                 Cable k = new Cable(systemNameTextbox.Text, Int32.Parse(nrCableTypbox.Text), Int32.Parse(quantitiyCableTextbox.Text),
                 Double.Parse(prestressForceTextbox.Text), Double.Parse(frictionTextBox.Text));
 
 
-                ordinates = CableDrawing();
-
-                k.cableOrdinates.Add(ordinates);
+                k.cableOrdinates.Add(Ordinates());
 
                 CableAdd(Int32.Parse(nrCableTypbox.Text), k);
-                k.Forces();
-
             }
         }
 
@@ -195,9 +193,7 @@ namespace Externe_Vorspannung
 
         private void ForcesSum_Click(object sender, EventArgs e)
         {
-            summingForces();
-
-            sumForces openForm = new sumForces(sumForcesX, sumForcesY, ordinatesX);
+            sumForces openForm = new sumForces(SummForces());
             openForm.Show();
         }
 
@@ -217,7 +213,7 @@ namespace Externe_Vorspannung
             OpenFileDialog openFileDialog1 = new OpenFileDialog();
 
             if (openFileDialog1.ShowDialog() == System.Windows.Forms.DialogResult.OK)
-            {             
+            {
                 FileStream fs = new FileStream(openFileDialog1.FileName, FileMode.Open);
                 StreamReader sr = new StreamReader(fs);
                 string line;
@@ -230,7 +226,7 @@ namespace Externe_Vorspannung
                     text.Add(line);
                 }
 
-                for(int i=0; i<text.Count();i++)
+                for (int i = 0; i < text.Count(); i++)
                 {
 
                     if (text[i].Contains("Cable nr: "))
@@ -250,11 +246,11 @@ namespace Externe_Vorspannung
                         {
                             n++;
                         }
-                        ordinates = new double[n,2];
+                        ordinates = new double[n, 2];
 
 
                         n = 0;
-                        for(int j=i+8;text[j]!=""; j++)
+                        for (int j = i + 8; text[j] != ""; j++)
                         {
                             ordinatesTemp = (Regex.Split(text[j], "\t"));
                             ordinates[n, 0] = Double.Parse(ordinatesTemp[1]);
@@ -290,7 +286,7 @@ namespace Externe_Vorspannung
 
         private void saveAsToolStripMenuItem_Click(object sender, EventArgs e)
         {
-         
+
         }
 
         private void saveToTxt()
@@ -336,16 +332,14 @@ namespace Externe_Vorspannung
 
                 }
 
-                summingForces();
+
                 sw.WriteLine("Sily calkowite");
                 sw.WriteLine("Nr" + "\t" + "X" + "\t" + "Y");
 
 
-                int n = 0;
-                foreach (double key in sumForcesX.Keys)
+                for (int i = 0; i < SummForces().GetLength(0); i++)
                 {
-                    n++;
-                    sw.WriteLine((n) + "\t" + sumForcesX[key].ToString("N2") + "\t" + sumForcesY[key].ToString("N2"));
+                    sw.WriteLine((i + 1) + "\t" + SummForces()[i, 0].ToString("N2") + "\t" + SummForces()[i, 1].ToString("N2"));
                 }
                 sw.WriteLine("\n");
 
@@ -403,16 +397,14 @@ namespace Externe_Vorspannung
                     // -----------------------------SUMA SIL -------------------------------------//
                 }
 
-                summingForces();
                 sw.WriteLine("Sily calkowite");
                 sw.WriteLine("Nr" + "\t" + "X" + "\t" + "Y");
 
 
                 int n = 0;
-                foreach (double key in sumForcesX.Keys)
+                for (int i = 0; i < SummForces().GetLength(0); i++)
                 {
-                    n++;
-                    sw.WriteLine((n) + "\t" + sumForcesX[key].ToString("N2") + "\t" + sumForcesY[key].ToString("N2"));
+                    sw.WriteLine((i + 1) + "\t" + SummForces()[i, 0].ToString("N2") + "\t" + SummForces()[i, 1].ToString("N2"));
                 }
                 sw.WriteLine("\n");
 
@@ -420,63 +412,53 @@ namespace Externe_Vorspannung
             }
         }
 
-
-
-        Dictionary<double, double> sumForcesX;
-        Dictionary<double, double> sumForcesY;
-        List<double> ordinatesX;
-
-        public void summingForces()
+        private int quantitiyCommonOrdinates()
         {
-            double[,] sumForces;
-
-            HashSet<double> globalOrdinatesX;
-            globalOrdinatesX = new HashSet<double>();
+            List<double> quantity = new List<double>();
             
-            
-            //rzedneX = new List<double>();        // wszystkie ordinates X w modelu
-            //
 
-            for (int i = 1; i <= cables.Count(); i++)
+
+            for (int nrCable = 1; nrCable <= cables.Count(); nrCable++)     // pętla po kablach
             {
-                for (int j = 0; j < cables[i].cableOrdinates[0].GetLength(0); j++)
+                for (int ordinatesX = 0; ordinatesX < cables[nrCable].Forces().GetLength(0); ordinatesX++) //pętla po "X"
                 {
-                    globalOrdinatesX.Add(cables[i].cableOrdinates[0][j, 0]);
+                    quantity.Add(cables[nrCable].Forces()[ordinatesX,0]);
                 }
             }
-            ordinatesX = globalOrdinatesX.ToList<double>();
 
-            sumForces = new double[ordinatesX.Count(), 2];
-            sumForcesX = new Dictionary<double, double>(ordinatesX.Count());
-            sumForcesY = new Dictionary<double, double>(2);
+            return quantity.Distinct().Count();
 
 
-            // tworzenie Dictionary
-            //for (int i = 0; i < ordinatesX.Count(); i++)
-            //{
-            //    sumForcesX.Add(ordinatesX[i], 0);
-            //    sumForcesY.Add(ordinatesX[i], 0);
-            //}
+            
+        }
 
 
-            for (int i = 1; i <= cables.Count(); i++) // pętla po kablach
+        public double[,] SummForces()
+        {
+            double[,] sumForces;
+            sumForces = new double[quantitiyCommonOrdinates()+1, 3];
+
+            for (int nrCable = 1; nrCable <= cables.Count(); nrCable++)     // pętla po kablach
             {
-                for (int j = 0; j < cables[i].cableOrdinates[0].GetLength(0); j++) // pętla po rzędnych kabla poszczegolnego kabla
+                for (int ordinatesX = 0; ordinatesX < cables[nrCable].Forces().GetLength(0); ordinatesX++) //pętla po "X"
                 {
-                    for (int k = 0; k < ordinatesX.Count(); k++) // pętla poszukujaca wspolnego "X"
+                    for (int k = 0; k < quantitiyCommonOrdinates()-1; k++)        // pętla wyszukująca wspólnego "X" 
                     {
-                        if (cables[i].cableOrdinates[0][j, 0] == ordinatesX[k])
+                        if (cables[nrCable].Forces()[ordinatesX, 0] == cables[nrCable].Forces()[k, 0])
                         {
-                            sumForcesX[ordinatesX[k]] = cables[i].Forces()[j, 0] + sumForcesX[ordinatesX[k]];
-                            sumForcesY[ordinatesX[k]] = cables[i].Forces()[j, 1] + sumForcesY[ordinatesX[k]];
+                            sumForces[k, 0] = cables[nrCable].Forces()[ordinatesX, 0] + sumForces[k, 0];    //Force X
+                            sumForces[k, 1] = cables[nrCable].Forces()[ordinatesX, 1] + sumForces[k, 1];    //Force Y
+                            sumForces[k, 2] = cables[nrCable].Forces()[ordinatesX, 2] + sumForces[k, 2];    //Ordinate X
                         }
                     }
                 }
+
             }
 
+            return sumForces;
         }
 
-        
+
     }
 
 }

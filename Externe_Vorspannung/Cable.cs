@@ -60,7 +60,7 @@ namespace Externe_Vorspannung
             //----------------------------------- OBLICZENIE SIL NA KONCACH KABLA-----------------------------------//
             
             oR = cableOrdinates[0].GetLength(0);
-            sily = new double[oR, 2];
+            sily = new double[oR, 3];
 
             cos = (cableOrdinates[0][1, 0] - cableOrdinates[0][0, 0])
                / Math.Sqrt(Math.Pow((cableOrdinates[0][1, 0] - cableOrdinates[0][0, 0]), 2) + Math.Pow((cableOrdinates[0][1, 1] - cableOrdinates[0][0, 1]), 2));
@@ -73,6 +73,7 @@ namespace Externe_Vorspannung
 
             sily[0, 0] = silaPx;
             sily[0, 1] = silaPy;
+            sily[0, 2] = cableOrdinates[0][0, 0];
 
 
             cos = (cableOrdinates[0][oR-1, 0] - cableOrdinates[0][oR-2, 0])
@@ -86,13 +87,14 @@ namespace Externe_Vorspannung
 
             sily[oR-1, 0] = -silaPx;
             sily[oR-1, 1] = -silaPy;
+            sily[oR - 1, 2] = cableOrdinates[0][oR-1, 0];
 
 
             //------------------------------------------------------------------------------------------------------//
 
             //----------------------------------- OBLICZENIE SIL W SRODKU KABLA-----------------------------------//
 
-           for (int i = 1; i < oR-1; i++)
+            for (int i = 1; i < oR-1; i++)
             {
                 cos1 = (cableOrdinates[0][i, 0] - cableOrdinates[0][i-1, 0])
                     / Math.Sqrt(Math.Pow((cableOrdinates[0][i, 0] - cableOrdinates[0][i-1, 0]), 2) + Math.Pow((cableOrdinates[0][i, 1] - cableOrdinates[0][i-1, 1]), 2));
@@ -121,6 +123,8 @@ namespace Externe_Vorspannung
 
                 sily[i, 0] = 0;
                 sily[i, 1] = silaPy1+silaPy2;
+                sily[i, 2] = cableOrdinates[0][i, 0];
+
             }
 
             return sily;
