@@ -15,6 +15,10 @@ namespace Externe_Vorspannung
         public reviewForces(Cable k)
         {
             InitializeComponent();
+            systemNameLabel.Text = k.systemName;
+            nrCableLabel.Text = k.nrCable.ToString();
+            quantityCableLabel.Text = k.quantityCable.ToString();
+            prestressForceLabel.Text = k.prestressForce.ToString();
 
             for (int i = 0; i < k.Forces().GetLength(0); i++)
             {

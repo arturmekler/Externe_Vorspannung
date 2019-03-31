@@ -28,8 +28,8 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea6 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Series series6 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea3 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Series series3 = new System.Windows.Forms.DataVisualization.Charting.Series();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.plikToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.nowyToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -41,43 +41,32 @@
             this.saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
             this.tabPage2 = new System.Windows.Forms.TabPage();
-            this.prestressForceTextbox = new System.Windows.Forms.TextBox();
             this.silaSprez = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
-            this.quantitiyCableTextbox = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
-            this.systemNameTextbox = new System.Windows.Forms.TextBox();
             this.label6 = new System.Windows.Forms.Label();
             this.nrCableTypbox = new System.Windows.Forms.ComboBox();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.dataGridView2 = new System.Windows.Forms.DataGridView();
-            this.rzednaY = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.rzednaX = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dodajKabelbutton = new System.Windows.Forms.Button();
             this.label3 = new System.Windows.Forms.Label();
             this.chart1 = new System.Windows.Forms.DataVisualization.Charting.Chart();
             this.podgladSil = new System.Windows.Forms.Button();
+            this.prestressForceTextbox = new System.Windows.Forms.TextBox();
+            this.quantitiyCableTextbox = new System.Windows.Forms.TextBox();
+            this.systemNameTextbox = new System.Windows.Forms.TextBox();
             this.frictionTextBox = new System.Windows.Forms.TextBox();
             this.labeltarcie = new System.Windows.Forms.Label();
             this.SilaSum = new System.Windows.Forms.Button();
-            this.tabPage1 = new System.Windows.Forms.TabPage();
-            this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.dataGridView1 = new System.Windows.Forms.DataGridView();
-            this.dlugoscPrzesla = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.nrPodpory = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.textBoxIloscPrzesel = new System.Windows.Forms.TextBox();
-            this.iloscPrzesel = new System.Windows.Forms.Label();
-            this.aktualizaca = new System.Windows.Forms.Button();
             this.tabControl1 = new System.Windows.Forms.TabControl();
+            this.rzednaX = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.rzednaY = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.menuStrip1.SuspendLayout();
             this.tabPage2.SuspendLayout();
             this.groupBox2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.chart1)).BeginInit();
-            this.tabPage1.SuspendLayout();
-            this.groupBox1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.tabControl1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -127,7 +116,7 @@
             // zapiszJakoToolStripMenuItem
             // 
             this.zapiszJakoToolStripMenuItem.Name = "zapiszJakoToolStripMenuItem";
-            this.zapiszJakoToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.zapiszJakoToolStripMenuItem.Size = new System.Drawing.Size(127, 22);
             this.zapiszJakoToolStripMenuItem.Text = "Zapisz jako";
             this.zapiszJakoToolStripMenuItem.Click += new System.EventHandler(this.saveAsToolStripMenuItem_Click);
             // 
@@ -174,13 +163,6 @@
             this.tabPage2.Text = "Spreżenie zewnętrzne";
             this.tabPage2.UseVisualStyleBackColor = true;
             // 
-            // silaSprezTextbox
-            // 
-            this.prestressForceTextbox.Location = new System.Drawing.Point(92, 32);
-            this.prestressForceTextbox.Name = "silaSprezTextbox";
-            this.prestressForceTextbox.Size = new System.Drawing.Size(48, 20);
-            this.prestressForceTextbox.TabIndex = 2;
-            // 
             // silaSprez
             // 
             this.silaSprez.AutoSize = true;
@@ -199,13 +181,6 @@
             this.label1.TabIndex = 7;
             this.label1.Text = "kN";
             // 
-            // iloscKabliTextbox
-            // 
-            this.quantitiyCableTextbox.Location = new System.Drawing.Point(92, 60);
-            this.quantitiyCableTextbox.Name = "iloscKabliTextbox";
-            this.quantitiyCableTextbox.Size = new System.Drawing.Size(48, 20);
-            this.quantitiyCableTextbox.TabIndex = 3;
-            // 
             // label2
             // 
             this.label2.AutoSize = true;
@@ -223,13 +198,6 @@
             this.label4.Size = new System.Drawing.Size(47, 13);
             this.label4.TabIndex = 3;
             this.label4.Text = "Nr kabla";
-            // 
-            // nazwaSystexTextbox
-            // 
-            this.systemNameTextbox.Location = new System.Drawing.Point(92, 6);
-            this.systemNameTextbox.Name = "nazwaSystexTextbox";
-            this.systemNameTextbox.Size = new System.Drawing.Size(217, 20);
-            this.systemNameTextbox.TabIndex = 1;
             // 
             // label6
             // 
@@ -281,16 +249,6 @@
             this.dataGridView2.Size = new System.Drawing.Size(244, 242);
             this.dataGridView2.TabIndex = 5;
             // 
-            // rzednaY
-            // 
-            this.rzednaY.HeaderText = "rzędna Y";
-            this.rzednaY.Name = "rzednaY";
-            // 
-            // rzednaX
-            // 
-            this.rzednaX.HeaderText = "rzędna X";
-            this.rzednaX.Name = "rzednaX";
-            // 
             // dodajKabelbutton
             // 
             this.dodajKabelbutton.Location = new System.Drawing.Point(277, 326);
@@ -312,13 +270,13 @@
             // 
             // chart1
             // 
-            chartArea6.Name = "ChartArea1";
-            this.chart1.ChartAreas.Add(chartArea6);
+            chartArea3.Name = "ChartArea1";
+            this.chart1.ChartAreas.Add(chartArea3);
             this.chart1.Location = new System.Drawing.Point(289, 97);
             this.chart1.Name = "chart1";
-            series6.ChartArea = "ChartArea1";
-            series6.Name = "Series1";
-            this.chart1.Series.Add(series6);
+            series3.ChartArea = "ChartArea1";
+            series3.Name = "Series1";
+            this.chart1.Series.Add(series3);
             this.chart1.Size = new System.Drawing.Size(216, 126);
             this.chart1.TabIndex = 20;
             this.chart1.Text = "chart1";
@@ -333,10 +291,31 @@
             this.podgladSil.UseVisualStyleBackColor = true;
             this.podgladSil.Click += new System.EventHandler(this.reviewForces_Click);
             // 
-            // tarcieTextBox
+            // prestressForceTextbox
+            // 
+            this.prestressForceTextbox.Location = new System.Drawing.Point(92, 32);
+            this.prestressForceTextbox.Name = "prestressForceTextbox";
+            this.prestressForceTextbox.Size = new System.Drawing.Size(48, 20);
+            this.prestressForceTextbox.TabIndex = 2;
+            // 
+            // quantitiyCableTextbox
+            // 
+            this.quantitiyCableTextbox.Location = new System.Drawing.Point(92, 60);
+            this.quantitiyCableTextbox.Name = "quantitiyCableTextbox";
+            this.quantitiyCableTextbox.Size = new System.Drawing.Size(48, 20);
+            this.quantitiyCableTextbox.TabIndex = 3;
+            // 
+            // systemNameTextbox
+            // 
+            this.systemNameTextbox.Location = new System.Drawing.Point(92, 6);
+            this.systemNameTextbox.Name = "systemNameTextbox";
+            this.systemNameTextbox.Size = new System.Drawing.Size(217, 20);
+            this.systemNameTextbox.TabIndex = 1;
+            // 
+            // frictionTextBox
             // 
             this.frictionTextBox.Location = new System.Drawing.Point(457, 35);
-            this.frictionTextBox.Name = "tarcieTextBox";
+            this.frictionTextBox.Name = "frictionTextBox";
             this.frictionTextBox.Size = new System.Drawing.Size(48, 20);
             this.frictionTextBox.TabIndex = 22;
             // 
@@ -359,91 +338,24 @@
             this.SilaSum.UseVisualStyleBackColor = true;
             this.SilaSum.Click += new System.EventHandler(this.ForcesSum_Click);
             // 
-            // tabPage1
-            // 
-            this.tabPage1.Controls.Add(this.groupBox1);
-            this.tabPage1.Location = new System.Drawing.Point(4, 22);
-            this.tabPage1.Name = "tabPage1";
-            this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage1.Size = new System.Drawing.Size(512, 370);
-            this.tabPage1.TabIndex = 0;
-            this.tabPage1.Text = "Definicja ustroju";
-            this.tabPage1.UseVisualStyleBackColor = true;
-            // 
-            // groupBox1
-            // 
-            this.groupBox1.Controls.Add(this.aktualizaca);
-            this.groupBox1.Controls.Add(this.iloscPrzesel);
-            this.groupBox1.Controls.Add(this.textBoxIloscPrzesel);
-            this.groupBox1.Controls.Add(this.dataGridView1);
-            this.groupBox1.Location = new System.Drawing.Point(3, 6);
-            this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(214, 310);
-            this.groupBox1.TabIndex = 10;
-            this.groupBox1.TabStop = false;
-            this.groupBox1.Text = "Definicja ustroju";
-            // 
-            // dataGridView1
-            // 
-            this.dataGridView1.AllowDrop = true;
-            this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView1.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.nrPodpory,
-            this.dlugoscPrzesla});
-            this.dataGridView1.EditMode = System.Windows.Forms.DataGridViewEditMode.EditOnKeystroke;
-            this.dataGridView1.Location = new System.Drawing.Point(6, 82);
-            this.dataGridView1.Name = "dataGridView1";
-            this.dataGridView1.Size = new System.Drawing.Size(194, 222);
-            this.dataGridView1.TabIndex = 4;
-            // 
-            // dlugoscPrzesla
-            // 
-            this.dlugoscPrzesla.HeaderText = "Długość przęsła";
-            this.dlugoscPrzesla.Name = "dlugoscPrzesla";
-            this.dlugoscPrzesla.ReadOnly = true;
-            // 
-            // nrPodpory
-            // 
-            this.nrPodpory.HeaderText = "Oś";
-            this.nrPodpory.Name = "nrPodpory";
-            this.nrPodpory.ReadOnly = true;
-            this.nrPodpory.Width = 50;
-            // 
-            // textBoxIloscPrzesel
-            // 
-            this.textBoxIloscPrzesel.Location = new System.Drawing.Point(89, 17);
-            this.textBoxIloscPrzesel.Name = "textBoxIloscPrzesel";
-            this.textBoxIloscPrzesel.Size = new System.Drawing.Size(48, 20);
-            this.textBoxIloscPrzesel.TabIndex = 5;
-            // 
-            // iloscPrzesel
-            // 
-            this.iloscPrzesel.AutoSize = true;
-            this.iloscPrzesel.Location = new System.Drawing.Point(16, 20);
-            this.iloscPrzesel.Name = "iloscPrzesel";
-            this.iloscPrzesel.Size = new System.Drawing.Size(67, 13);
-            this.iloscPrzesel.TabIndex = 0;
-            this.iloscPrzesel.Text = "Ilość przęseł";
-            // 
-            // aktualizaca
-            // 
-            this.aktualizaca.Location = new System.Drawing.Point(19, 43);
-            this.aktualizaca.Name = "aktualizaca";
-            this.aktualizaca.Size = new System.Drawing.Size(94, 33);
-            this.aktualizaca.TabIndex = 9;
-            this.aktualizaca.Text = "Aktualizuj";
-            this.aktualizaca.UseVisualStyleBackColor = true;
-            this.aktualizaca.Click += new System.EventHandler(this.update_Click);
-            // 
             // tabControl1
             // 
-            this.tabControl1.Controls.Add(this.tabPage1);
             this.tabControl1.Controls.Add(this.tabPage2);
             this.tabControl1.Location = new System.Drawing.Point(12, 27);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
             this.tabControl1.Size = new System.Drawing.Size(520, 396);
             this.tabControl1.TabIndex = 11;
+            // 
+            // rzednaX
+            // 
+            this.rzednaX.HeaderText = "rzędna X [m]";
+            this.rzednaX.Name = "rzednaX";
+            // 
+            // rzednaY
+            // 
+            this.rzednaY.HeaderText = "rzędna Y [m]";
+            this.rzednaY.Name = "rzednaY";
             // 
             // Externe_Vorspannung
             // 
@@ -464,10 +376,6 @@
             this.groupBox2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView2)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.chart1)).EndInit();
-            this.tabPage1.ResumeLayout(false);
-            this.groupBox1.ResumeLayout(false);
-            this.groupBox1.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
             this.tabControl1.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -498,23 +406,15 @@
         private System.Windows.Forms.Button dodajKabelbutton;
         private System.Windows.Forms.GroupBox groupBox2;
         private System.Windows.Forms.DataGridView dataGridView2;
-        private System.Windows.Forms.DataGridViewTextBoxColumn rzednaX;
-        private System.Windows.Forms.DataGridViewTextBoxColumn rzednaY;
         private System.Windows.Forms.ComboBox nrCableTypbox;
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label silaSprez;
-        private System.Windows.Forms.TabPage tabPage1;
-        private System.Windows.Forms.GroupBox groupBox1;
-        private System.Windows.Forms.Button aktualizaca;
-        private System.Windows.Forms.Label iloscPrzesel;
-        private System.Windows.Forms.TextBox textBoxIloscPrzesel;
-        private System.Windows.Forms.DataGridView dataGridView1;
-        private System.Windows.Forms.DataGridViewTextBoxColumn nrPodpory;
-        private System.Windows.Forms.DataGridViewTextBoxColumn dlugoscPrzesla;
         private System.Windows.Forms.TabControl tabControl1;
+        private System.Windows.Forms.DataGridViewTextBoxColumn rzednaX;
+        private System.Windows.Forms.DataGridViewTextBoxColumn rzednaY;
     }
 }
 

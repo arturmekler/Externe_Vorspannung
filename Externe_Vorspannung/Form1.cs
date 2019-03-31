@@ -44,6 +44,9 @@ namespace Externe_Vorspannung
             chart1.Series["Cable"].ChartType = SeriesChartType.Line;
             chart1.Series["Cable"].Color = Color.Red;
 
+            chart.AxisX.Title = "[m]";
+            chart.AxisY.Title = "[m]";
+
             for (int i = 0; i < Ordinates().GetLength(0); i++)
             {
                 chart1.Series["Cable"].Points.AddXY(Ordinates()[i, 0], Ordinates()[i, 1]);
@@ -91,20 +94,7 @@ namespace Externe_Vorspannung
 
         private void update_Click(object sender, EventArgs e)
         {
-            dataGridView1.Rows.Clear();
-            if (textBoxIloscPrzesel.Text == "")
-            {
-                MessageBox.Show("Wypełnij wszystkie pola!");
-            }
-
-            else
-            {
-                int x = Int32.Parse(textBoxIloscPrzesel.Text);
-                for (int i = 1; i <= x; i++)
-                {
-                    dataGridView1.Rows.Add(textBoxIloscPrzesel.Text = i.ToString(), prestressForceTextbox.Text);
-                }
-            }
+            
         }
 
         private void cableAddButton_Click(object sender, EventArgs e)

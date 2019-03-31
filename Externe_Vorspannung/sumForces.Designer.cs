@@ -44,7 +44,7 @@
             this.rzedneXdataGridView,
             this.silaPxDataGridView,
             this.silaPyDataGridView});
-            this.sumaSilDataGridView.Location = new System.Drawing.Point(41, 23);
+            this.sumaSilDataGridView.Location = new System.Drawing.Point(42, 30);
             this.sumaSilDataGridView.Name = "sumaSilDataGridView";
             this.sumaSilDataGridView.ReadOnly = true;
             this.sumaSilDataGridView.Size = new System.Drawing.Size(443, 353);
@@ -74,13 +74,13 @@
             this.silaPyDataGridView.Name = "silaPyDataGridView";
             this.silaPyDataGridView.ReadOnly = true;
             // 
-            // Sumasil
+            // sumForces
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(531, 409);
             this.Controls.Add(this.sumaSilDataGridView);
-            this.Name = "Sumasil";
+            this.Name = "sumForces";
             this.Text = "Sumasil";
             ((System.ComponentModel.ISupportInitialize)(this.sumaSilDataGridView)).EndInit();
             this.ResumeLayout(false);
