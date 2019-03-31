@@ -426,38 +426,76 @@ namespace Externe_Vorspannung
                 }
             }
 
+            int n = quantity.Distinct().Count(); ;
+
             return quantity.Distinct().Count();
-
-
-            
         }
-
 
         public double[,] SummForces()
         {
             double[,] sumForces;
-            sumForces = new double[quantitiyCommonOrdinates()+1, 3];
+            double[,] asd;
 
-            for (int nrCable = 1; nrCable <= cables.Count(); nrCable++)     // pętla po kablach
+
+
+            HashSet<double> globalOrdinatesX;
+            globalOrdinatesX = new HashSet<double>();
+            List<double> ordinatesX;
+            Dictionary<double, double> sumForcesX;
+            Dictionary<double, double> sumForcesY;
+
+
+            //rzedneX = new List<double>();        // wszystkie ordinates X w modelu
+            //
+
+            for (int i = 1; i <= cables.Count(); i++)
             {
-                for (int ordinatesX = 0; ordinatesX < cables[nrCable].Forces().GetLength(0); ordinatesX++) //pętla po "X"
+                for (int j = 0; j < cables[i].cableOrdinates[0].GetLength(0); j++)
                 {
-                    for (int k = 0; k < quantitiyCommonOrdinates()-1; k++)        // pętla wyszukująca wspólnego "X" 
+                    globalOrdinatesX.Add(cables[i].cableOrdinates[0][j, 0]);
+                }
+            }
+            ordinatesX = globalOrdinatesX.ToList<double>();
+
+            sumForces = new double[ordinatesX.Count(), 3];
+            sumForcesX = new Dictionary<double, double>();
+            sumForcesY = new Dictionary<double, double>();
+
+
+            // tworzenie Dictionary
+            for (int i = 0; i < ordinatesX.Count(); i++)
+            {
+                sumForcesX.Add(ordinatesX[i], 0);
+                sumForcesY.Add(ordinatesX[i], 0);
+            }
+
+
+            for (int i = 1; i <= cables.Count(); i++) // pętla po kablach
+            {
+                for (int j = 0; j < cables[i].cableOrdinates[0].GetLength(0); j++) // pętla po rzędnych kabla poszczegolnego kabla
+                {
+                    for (int k = 0; k < ordinatesX.Count(); k++) // pętla poszukujaca wspolnego "X"
                     {
-                        if (cables[nrCable].Forces()[ordinatesX, 0] == cables[nrCable].Forces()[k, 0])
+                        if (cables[i].cableOrdinates[0][j, 0] == ordinatesX[k])
                         {
-                            sumForces[k, 0] = cables[nrCable].Forces()[ordinatesX, 0] + sumForces[k, 0];    //Force X
-                            sumForces[k, 1] = cables[nrCable].Forces()[ordinatesX, 1] + sumForces[k, 1];    //Force Y
-                            sumForces[k, 2] = cables[nrCable].Forces()[ordinatesX, 2] + sumForces[k, 2];    //Ordinate X
+                            ordinatesX.Sort();
+                            sumForcesX[ordinatesX[k]] = cables[i].Forces()[j, 0] + sumForcesX[ordinatesX[k]];
+                            sumForcesY[ordinatesX[k]] = cables[i].Forces()[j, 1] + sumForcesY[ordinatesX[k]];
                         }
                     }
                 }
+            }
 
+
+            for (int i = 0; i < ordinatesX.Count; i++)
+            {
+                sumForces[i, 0] = sumForcesX[ordinatesX[i]];
+                sumForces[i, 1] = sumForcesY[ordinatesX[i]];
+                sumForces[i, 2] = ordinatesX[i];
             }
 
             return sumForces;
         }
-
 
     }
 
