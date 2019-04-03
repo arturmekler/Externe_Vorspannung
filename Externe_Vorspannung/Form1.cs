@@ -19,6 +19,10 @@ namespace Externe_Vorspannung
 {
     public partial class Externe_Vorspannung : Form
     {
+        public Dictionary<int, Cable> cables = new Dictionary<int, Cable>();
+
+        public double[,] ordinates;
+
         public Externe_Vorspannung()
         {
             InitializeComponent();
@@ -88,15 +92,6 @@ namespace Externe_Vorspannung
             }
         }
 
-        public Dictionary<int, Cable> cables = new Dictionary<int, Cable>();
-
-        public double[,] ordinates;
-
-        private void update_Click(object sender, EventArgs e)
-        {
-            
-        }
-
         private void cableAddButton_Click(object sender, EventArgs e)
         {
             if (systemNameTextbox.Text == "" || nrCableTypbox.Text == "" || quantitiyCableTextbox.Text == "" || frictionTextBox.Text == "")
@@ -112,16 +107,18 @@ namespace Externe_Vorspannung
                 //iloscKabliTextbox.Text = iloscKabliTextbox.Text.Remove(iloscKabliTextbox.Text.Length - 1);
             }
 
-            else if (System.Text.RegularExpressions.Regex.IsMatch(frictionTextBox.Text, "[^0-9]"))
-            {
-                MessageBox.Show("Prosze wpisać liczby w odpowiednim formacie.");
-                frictionTextBox.Clear();
-            }
+            //else if (System.Text.RegularExpressions.Regex.IsMatch(frictionTextBox.Text, "[^0-9]"))
+            //{
+            //    MessageBox.Show("Prosze wpisać liczby w odpowiednim formacie.");
+            //    frictionTextBox.Clear();
+            //}
 
             else if (dataGridView2.Rows.Count < 3)
             {
                 MessageBox.Show("Rzędne kabla zostały nieprawidłowo wprowadzone.");
             }
+
+           
 
             else
             {
@@ -137,9 +134,9 @@ namespace Externe_Vorspannung
                 CableAdd(Int32.Parse(nrCableTypbox.Text), k);
             }
         }
-
+    
         private void nrCableTypbox_SelectedIndexChanged(object sender, EventArgs e)
-        {
+        { 
             int nrCable = Int32.Parse(nrCableTypbox.Text);
 
 
@@ -192,7 +189,6 @@ namespace Externe_Vorspannung
 
         }
 
-
         private void zapiszToolStripMenuItem_Click(object sender, EventArgs e)
         {
             saveToTxt();
@@ -202,76 +198,88 @@ namespace Externe_Vorspannung
         {
             OpenFileDialog openFileDialog1 = new OpenFileDialog();
 
-            if (openFileDialog1.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+            Clear();
+
+            try
             {
-                FileStream fs = new FileStream(openFileDialog1.FileName, FileMode.Open);
-                StreamReader sr = new StreamReader(fs);
-                string line;
-                string[] ordinatesTemp;
-                List<string> text = new List<string>();
-
-
-                while ((line = sr.ReadLine()) != null)
+                if (openFileDialog1.ShowDialog() == System.Windows.Forms.DialogResult.OK)
                 {
-                    text.Add(line);
-                }
+                    FileStream fs = new FileStream(openFileDialog1.FileName, FileMode.Open);
+                    StreamReader sr = new StreamReader(fs);
+                    string line;
+                    string[] ordinatesTemp;
+                    List<string> text = new List<string>();
 
-                for (int i = 0; i < text.Count(); i++)
-                {
 
-                    if (text[i].Contains("Cable nr: "))
+                    while ((line = sr.ReadLine()) != null)
                     {
-                        Cable k = new Cable();
-
-                        k.nrCable = Int32.Parse(text[i].Remove(0, 9));
-                        k.systemName = text[i + 1].Remove(0, 15);
-                        k.prestressForce = Double.Parse(text[i + 2].Remove(0, 22));
-                        k.friction = Double.Parse(text[i + 3].Remove(0, 21));
-                        k.quantityCable = Int32.Parse(text[i + 4].Remove(0, 13));
-
-
-                        //----------------------------------PRZYPISYWANIE DANCYH DO RZEDNYCH--------------------------------------------
-                        int n = 0;
-                        for (int j = i + 8; text[j] != ""; j++)
-                        {
-                            n++;
-                        }
-                        ordinates = new double[n, 2];
-
-
-                        n = 0;
-                        for (int j = i + 8; text[j] != ""; j++)
-                        {
-                            ordinatesTemp = (Regex.Split(text[j], "\t"));
-                            ordinates[n, 0] = Double.Parse(ordinatesTemp[1]);
-                            ordinates[n, 1] = Double.Parse(ordinatesTemp[2]);
-                            n++;
-                        }
-
-                        k.cableOrdinates.Add(ordinates);
-
-                        cables[k.nrCable] = k;
+                        text.Add(line);
                     }
 
+                    for (int i = 0; i < text.Count(); i++)
+                    {
+
+                        if (text[i].Contains("Cable nr: "))
+                        {
+                            Cable k = new Cable();
+
+                            k.nrCable = Int32.Parse(text[i].Remove(0, 9));
+                            k.systemName = text[i + 1].Remove(0, 15);
+                            k.prestressForce = Double.Parse(text[i + 2].Remove(0, 22));
+                            k.friction = Double.Parse(text[i + 3].Remove(0, 21));
+                            k.quantityCable = Int32.Parse(text[i + 4].Remove(0, 13));
+
+
+                            //----------------------------------PRZYPISYWANIE DANCYH DO RZEDNYCH--------------------------------------------
+                            int n = 0;
+                            for (int j = i + 8; text[j] != ""; j++)
+                            {
+                                n++;
+                            }
+                            ordinates = new double[n, 2];
+
+
+                            n = 0;
+                            for (int j = i + 8; text[j] != ""; j++)
+                            {
+                                ordinatesTemp = (Regex.Split(text[j], "\t"));
+                                ordinates[n, 0] = Double.Parse(ordinatesTemp[1]);
+                                ordinates[n, 1] = Double.Parse(ordinatesTemp[2]);
+                                n++;
+                            }
+
+                            k.cableOrdinates.Add(ordinates);
+
+                            cables[k.nrCable] = k;
+                        }
+                    }
+
+
+                    systemNameTextbox.Text = cables[1].systemName;
+                    prestressForceTextbox.Text = cables[1].prestressForce.ToString();
+                    quantitiyCableTextbox.Text = cables[1].quantityCable.ToString();
+                    frictionTextBox.Text = cables[1].friction.ToString();
+
+                    for (int i = 0; i < cables[1].cableOrdinates[0].GetLength(0); i++)
+                    {
+                        dataGridView2.Rows.Add(cables[1].cableOrdinates[0][i, 0], cables[1].cableOrdinates[0][i, 1]);
+                    }
+                    CableDrawing();
+                    nrCableTypbox.Text = "1";
+                    sr.Close();
                 }
-
-                systemNameTextbox.Text = cables[1].systemName;
-                prestressForceTextbox.Text = cables[1].prestressForce.ToString();
-                quantitiyCableTextbox.Text = cables[1].quantityCable.ToString();
-                frictionTextBox.Text = cables[1].friction.ToString();
-
-                for (int i = 0; i < cables[1].cableOrdinates[0].GetLength(0); i++)
+                else
                 {
-                    dataGridView2.Rows.Add(cables[1].cableOrdinates[0][i, 0], cables[1].cableOrdinates[0][i, 1]);
+                    MessageBox.Show("Plik nie istnieje!", "Błąd");
                 }
-                CableDrawing();
-                nrCableTypbox.Text = "1";
+            }
 
-            }
-            else
+            catch
             {
-                MessageBox.Show("Plik nie istnieje!", "Błąd");
+
+                MessageBox.Show("Plik uszkodzony ");
             }
+    
         }
 
         private void saveAsToolStripMenuItem_Click(object sender, EventArgs e)
@@ -402,7 +410,7 @@ namespace Externe_Vorspannung
             }
         }
 
-        private int quantitiyCommonOrdinates()
+        private int quantityCommonOrdinates()
         {
             List<double> quantity = new List<double>();
             
@@ -424,9 +432,6 @@ namespace Externe_Vorspannung
         public double[,] SummForces()
         {
             double[,] sumForces;
-            double[,] asd;
-
-
 
             HashSet<double> globalOrdinatesX;
             globalOrdinatesX = new HashSet<double>();
@@ -487,6 +492,49 @@ namespace Externe_Vorspannung
             return sumForces;
         }
 
+        private void nowyToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            DialogResult dialogResult = MessageBox.Show("Czy zapisać zmiany?", "Zapis", MessageBoxButtons.YesNo);
+            if (dialogResult == DialogResult.Yes)
+            {
+                saveToTxt();
+            }
+            else if (dialogResult == DialogResult.No)
+            {
+                //do something else
+            }
+        }
+
+        private void zakończToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            DialogResult dialogResult = MessageBox.Show("Czy zapisać zmiany?", "Zapis", MessageBoxButtons.YesNo);
+            if (dialogResult == DialogResult.Yes)
+            {
+                saveToTxt();
+                this.Close();
+            }
+            else if (dialogResult == DialogResult.No)
+            {
+                this.Close();
+            }
+            
+        }
+
+        private void wyświetlPomocToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Help.ShowHelp(this, "C:\\Users\\Artur\\source\\repos\\Externe_Vorspannung\\Externe_Vorspannung\\SpreZew.chm");
+        }
+
+        private void Clear()
+        {
+            dataGridView2.Rows.Clear();
+            chart1.Series.Clear();
+            cables.Clear();
+            systemNameTextbox.Clear();
+            prestressForceTextbox.Clear();
+            quantitiyCableTextbox.Clear();
+            frictionTextBox.Clear();
+        }
     }
 
 }
