@@ -38,10 +38,6 @@ namespace Externe_Vorspannung
             chart.AxisX.LabelStyle.Format = "";
             chart.AxisY.LabelStyle.Format = "";
             chart.AxisY.LabelStyle.IsEndLabelVisible = true;
-            //chart.AxisX.Minimum = 12;
-            //chart.AxisX.Maximum = 2;
-            //chart.AxisY.Minimum = 0;
-            //chart.AxisY.Maximum = 12;
             chart.AxisX.Interval = 0;
             chart.AxisY.Interval = 0;
             chart1.Series.Add("Cable");
@@ -118,7 +114,10 @@ namespace Externe_Vorspannung
                 MessageBox.Show("Rzędne kabla zostały nieprawidłowo wprowadzone.");
             }
 
-           
+            else if(!cableBeginActive.Checked&&!cableEndActive.Checked)
+            {
+                MessageBox.Show("Zakotwienie czynne musi być chociaż z jednej strony");
+            }
 
             else
             {
@@ -126,7 +125,7 @@ namespace Externe_Vorspannung
                 Ordinates();
 
                 Cable k = new Cable(systemNameTextbox.Text, Int32.Parse(nrCableTypbox.Text), Int32.Parse(quantitiyCableTextbox.Text),
-                Double.Parse(prestressForceTextbox.Text), Double.Parse(frictionTextBox.Text));
+                Double.Parse(prestressForceTextbox.Text), Double.Parse(frictionTextBox.Text),cableBeginActive.Checked, cableEndActive.Checked);
 
 
                 k.cableOrdinates.Add(Ordinates());
@@ -198,7 +197,8 @@ namespace Externe_Vorspannung
         {
             OpenFileDialog openFileDialog1 = new OpenFileDialog();
 
-            Clear();
+            TextClear();
+            cables.Clear();
 
             try
             {
@@ -525,15 +525,20 @@ namespace Externe_Vorspannung
             Help.ShowHelp(this, "C:\\Users\\Artur\\source\\repos\\Externe_Vorspannung\\Externe_Vorspannung\\SpreZew.chm");
         }
 
-        private void Clear()
+        private void TextClear()
         {
             dataGridView2.Rows.Clear();
             chart1.Series.Clear();
-            cables.Clear();
             systemNameTextbox.Clear();
             prestressForceTextbox.Clear();
             quantitiyCableTextbox.Clear();
             frictionTextBox.Clear();
+        }
+
+        private void deleteCableButton_Click(object sender, EventArgs e)
+        {
+            cables.Remove(Convert.ToInt32(nrCableTypbox.Text));
+            TextClear();
         }
     }
 

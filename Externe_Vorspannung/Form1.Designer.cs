@@ -28,14 +28,17 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea3 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Series series3 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Series series1 = new System.Windows.Forms.DataVisualization.Charting.Series();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.plikToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.nowyToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.otwórzToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.zapiszToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.zakończToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.pomocToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.wyświetlPomocToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.informacjeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
             this.tabPage2 = new System.Windows.Forms.TabPage();
@@ -60,15 +63,17 @@
             this.label1 = new System.Windows.Forms.Label();
             this.silaSprez = new System.Windows.Forms.Label();
             this.tabControl1 = new System.Windows.Forms.TabControl();
-            this.pomocToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.wyświetlPomocToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.informacjeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.cableBeginActive = new System.Windows.Forms.CheckBox();
+            this.cableEndActive = new System.Windows.Forms.CheckBox();
+            this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.deleteCableButton = new System.Windows.Forms.Button();
             this.menuStrip1.SuspendLayout();
             this.tabPage2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.chart1)).BeginInit();
             this.groupBox2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView2)).BeginInit();
             this.tabControl1.SuspendLayout();
+            this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
             // menuStrip1
@@ -96,30 +101,52 @@
             // nowyToolStripMenuItem
             // 
             this.nowyToolStripMenuItem.Name = "nowyToolStripMenuItem";
-            this.nowyToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.nowyToolStripMenuItem.Size = new System.Drawing.Size(113, 22);
             this.nowyToolStripMenuItem.Text = "Nowy";
             this.nowyToolStripMenuItem.Click += new System.EventHandler(this.nowyToolStripMenuItem_Click);
             // 
             // otwórzToolStripMenuItem
             // 
             this.otwórzToolStripMenuItem.Name = "otwórzToolStripMenuItem";
-            this.otwórzToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.otwórzToolStripMenuItem.Size = new System.Drawing.Size(113, 22);
             this.otwórzToolStripMenuItem.Text = "Otwórz";
             this.otwórzToolStripMenuItem.Click += new System.EventHandler(this.openToolStripMenuItem_Click);
             // 
             // zapiszToolStripMenuItem
             // 
             this.zapiszToolStripMenuItem.Name = "zapiszToolStripMenuItem";
-            this.zapiszToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.zapiszToolStripMenuItem.Size = new System.Drawing.Size(113, 22);
             this.zapiszToolStripMenuItem.Text = "Zapisz";
             this.zapiszToolStripMenuItem.Click += new System.EventHandler(this.zapiszToolStripMenuItem_Click);
             // 
             // zakończToolStripMenuItem
             // 
             this.zakończToolStripMenuItem.Name = "zakończToolStripMenuItem";
-            this.zakończToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.zakończToolStripMenuItem.Size = new System.Drawing.Size(113, 22);
             this.zakończToolStripMenuItem.Text = "Zakończ";
             this.zakończToolStripMenuItem.Click += new System.EventHandler(this.zakończToolStripMenuItem_Click);
+            // 
+            // pomocToolStripMenuItem
+            // 
+            this.pomocToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.wyświetlPomocToolStripMenuItem,
+            this.informacjeToolStripMenuItem});
+            this.pomocToolStripMenuItem.Name = "pomocToolStripMenuItem";
+            this.pomocToolStripMenuItem.Size = new System.Drawing.Size(50, 20);
+            this.pomocToolStripMenuItem.Text = "Pomoc";
+            // 
+            // wyświetlPomocToolStripMenuItem
+            // 
+            this.wyświetlPomocToolStripMenuItem.Name = "wyświetlPomocToolStripMenuItem";
+            this.wyświetlPomocToolStripMenuItem.Size = new System.Drawing.Size(151, 22);
+            this.wyświetlPomocToolStripMenuItem.Text = "Wyświetl pomoc";
+            this.wyświetlPomocToolStripMenuItem.Click += new System.EventHandler(this.wyświetlPomocToolStripMenuItem_Click);
+            // 
+            // informacjeToolStripMenuItem
+            // 
+            this.informacjeToolStripMenuItem.Name = "informacjeToolStripMenuItem";
+            this.informacjeToolStripMenuItem.Size = new System.Drawing.Size(151, 22);
+            this.informacjeToolStripMenuItem.Text = "Informacje";
             // 
             // openFileDialog1
             // 
@@ -127,6 +154,8 @@
             // 
             // tabPage2
             // 
+            this.tabPage2.Controls.Add(this.deleteCableButton);
+            this.tabPage2.Controls.Add(this.groupBox1);
             this.tabPage2.Controls.Add(this.SilaSum);
             this.tabPage2.Controls.Add(this.labeltarcie);
             this.tabPage2.Controls.Add(this.frictionTextBox);
@@ -147,14 +176,14 @@
             this.tabPage2.Location = new System.Drawing.Point(4, 22);
             this.tabPage2.Name = "tabPage2";
             this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage2.Size = new System.Drawing.Size(512, 370);
+            this.tabPage2.Size = new System.Drawing.Size(512, 463);
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "Spreżenie zewnętrzne";
             this.tabPage2.UseVisualStyleBackColor = true;
             // 
             // SilaSum
             // 
-            this.SilaSum.Location = new System.Drawing.Point(276, 277);
+            this.SilaSum.Location = new System.Drawing.Point(275, 340);
             this.SilaSum.Name = "SilaSum";
             this.SilaSum.Size = new System.Drawing.Size(229, 32);
             this.SilaSum.TabIndex = 24;
@@ -201,7 +230,7 @@
             // 
             // podgladSil
             // 
-            this.podgladSil.Location = new System.Drawing.Point(277, 239);
+            this.podgladSil.Location = new System.Drawing.Point(275, 302);
             this.podgladSil.Name = "podgladSil";
             this.podgladSil.Size = new System.Drawing.Size(229, 32);
             this.podgladSil.TabIndex = 21;
@@ -211,13 +240,13 @@
             // 
             // chart1
             // 
-            chartArea3.Name = "ChartArea1";
-            this.chart1.ChartAreas.Add(chartArea3);
-            this.chart1.Location = new System.Drawing.Point(289, 97);
+            chartArea1.Name = "ChartArea1";
+            this.chart1.ChartAreas.Add(chartArea1);
+            this.chart1.Location = new System.Drawing.Point(280, 115);
             this.chart1.Name = "chart1";
-            series3.ChartArea = "ChartArea1";
-            series3.Name = "Series1";
-            this.chart1.Series.Add(series3);
+            series1.ChartArea = "ChartArea1";
+            series1.Name = "Series1";
+            this.chart1.Series.Add(series1);
             this.chart1.Size = new System.Drawing.Size(216, 126);
             this.chart1.TabIndex = 20;
             this.chart1.Text = "chart1";
@@ -225,7 +254,7 @@
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(286, 81);
+            this.label3.Location = new System.Drawing.Point(277, 89);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(75, 13);
             this.label3.TabIndex = 19;
@@ -233,7 +262,7 @@
             // 
             // dodajKabelbutton
             // 
-            this.dodajKabelbutton.Location = new System.Drawing.Point(277, 326);
+            this.dodajKabelbutton.Location = new System.Drawing.Point(275, 264);
             this.dodajKabelbutton.Name = "dodajKabelbutton";
             this.dodajKabelbutton.Size = new System.Drawing.Size(229, 32);
             this.dodajKabelbutton.TabIndex = 6;
@@ -244,7 +273,7 @@
             // groupBox2
             // 
             this.groupBox2.Controls.Add(this.dataGridView2);
-            this.groupBox2.Location = new System.Drawing.Point(9, 95);
+            this.groupBox2.Location = new System.Drawing.Point(9, 179);
             this.groupBox2.Name = "groupBox2";
             this.groupBox2.Size = new System.Drawing.Size(262, 269);
             this.groupBox2.TabIndex = 17;
@@ -257,7 +286,7 @@
             this.dataGridView2.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.rzednaX,
             this.rzednaY});
-            this.dataGridView2.Location = new System.Drawing.Point(6, 21);
+            this.dataGridView2.Location = new System.Drawing.Point(6, 19);
             this.dataGridView2.Name = "dataGridView2";
             this.dataGridView2.Size = new System.Drawing.Size(244, 242);
             this.dataGridView2.TabIndex = 5;
@@ -343,36 +372,55 @@
             this.tabControl1.Location = new System.Drawing.Point(12, 27);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(520, 396);
+            this.tabControl1.Size = new System.Drawing.Size(520, 489);
             this.tabControl1.TabIndex = 11;
             // 
-            // pomocToolStripMenuItem
+            // cableBeginActive
             // 
-            this.pomocToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.wyświetlPomocToolStripMenuItem,
-            this.informacjeToolStripMenuItem});
-            this.pomocToolStripMenuItem.Name = "pomocToolStripMenuItem";
-            this.pomocToolStripMenuItem.Size = new System.Drawing.Size(50, 20);
-            this.pomocToolStripMenuItem.Text = "Pomoc";
+            this.cableBeginActive.AutoSize = true;
+            this.cableBeginActive.Location = new System.Drawing.Point(14, 22);
+            this.cableBeginActive.Name = "cableBeginActive";
+            this.cableBeginActive.Size = new System.Drawing.Size(100, 17);
+            this.cableBeginActive.TabIndex = 25;
+            this.cableBeginActive.Text = "Początek kabla";
+            this.cableBeginActive.UseVisualStyleBackColor = true;
             // 
-            // wyświetlPomocToolStripMenuItem
+            // cableEndActive
             // 
-            this.wyświetlPomocToolStripMenuItem.Name = "wyświetlPomocToolStripMenuItem";
-            this.wyświetlPomocToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.wyświetlPomocToolStripMenuItem.Text = "Wyświetl pomoc";
-            this.wyświetlPomocToolStripMenuItem.Click += new System.EventHandler(this.wyświetlPomocToolStripMenuItem_Click);
+            this.cableEndActive.AutoSize = true;
+            this.cableEndActive.Location = new System.Drawing.Point(14, 45);
+            this.cableEndActive.Name = "cableEndActive";
+            this.cableEndActive.Size = new System.Drawing.Size(88, 17);
+            this.cableEndActive.TabIndex = 26;
+            this.cableEndActive.Text = "Koniec kabla";
+            this.cableEndActive.UseVisualStyleBackColor = true;
             // 
-            // informacjeToolStripMenuItem
+            // groupBox1
             // 
-            this.informacjeToolStripMenuItem.Name = "informacjeToolStripMenuItem";
-            this.informacjeToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.informacjeToolStripMenuItem.Text = "Informacje";
+            this.groupBox1.Controls.Add(this.cableEndActive);
+            this.groupBox1.Controls.Add(this.cableBeginActive);
+            this.groupBox1.Location = new System.Drawing.Point(17, 89);
+            this.groupBox1.Name = "groupBox1";
+            this.groupBox1.Size = new System.Drawing.Size(254, 71);
+            this.groupBox1.TabIndex = 27;
+            this.groupBox1.TabStop = false;
+            this.groupBox1.Text = "Zakotwienie czynne kabla";
+            // 
+            // deleteCableButton
+            // 
+            this.deleteCableButton.Location = new System.Drawing.Point(275, 396);
+            this.deleteCableButton.Name = "deleteCableButton";
+            this.deleteCableButton.Size = new System.Drawing.Size(229, 32);
+            this.deleteCableButton.TabIndex = 28;
+            this.deleteCableButton.Text = "Usuń kabel";
+            this.deleteCableButton.UseVisualStyleBackColor = true;
+            this.deleteCableButton.Click += new System.EventHandler(this.deleteCableButton_Click);
             // 
             // Externe_Vorspannung
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(541, 450);
+            this.ClientSize = new System.Drawing.Size(541, 528);
             this.Controls.Add(this.tabControl1);
             this.Controls.Add(this.menuStrip1);
             this.MainMenuStrip = this.menuStrip1;
@@ -388,6 +436,8 @@
             this.groupBox2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView2)).EndInit();
             this.tabControl1.ResumeLayout(false);
+            this.groupBox1.ResumeLayout(false);
+            this.groupBox1.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -427,6 +477,10 @@
         private System.Windows.Forms.ToolStripMenuItem pomocToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem wyświetlPomocToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem informacjeToolStripMenuItem;
+        private System.Windows.Forms.CheckBox cableBeginActive;
+        private System.Windows.Forms.Button deleteCableButton;
+        private System.Windows.Forms.GroupBox groupBox1;
+        private System.Windows.Forms.CheckBox cableEndActive;
     }
 }
 
