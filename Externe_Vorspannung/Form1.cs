@@ -10,9 +10,6 @@ using System.Windows.Forms;
 using System.Windows.Forms.DataVisualization.Charting;
 using System.IO;
 using System.Text.RegularExpressions;
-//using Microsoft.Office.Interop.Excel;
-//using _Excel = Microsoft.Office.Interop.Excel;
-
 
 
 namespace Externe_Vorspannung
@@ -59,14 +56,25 @@ namespace Externe_Vorspannung
         {
             double[,] ordinates = new double[dataGridView2.Rows.Count - 1, 2];
 
+
             for (int i = 0; i < dataGridView2.Rows.Count - 1; i++)
             {
                 for (int j = 0; j <= 1; j++)
                 {
-                    ordinates[i, j] = Convert.ToDouble(dataGridView2.Rows[i].Cells[j].Value);
+                    if(dataGridView2.Rows[i].Cells[j].Value!=null)
+                    {
+                        bool isDouble = Double.TryParse(dataGridView2.Rows[i].Cells[j].Value.ToString(), out ordinates[i, j]);
+                        if (isDouble)
+                        {
+                            ordinates[i, j] = Convert.ToDouble(dataGridView2.Rows[i].Cells[j].Value);
+                        }
+                    }
+                    else
+                    {
+                        ordinates[i, j] = 0;
+                    } 
                 }
             }
-
             return ordinates;
         }
 
@@ -90,24 +98,27 @@ namespace Externe_Vorspannung
 
         private void cableAddButton_Click(object sender, EventArgs e)
         {
+            double prestressForce;
+            double friction;
+            bool prestressForceisDouble = Double.TryParse(prestressForceTextbox.Text, out prestressForce);
+            bool frictionForceisDouble = Double.TryParse(frictionTextBox.Text, out friction);
+
             if (systemNameTextbox.Text == "" || nrCableTypbox.Text == "" || quantitiyCableTextbox.Text == "" || frictionTextBox.Text == "")
             {
                 MessageBox.Show("Wypełnij wszystkie pola!", "Błąd");
             }
 
-            else if (System.Text.RegularExpressions.Regex.IsMatch(prestressForceTextbox.Text, "[^0-9]"))
-            {
-                MessageBox.Show("Prosze wpisać liczby w odpowiednim formacie.");
-                prestressForceTextbox.Clear();
 
-                //iloscKabliTextbox.Text = iloscKabliTextbox.Text.Remove(iloscKabliTextbox.Text.Length - 1);
+            else if (!prestressForceisDouble)
+            {
+                MessageBox.Show("Siła sprężająca w złym formacie");
             }
 
-            //else if (System.Text.RegularExpressions.Regex.IsMatch(frictionTextBox.Text, "[^0-9]"))
-            //{
-            //    MessageBox.Show("Prosze wpisać liczby w odpowiednim formacie.");
-            //    frictionTextBox.Clear();
-            //}
+            else if (!frictionForceisDouble)
+            {
+                MessageBox.Show("Tarcie w złym formacie");
+            }
+
 
             else if (dataGridView2.Rows.Count < 3)
             {
@@ -117,6 +128,12 @@ namespace Externe_Vorspannung
             else if (!cableBeginActive.Checked && !cableEndActive.Checked)
             {
                 MessageBox.Show("Zakotwienie czynne musi być chociaż z jednej strony");
+            }
+
+            else if (System.Text.RegularExpressions.Regex.IsMatch(quantitiyCableTextbox.Text, "[^0-9]"))
+            {
+                MessageBox.Show("Prosze wpisać ilość kabli w odpowiednim formacie","błąd");
+                quantitiyCableTextbox.Clear();
             }
 
             else
@@ -186,10 +203,7 @@ namespace Externe_Vorspannung
             openForm.Show();
         }
 
-        private void Form1_Load(object sender, EventArgs e)
-        {
-
-        }
+   
 
         private void zapiszToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -285,7 +299,6 @@ namespace Externe_Vorspannung
 
             catch
             {
-
                 MessageBox.Show("Plik uszkodzony ");
             }
 
@@ -346,72 +359,6 @@ namespace Externe_Vorspannung
                 sw.WriteLine("Nr" + "\t" + "X" + "\t" + "Y");
 
 
-                for (int i = 0; i < SummForces().GetLength(0); i++)
-                {
-                    sw.WriteLine((i + 1) + "\t" + SummForces()[i, 0].ToString("N2") + "\t" + SummForces()[i, 1].ToString("N2"));
-                }
-                sw.WriteLine("\n");
-
-                sw.Close();
-            }
-        }
-
-        private void saveToExcel()
-        {
-            SaveFileDialog saveFileDialog1 = new SaveFileDialog();
-            saveFileDialog1.Filter = "excel files (*.xls)|*.xls|txt files (*.txt)|*.txt|All files (*.*)|*.*";
-
-            if (saveFileDialog1.ShowDialog() == System.Windows.Forms.DialogResult.OK)
-            {
-
-                FileStream fs = (System.IO.FileStream)saveFileDialog1.OpenFile();
-
-                StreamWriter sw = new StreamWriter(fs);
-
-                //_Application excel = new _Excel.Application();
-                //Workbook wb;
-                //Worksheet ws;
-
-                //wb = excel.Workbooks.Open("C:\\Programowanie\\moj_projekt_praca\\Externe_Vorspann");
-
-
-
-                for (int i = 1; i <= cables.Count; i++)
-                {
-                    sw.WriteLine("Cable nr: " + cables[i].nrCable);
-                    sw.WriteLine("Nazwa systemu: " + cables[i].systemName);
-                    sw.WriteLine("Siła sprężająca [kN]: " + cables[i].prestressForce);
-                    sw.WriteLine("Współczynnik tarcia: " + cables[i].friction);
-                    sw.WriteLine("Ilość kabli: " + cables[i].quantityCable + "\n");
-                    sw.WriteLine("Zakotwienie czynne kabla: Poczatek=" + cableBeginActive.ToString() + ", Koniec=" + cableEndActive.ToString());
-                    sw.WriteLine("Rzędne kabla nr " + i + "[m]");
-                    sw.WriteLine("Nr" + "\t" + "X" + "\t" + "Y");
-
-                    for (int j = 0; j < cables[i].cableOrdinates[0].GetLength(0); j++)
-                    {
-                        sw.WriteLine((j + 1) + "\t" + cables[i].cableOrdinates[0][j, 0] + "\t" + cables[i].cableOrdinates[0][j, 1]);
-                    }
-
-                    sw.WriteLine("\n");
-
-                    // -----------------------------SILY W JEDNYM KABLU-------------------------------------//
-                    sw.WriteLine("Sily od kabla nr " + i + " [kN]");
-                    sw.WriteLine("Nr" + "\t" + "X" + "\t" + "Y");
-
-                    for (int j = 0; j < cables[i].Forces().GetLength(0); j++)
-                    {
-                        sw.WriteLine((j + 1) + "\t" + cables[i].Forces()[j, 0].ToString("N2") + "\t" + cables[i].Forces()[j, 1].ToString("N2"));
-                    }
-                    sw.WriteLine("\n");
-
-                    // -----------------------------SUMA SIL -------------------------------------//
-                }
-
-                sw.WriteLine("Sily calkowite");
-                sw.WriteLine("Nr" + "\t" + "X" + "\t" + "Y");
-
-
-                int n = 0;
                 for (int i = 0; i < SummForces().GetLength(0); i++)
                 {
                     sw.WriteLine((i + 1) + "\t" + SummForces()[i, 0].ToString("N2") + "\t" + SummForces()[i, 1].ToString("N2"));

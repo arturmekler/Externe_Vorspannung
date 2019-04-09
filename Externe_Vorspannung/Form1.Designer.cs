@@ -427,7 +427,7 @@
             this.MaximizeBox = false;
             this.Name = "Externe_Vorspannung";
             this.Text = "Externe_Vorspannung";
-            this.Load += new System.EventHandler(this.Form1_Load);
+            
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
             this.tabPage2.ResumeLayout(false);
