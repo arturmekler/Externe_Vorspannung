@@ -1,4 +1,4 @@
-﻿namespace External_prestress
+﻿namespace Externe_Vorspannung
 {
     partial class reviewForces
     {
@@ -45,12 +45,14 @@
             // 
             // silyDataGridView
             // 
+            this.silyDataGridView.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
+            this.silyDataGridView.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCells;
             this.silyDataGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.silyDataGridView.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.nrZalamaniaDataGridView,
             this.silaPxDataGridView,
             this.silaPyDataGridView});
-            this.silyDataGridView.Location = new System.Drawing.Point(46, 134);
+            this.silyDataGridView.Location = new System.Drawing.Point(46, 80);
             this.silyDataGridView.Name = "silyDataGridView";
             this.silyDataGridView.ReadOnly = true;
             this.silyDataGridView.Size = new System.Drawing.Size(345, 258);
@@ -95,7 +97,7 @@
             // nrCableLabel
             // 
             this.nrCableLabel.AutoSize = true;
-            this.nrCableLabel.Location = new System.Drawing.Point(99, 43);
+            this.nrCableLabel.Location = new System.Drawing.Point(95, 43);
             this.nrCableLabel.Name = "nrCableLabel";
             this.nrCableLabel.Size = new System.Drawing.Size(10, 13);
             this.nrCableLabel.TabIndex = 4;
@@ -104,7 +106,7 @@
             // systemNameLabel
             // 
             this.systemNameLabel.AutoSize = true;
-            this.systemNameLabel.Location = new System.Drawing.Point(99, 19);
+            this.systemNameLabel.Location = new System.Drawing.Point(95, 19);
             this.systemNameLabel.Name = "systemNameLabel";
             this.systemNameLabel.Size = new System.Drawing.Size(10, 13);
             this.systemNameLabel.TabIndex = 3;
@@ -113,7 +115,7 @@
             // prestressForceLabel
             // 
             this.prestressForceLabel.AutoSize = true;
-            this.prestressForceLabel.Location = new System.Drawing.Point(352, 19);
+            this.prestressForceLabel.Location = new System.Drawing.Point(347, 19);
             this.prestressForceLabel.Name = "prestressForceLabel";
             this.prestressForceLabel.Size = new System.Drawing.Size(10, 13);
             this.prestressForceLabel.TabIndex = 6;
@@ -131,7 +133,7 @@
             // quantityCableLabel
             // 
             this.quantityCableLabel.AutoSize = true;
-            this.quantityCableLabel.Location = new System.Drawing.Point(352, 43);
+            this.quantityCableLabel.Location = new System.Drawing.Point(347, 43);
             this.quantityCableLabel.Name = "quantityCableLabel";
             this.quantityCableLabel.Size = new System.Drawing.Size(10, 13);
             this.quantityCableLabel.TabIndex = 8;

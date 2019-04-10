@@ -49,7 +49,7 @@ namespace Externe_Vorspannung
 
         public double[,] Forces()
         {
-            int oR; // ostatnia rzedna
+            int oR;
             double cos;
             double sin;
             double cos1;
@@ -91,10 +91,6 @@ namespace Externe_Vorspannung
 
                 return null;
             }
-
-
-            //----------------------------------- OBLICZENIE SIL NA POCZATKU-----------------------------------//
-
 
             void ActiveBeginCableForce()
             {

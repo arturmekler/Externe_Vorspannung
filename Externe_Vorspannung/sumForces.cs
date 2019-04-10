@@ -19,7 +19,6 @@ namespace Externe_Vorspannung
             
             for (int i = 1; i <= sumForces.GetLength(0); i++)
             {
-               
                 sumaSilDataGridView.Rows.Add(i, sumForces[i-1,2].ToString("N2"),
                     sumForces[i - 1, 0].ToString("N2"), sumForces[i - 1, 1].ToString("N2"));
             }

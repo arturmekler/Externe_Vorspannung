@@ -398,7 +398,7 @@ namespace Externe_Vorspannung
             sumForcesY = new Dictionary<double, double>();
 
 
-            // tworzenie Dictionary
+            // making dictionary
             for (int i = 0; i < ordinatesX.Count(); i++)
             {
                 sumForcesX.Add(ordinatesX[i], 0);
@@ -433,7 +433,7 @@ namespace Externe_Vorspannung
             return sumForces;
         }
 
-        private void newToolStripMenuItem_Click(object sender, EventArgs e)
+        private void newToolStripMenuItem_Click(object sender, EventArgs e) //save a changes to txt(if you agree) and open new txt data
         {
             DialogResult dialogResult = MessageBox.Show("Czy zapisać zmiany?", "Zapis", MessageBoxButtons.YesNo);
             if (dialogResult == DialogResult.Yes)
@@ -449,7 +449,7 @@ namespace Externe_Vorspannung
             }
         }
 
-        private void endToolStripMenuItem_Click(object sender, EventArgs e)
+        private void endToolStripMenuItem_Click(object sender, EventArgs e) //save a changes to txt(if you agree) and exit a program
         {
             DialogResult dialogResult = MessageBox.Show("Czy zapisać zmiany?", "Zapis", MessageBoxButtons.YesNo);
             if (dialogResult == DialogResult.Yes)
@@ -464,12 +464,12 @@ namespace Externe_Vorspannung
 
         }
 
-        private void wyświetlPomocToolStripMenuItem_Click(object sender, EventArgs e)
+        private void showHelpToolStripMenuItem_Click(object sender, EventArgs e) //shows help data
         {
             Help.ShowHelp(this, "C:\\Users\\Artur\\source\\repos\\Externe_Vorspannung\\Externe_Vorspannung\\SpreZew.chm");
         }
 
-        private void TextClear()
+        private void TextClear() //clear data from Form1 (not from dataGridView and variables)
         {
             dataGridView2.Rows.Clear();
             chart1.Series.Clear();
@@ -479,7 +479,7 @@ namespace Externe_Vorspannung
             frictionTextBox.Clear();
         }
 
-        private void deleteCableButton_Click(object sender, EventArgs e)
+        private void deleteCableButton_Click(object sender, EventArgs e) //delete a cable from list of cables and clear data from Form1
         {
             cables.Remove(Convert.ToInt32(nrCableTypbox.Text));
             TextClear();

@@ -37,7 +37,7 @@
             this.zapiszToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.zakończToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.pomocToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.wyświetlPomocToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.showHelpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.informacjeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
@@ -129,7 +129,7 @@
             // pomocToolStripMenuItem
             // 
             this.pomocToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.wyświetlPomocToolStripMenuItem,
+            this.showHelpToolStripMenuItem,
             this.informacjeToolStripMenuItem});
             this.pomocToolStripMenuItem.Name = "pomocToolStripMenuItem";
             this.pomocToolStripMenuItem.Size = new System.Drawing.Size(50, 20);
@@ -137,10 +137,10 @@
             // 
             // wyświetlPomocToolStripMenuItem
             // 
-            this.wyświetlPomocToolStripMenuItem.Name = "wyświetlPomocToolStripMenuItem";
-            this.wyświetlPomocToolStripMenuItem.Size = new System.Drawing.Size(151, 22);
-            this.wyświetlPomocToolStripMenuItem.Text = "Wyświetl pomoc";
-            this.wyświetlPomocToolStripMenuItem.Click += new System.EventHandler(this.wyświetlPomocToolStripMenuItem_Click);
+            this.showHelpToolStripMenuItem.Name = "wyświetlPomocToolStripMenuItem";
+            this.showHelpToolStripMenuItem.Size = new System.Drawing.Size(151, 22);
+            this.showHelpToolStripMenuItem.Text = "Wyświetl pomoc";
+            this.showHelpToolStripMenuItem.Click += new System.EventHandler(this.showHelpToolStripMenuItem_Click);
             // 
             // informacjeToolStripMenuItem
             // 
@@ -475,7 +475,7 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn rzednaX;
         private System.Windows.Forms.DataGridViewTextBoxColumn rzednaY;
         private System.Windows.Forms.ToolStripMenuItem pomocToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem wyświetlPomocToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem showHelpToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem informacjeToolStripMenuItem;
         private System.Windows.Forms.CheckBox cableBeginActive;
         private System.Windows.Forms.Button deleteCableButton;

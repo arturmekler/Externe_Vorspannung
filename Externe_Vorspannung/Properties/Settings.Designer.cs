@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace External_prestress.Properties
+namespace Externe_Vorspanung.Properties
 {
 
 
