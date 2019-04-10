@@ -34,14 +34,14 @@ namespace Externe_Vorspannung
             cableOrdinates = new List<double[,]>();
         }
 
-        public Cable(string nazwaSystemu, int nrKabla, int iloscKabli, double silaSprez, double tarcie,
+        public Cable(string systemName, int nrCable, int quantityCable, double prestressForce, double friction,
             bool cableBeginActive, bool cableEndActive)
         {
-            this.systemName = nazwaSystemu;
-            this.nrCable = nrKabla;
-            this.quantityCable = iloscKabli;
-            this.prestressForce = silaSprez;
-            this.friction = tarcie;
+            this.systemName = systemName;
+            this.nrCable = nrCable;
+            this.quantityCable = quantityCable;
+            this.prestressForce = prestressForce;
+            this.friction = friction;
             this.cableBeginActive = cableBeginActive;
             this.cableEndActive = cableEndActive;
             cableOrdinates = new List<double[,]>();
@@ -56,35 +56,35 @@ namespace Externe_Vorspannung
             double sin1;
             double cos2;
             double sin2;
-            double silaPx;
-            double silaPy;
-            double silaPx1;
-            double silaPy1;
-            double silaPx2;
-            double silaPy2;
-            double SilaSpreznew;
-            double[,] sily;
+            double forcePx;
+            double forcePy;
+            double forcePx1;
+            double forcePy1;
+            double forcePx2;
+            double forcePy2;
+            double prestressForceNew;
+            double[,] forces;
 
             oR = cableOrdinates[0].GetLength(0);        //last force's ordinate
 
-            sily = new double[oR, 3];
+            forces = new double[oR, 3];
 
             if (cableBeginActive && cableEndActive)
             {
                 ActiveBeginEndCableForce();
-                return sily;
+                return forces;
             }
 
             else if (!cableBeginActive && cableEndActive)
             {
                 ActiveEndCableForce();
-                return sily;
+                return forces;
             }
 
             else if (cableBeginActive && !cableEndActive)
             {
                 ActiveBeginCableForce();
-                return sily;
+                return forces;
             }
             else
             {
@@ -106,15 +106,15 @@ namespace Externe_Vorspannung
                 sin = (cableOrdinates[0][1, 1] - cableOrdinates[0][0, 1])
                    / Math.Sqrt(Math.Pow((cableOrdinates[0][1, 0] - cableOrdinates[0][0, 0]), 2) + Math.Pow((cableOrdinates[0][1, 1] - cableOrdinates[0][0, 1]), 2));
 
-                silaPx = quantityCable * prestressForce * cos;
-                silaPy = quantityCable * prestressForce * sin;
+                forcePx = quantityCable * prestressForce * cos;
+                forcePy = quantityCable * prestressForce * sin;
 
-                sily[0, 0] = silaPx;
-                sily[0, 1] = silaPy;
-                sily[0, 2] = cableOrdinates[0][0, 0];
+                forces[0, 0] = forcePx;
+                forces[0, 1] = forcePy;
+                forces[0, 2] = cableOrdinates[0][0, 0];
 
                 // calculate forces in the middle
-                SilaSpreznew = quantityCable * prestressForce;
+                prestressForceNew = quantityCable * prestressForce;
 
                 for (int i = 1; i < oR - 1; i++)
                 {
@@ -133,17 +133,17 @@ namespace Externe_Vorspannung
                     dfi1 = Math.Acos(cos1);
                     dfi2 = Math.Acos(cos2);
 
-                    SilaSpreznew = SilaSpreznew - SilaSpreznew * (1 - Math.Exp(-friction * (dfi1 + dfi2)));
+                    prestressForceNew = prestressForceNew - prestressForceNew * (1 - Math.Exp(-friction * (dfi1 + dfi2)));
 
-                    silaPx1 = SilaSpreznew * (1 - Math.Exp(-friction * dfi1)) * cos1;
-                    silaPy1 = -SilaSpreznew * sin1;
+                    forcePx1 = prestressForceNew * (1 - Math.Exp(-friction * dfi1)) * cos1;
+                    forcePy1 = -prestressForceNew * sin1;
 
-                    silaPx2 = SilaSpreznew * (1 - Math.Exp(-friction * dfi2)) * cos2;
-                    silaPy2 = SilaSpreznew * sin2;
+                    forcePx2 = prestressForceNew * (1 - Math.Exp(-friction * dfi2)) * cos2;
+                    forcePy2 = prestressForceNew * sin2;
 
-                    sily[i, 0] = -silaPx1 - silaPx2;
-                    sily[i, 1] = silaPy1 + silaPy2;
-                    sily[i, 2] = cableOrdinates[0][i, 0];
+                    forces[i, 0] = -forcePx1 - forcePx2;
+                    forces[i, 1] = forcePy1 + forcePy2;
+                    forces[i, 2] = cableOrdinates[0][i, 0];
                 }
 
                 // calculate forces in the end
@@ -153,12 +153,12 @@ namespace Externe_Vorspannung
                 sin = (cableOrdinates[0][oR - 1, 1] - cableOrdinates[0][oR - 2, 1])
                    / Math.Sqrt(Math.Pow((cableOrdinates[0][oR - 1, 0] - cableOrdinates[0][oR - 2, 0]), 2) + Math.Pow((cableOrdinates[0][oR - 1, 1] - cableOrdinates[0][oR - 2, 1]), 2));
 
-                silaPx = SilaSpreznew * cos;
-                silaPy = SilaSpreznew * sin;
+                forcePx = prestressForceNew * cos;
+                forcePy = prestressForceNew * sin;
 
-                sily[oR - 1, 0] = -silaPx;
-                sily[oR - 1, 1] = -silaPy;
-                sily[oR - 1, 2] = cableOrdinates[0][oR - 1, 0];
+                forces[oR - 1, 0] = -forcePx;
+                forces[oR - 1, 1] = -forcePy;
+                forces[oR - 1, 2] = cableOrdinates[0][oR - 1, 0];
             }
 
             void ActiveEndCableForce()
@@ -171,16 +171,16 @@ namespace Externe_Vorspannung
                 sin = (cableOrdinates[0][oR - 1, 1] - cableOrdinates[0][oR - 2, 1])
                    / Math.Sqrt(Math.Pow((cableOrdinates[0][oR - 1, 0] - cableOrdinates[0][oR - 2, 0]), 2) + Math.Pow((cableOrdinates[0][oR - 1, 1] - cableOrdinates[0][oR - 2, 1]), 2));
 
-                silaPx = quantityCable * prestressForce * cos;
-                silaPy = quantityCable * prestressForce * sin;
+                forcePx = quantityCable * prestressForce * cos;
+                forcePy = quantityCable * prestressForce * sin;
 
-                sily[oR - 1, 0] = -silaPx;
-                sily[oR - 1, 1] = -silaPy;
-                sily[oR - 1, 2] = cableOrdinates[0][oR - 1, 0];
+                forces[oR - 1, 0] = -forcePx;
+                forces[oR - 1, 1] = -forcePy;
+                forces[oR - 1, 2] = cableOrdinates[0][oR - 1, 0];
 
                 // calculate forces in the middle
 
-                SilaSpreznew = quantityCable * prestressForce;
+                prestressForceNew = quantityCable * prestressForce;
 
                 for (int i = oR - 2; i >= 1; i--)
                 {
@@ -199,17 +199,17 @@ namespace Externe_Vorspannung
                     dfi1 = Math.Acos(cos1);
                     dfi2 = Math.Acos(cos2);
 
-                    SilaSpreznew = SilaSpreznew - SilaSpreznew * (1 - Math.Exp(-friction * (dfi1 + dfi2)));
+                    prestressForceNew = prestressForceNew - prestressForceNew * (1 - Math.Exp(-friction * (dfi1 + dfi2)));
 
-                    silaPx1 = SilaSpreznew * (1 - Math.Exp(-friction * dfi1)) * cos1;
-                    silaPy1 = -SilaSpreznew * sin1;
+                    forcePx1 = prestressForceNew * (1 - Math.Exp(-friction * dfi1)) * cos1;
+                    forcePy1 = -prestressForceNew * sin1;
 
-                    silaPx2 = SilaSpreznew * (1 - Math.Exp(-friction * dfi2)) * cos2;
-                    silaPy2 = SilaSpreznew * sin2;
+                    forcePx2 = prestressForceNew * (1 - Math.Exp(-friction * dfi2)) * cos2;
+                    forcePy2 = prestressForceNew * sin2;
 
-                    sily[i, 0] = silaPx1 + silaPx2;
-                    sily[i, 1] = silaPy1 + silaPy2;
-                    sily[i, 2] = cableOrdinates[0][i, 0];
+                    forces[i, 0] = forcePx1 + forcePx2;
+                    forces[i, 1] = forcePy1 + forcePy2;
+                    forces[i, 2] = cableOrdinates[0][i, 0];
                 }
 
                 // calculate forces in the begin
@@ -220,12 +220,12 @@ namespace Externe_Vorspannung
                 sin = (cableOrdinates[0][1, 1] - cableOrdinates[0][0, 1])
                    / Math.Sqrt(Math.Pow((cableOrdinates[0][1, 0] - cableOrdinates[0][0, 0]), 2) + Math.Pow((cableOrdinates[0][1, 1] - cableOrdinates[0][0, 1]), 2));
 
-                silaPx = SilaSpreznew * cos;
-                silaPy = SilaSpreznew * sin;
+                forcePx = prestressForceNew * cos;
+                forcePy = prestressForceNew * sin;
 
-                sily[0, 0] = silaPx;
-                sily[0, 1] = silaPy;
-                sily[0, 2] = cableOrdinates[0][0, 0];
+                forces[0, 0] = forcePx;
+                forces[0, 1] = forcePy;
+                forces[0, 2] = cableOrdinates[0][0, 0];
             }
 
             void ActiveBeginEndCableForce()
@@ -238,15 +238,15 @@ namespace Externe_Vorspannung
                 sin = (cableOrdinates[0][1, 1] - cableOrdinates[0][0, 1])
                    / Math.Sqrt(Math.Pow((cableOrdinates[0][1, 0] - cableOrdinates[0][0, 0]), 2) + Math.Pow((cableOrdinates[0][1, 1] - cableOrdinates[0][0, 1]), 2));
 
-                silaPx = quantityCable * prestressForce * cos;
-                silaPy = quantityCable * prestressForce * sin;
+                forcePx = quantityCable * prestressForce * cos;
+                forcePy = quantityCable * prestressForce * sin;
 
-                sily[0, 0] = silaPx;
-                sily[0, 1] = silaPy;
-                sily[0, 2] = cableOrdinates[0][0, 0];
+                forces[0, 0] = forcePx;
+                forces[0, 1] = forcePy;
+                forces[0, 2] = cableOrdinates[0][0, 0];
 
                 // calculate forces in the middle ONE
-                SilaSpreznew = quantityCable * prestressForce;
+                prestressForceNew = quantityCable * prestressForce;
 
                 for (int i = 1; i < oR / 2; i++)
                 {
@@ -265,18 +265,18 @@ namespace Externe_Vorspannung
                     dfi1 = Math.Acos(cos1);
                     dfi2 = Math.Acos(cos2);
 
-                    SilaSpreznew = SilaSpreznew - SilaSpreznew * (1 - Math.Exp(-friction * (dfi1 + dfi2)));
+                    prestressForceNew = prestressForceNew - prestressForceNew * (1 - Math.Exp(-friction * (dfi1 + dfi2)));
 
-                    silaPx1 = SilaSpreznew * (1 - Math.Exp(-friction * dfi1)) * cos1;
-                    silaPy1 = -SilaSpreznew * sin1;
+                    forcePx1 = prestressForceNew * (1 - Math.Exp(-friction * dfi1)) * cos1;
+                    forcePy1 = -prestressForceNew * sin1;
 
-                    silaPx2 = SilaSpreznew * (1 - Math.Exp(-friction * dfi2)) * cos2;
-                    silaPy2 = SilaSpreznew * sin2;
+                    forcePx2 = prestressForceNew * (1 - Math.Exp(-friction * dfi2)) * cos2;
+                    forcePy2 = prestressForceNew * sin2;
 
 
-                    sily[i, 0] = -silaPx1 - silaPx2;
-                    sily[i, 1] = silaPy1 + silaPy2;
-                    sily[i, 2] = cableOrdinates[0][i, 0];
+                    forces[i, 0] = -forcePx1 - forcePx2;
+                    forces[i, 1] = forcePy1 + forcePy2;
+                    forces[i, 2] = cableOrdinates[0][i, 0];
                 }
 
 
@@ -288,16 +288,16 @@ namespace Externe_Vorspannung
                 sin = (cableOrdinates[0][oR - 1, 1] - cableOrdinates[0][oR - 2, 1])
                    / Math.Sqrt(Math.Pow((cableOrdinates[0][oR - 1, 0] - cableOrdinates[0][oR - 2, 0]), 2) + Math.Pow((cableOrdinates[0][oR - 1, 1] - cableOrdinates[0][oR - 2, 1]), 2));
 
-                silaPx = quantityCable * prestressForce * cos;
-                silaPy = quantityCable * prestressForce * sin;
+                forcePx = quantityCable * prestressForce * cos;
+                forcePy = quantityCable * prestressForce * sin;
 
-                sily[oR - 1, 0] = -silaPx;
-                sily[oR - 1, 1] = -silaPy;
-                sily[oR - 1, 2] = cableOrdinates[0][oR - 1, 0];
+                forces[oR - 1, 0] = -forcePx;
+                forces[oR - 1, 1] = -forcePy;
+                forces[oR - 1, 2] = cableOrdinates[0][oR - 1, 0];
 
                 // calculate forces in the middle
 
-                SilaSpreznew = quantityCable * prestressForce;
+                prestressForceNew = quantityCable * prestressForce;
 
                 for (int i = oR - 2; i >= oR / 2; i--)
                 {
@@ -316,22 +316,22 @@ namespace Externe_Vorspannung
                     dfi1 = Math.Acos(cos1);
                     dfi2 = Math.Acos(cos2);
 
-                    SilaSpreznew = SilaSpreznew - SilaSpreznew * (1 - Math.Exp(-friction * (dfi1 + dfi2)));
+                    prestressForceNew = prestressForceNew - prestressForceNew * (1 - Math.Exp(-friction * (dfi1 + dfi2)));
 
-                    silaPx1 = SilaSpreznew * (1 - Math.Exp(-friction * dfi1)) * cos1;
-                    silaPy1 = -SilaSpreznew * sin1;
+                    forcePx1 = prestressForceNew * (1 - Math.Exp(-friction * dfi1)) * cos1;
+                    forcePy1 = -prestressForceNew * sin1;
 
-                    silaPx2 = SilaSpreznew * (1 - Math.Exp(-friction * dfi2)) * cos2;
-                    silaPy2 = SilaSpreznew * sin2;
+                    forcePx2 = prestressForceNew * (1 - Math.Exp(-friction * dfi2)) * cos2;
+                    forcePy2 = prestressForceNew * sin2;
 
-                    sily[i, 0] = silaPx1 + silaPx2;
-                    sily[i, 1] = silaPy1 + silaPy2;
-                    sily[i, 2] = cableOrdinates[0][i, 0];
+                    forces[i, 0] = forcePx1 + forcePx2;
+                    forces[i, 1] = forcePy1 + forcePy2;
+                    forces[i, 2] = cableOrdinates[0][i, 0];
                 }
 
                 if (oR % 2 != 0)
                 {
-                    sily[Convert.ToInt32(oR / 2 - 0.5), 0] = 0;
+                    forces[Convert.ToInt32(oR / 2 - 0.5), 0] = 0;
                 }
                 else
                 {

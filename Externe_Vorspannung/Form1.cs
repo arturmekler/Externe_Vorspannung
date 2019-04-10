@@ -1,11 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Drawing;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Windows.Forms.DataVisualization.Charting;
 using System.IO;
@@ -26,8 +22,9 @@ namespace Externe_Vorspannung
             nrCableTypbox.SelectedIndex = 0;
         }
 
-        public void CableDrawing()
+        public void CableDrawing()  //draws a cable graph for review
         {
+            
             chart1.Series.Clear();
 
             var chart = chart1.ChartAreas[0];
@@ -40,22 +37,18 @@ namespace Externe_Vorspannung
             chart1.Series.Add("Cable");
             chart1.Series["Cable"].ChartType = SeriesChartType.Line;
             chart1.Series["Cable"].Color = Color.Red;
-
             chart.AxisX.Title = "[m]";
             chart.AxisY.Title = "[m]";
 
-            for (int i = 0; i < Ordinates().GetLength(0); i++)
+            for (int i = 0; i < Ordinates().GetLength(0); i++) 
             {
                 chart1.Series["Cable"].Points.AddXY(Ordinates()[i, 0], Ordinates()[i, 1]);
             }
-
-
         }
 
-        public double[,] Ordinates()
+        public double[,] Ordinates() //takes values from dataGridView and returns the 2D array with ordinates of the cable
         {
             double[,] ordinates = new double[dataGridView2.Rows.Count - 1, 2];
-
 
             for (int i = 0; i < dataGridView2.Rows.Count - 1; i++)
             {
@@ -76,9 +69,9 @@ namespace Externe_Vorspannung
                 }
             }
             return ordinates;
-        }
+        } 
 
-        public void CableAdd(int nrCable, Cable k)
+        public void CableAdd(int nrCable, Cable k)  //adds a cable to the list "cables"
         {
             if (cables.ContainsKey(nrCable) == false)
             {
@@ -96,8 +89,11 @@ namespace Externe_Vorspannung
             }
         }
 
-        private void cableAddButton_Click(object sender, EventArgs e)
+        private void cableAddButton_Click(object sender, EventArgs e)   
         {
+            //the function first checks the correctness of the entered data, and then the "CableAdd" function is called
+
+
             double prestressForce;
             double friction;
             bool prestressForceisDouble = Double.TryParse(prestressForceTextbox.Text, out prestressForce);
@@ -144,7 +140,6 @@ namespace Externe_Vorspannung
                 Cable k = new Cable(systemNameTextbox.Text, Int32.Parse(nrCableTypbox.Text), Int32.Parse(quantitiyCableTextbox.Text),
                 Double.Parse(prestressForceTextbox.Text), Double.Parse(frictionTextBox.Text), cableBeginActive.Checked, cableEndActive.Checked);
 
-
                 k.cableOrdinates.Add(Ordinates());
 
                 CableAdd(Int32.Parse(nrCableTypbox.Text), k);
@@ -153,9 +148,11 @@ namespace Externe_Vorspannung
 
         private void nrCableTypbox_SelectedIndexChanged(object sender, EventArgs e)
         {
+            //function takes values from variables and writes to Form1 depending on nrCabla in Typbox
             int nrCable = Int32.Parse(nrCableTypbox.Text);
 
 
+            //it writes to Form1
             if (cables.ContainsKey(nrCable) == true)
             {
                 dataGridView2.Rows.Clear();
@@ -169,8 +166,8 @@ namespace Externe_Vorspannung
 
 
 
-                /////////////////////////////      PĘTLA PRZYPISUJACA RZEDNE DO DATAGRIDVIEW       //////////////////////////////////
-                for (int i = 0; i < cables[nrCable].cableOrdinates[0].GetLength(0); i++)
+                //loop writes data to the datagridview
+                for (int i = 0; i < cables[nrCable].cableOrdinates[0].GetLength(0); i++)    
                 {
                     dataGridView2.Rows.Add(cables[nrCable].cableOrdinates[0][i, 0], cables[nrCable].cableOrdinates[0][i, 1]);
                 }
@@ -183,7 +180,7 @@ namespace Externe_Vorspannung
             }
         }
 
-        private void reviewForces_Click(object sender, EventArgs e)
+        private void reviewForces_Click(object sender, EventArgs e) //shows a new window with the forces for the selected cable
         {
 
             if (cables.ContainsKey(Int32.Parse(nrCableTypbox.Text)) == false)
@@ -197,20 +194,18 @@ namespace Externe_Vorspannung
             }
         }
 
-        private void ForcesSum_Click(object sender, EventArgs e)
+        private void ForcesSum_Click(object sender, EventArgs e)    //shows a new window with sum forces
         {
             sumForces openForm = new sumForces(SummForces());
             openForm.Show();
         }
 
-   
-
-        private void zapiszToolStripMenuItem_Click(object sender, EventArgs e)
+        private void saveToolStripMenuItem_Click(object sender, EventArgs e) //save a data to txt
         {
             saveToTxt();
         }
 
-        private void openToolStripMenuItem_Click(object sender, EventArgs e)
+        private void openToolStripMenuItem_Click(object sender, EventArgs e) //open file dialog and clears everything
         {
             OpenFileDialog openFileDialog1 = new OpenFileDialog();
 
@@ -304,15 +299,10 @@ namespace Externe_Vorspannung
 
         }
 
-        private void saveAsToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void saveToTxt()
+        private void saveToTxt() //saves data to txt
         {
             SaveFileDialog saveFileDialog1 = new SaveFileDialog();
-            saveFileDialog1.Filter = "excel files (*.xls)|*.xls|txt files (*.txt)|*.txt|All files (*.*)|*.*";
+            saveFileDialog1.Filter = "txt files (*.txt)|*.txt|All files (*.*)|*.*";
 
             if (saveFileDialog1.ShowDialog() == System.Windows.Forms.DialogResult.OK)
             {
@@ -369,26 +359,21 @@ namespace Externe_Vorspannung
             }
         }
 
-        private int quantityCommonOrdinates()
+        private int quantityCommonOrdinates() //function to determine the number of x ordinates (without repetitions) 
         {
             List<double> quantity = new List<double>();
 
-
-
-            for (int nrCable = 1; nrCable <= cables.Count(); nrCable++)     // pętla po kablach
+            for (int nrCable = 1; nrCable <= cables.Count(); nrCable++)     //loop through the cables
             {
-                for (int ordinatesX = 0; ordinatesX < cables[nrCable].Forces().GetLength(0); ordinatesX++) //pętla po "X"
+                for (int ordinatesX = 0; ordinatesX < cables[nrCable].Forces().GetLength(0); ordinatesX++) //loop through the "X" ordinate
                 {
                     quantity.Add(cables[nrCable].Forces()[ordinatesX, 0]);
                 }
             }
-
-            int n = quantity.Distinct().Count(); ;
-
             return quantity.Distinct().Count();
         }
 
-        public double[,] SummForces()
+        public double[,] SummForces()   //sums the forces from the cables
         {
             double[,] sumForces;
 
@@ -398,9 +383,6 @@ namespace Externe_Vorspannung
             Dictionary<double, double> sumForcesX;
             Dictionary<double, double> sumForcesY;
 
-
-            //rzedneX = new List<double>();        // wszystkie ordinates X w modelu
-            //
 
             for (int i = 1; i <= cables.Count(); i++)
             {
@@ -424,11 +406,11 @@ namespace Externe_Vorspannung
             }
 
 
-            for (int i = 1; i <= cables.Count(); i++) // pętla po kablach
+            for (int i = 1; i <= cables.Count(); i++) // loop through cables
             {
-                for (int j = 0; j < cables[i].cableOrdinates[0].GetLength(0); j++) // pętla po rzędnych kabla poszczegolnego kabla
+                for (int j = 0; j < cables[i].cableOrdinates[0].GetLength(0); j++) // loop through "X" ordinate
                 {
-                    for (int k = 0; k < ordinatesX.Count(); k++) // pętla poszukujaca wspolnego "X"
+                    for (int k = 0; k < ordinatesX.Count(); k++) // loop looking for a common "X" ordinate
                     {
                         if (cables[i].cableOrdinates[0][j, 0] == ordinatesX[k])
                         {
@@ -441,7 +423,7 @@ namespace Externe_Vorspannung
             }
 
 
-            for (int i = 0; i < ordinatesX.Count; i++)
+            for (int i = 0; i < ordinatesX.Count; i++) // loop writes values into one array
             {
                 sumForces[i, 0] = sumForcesX[ordinatesX[i]];
                 sumForces[i, 1] = sumForcesY[ordinatesX[i]];
@@ -451,7 +433,7 @@ namespace Externe_Vorspannung
             return sumForces;
         }
 
-        private void nowyToolStripMenuItem_Click(object sender, EventArgs e)
+        private void newToolStripMenuItem_Click(object sender, EventArgs e)
         {
             DialogResult dialogResult = MessageBox.Show("Czy zapisać zmiany?", "Zapis", MessageBoxButtons.YesNo);
             if (dialogResult == DialogResult.Yes)
@@ -467,7 +449,7 @@ namespace Externe_Vorspannung
             }
         }
 
-        private void zakończToolStripMenuItem_Click(object sender, EventArgs e)
+        private void endToolStripMenuItem_Click(object sender, EventArgs e)
         {
             DialogResult dialogResult = MessageBox.Show("Czy zapisać zmiany?", "Zapis", MessageBoxButtons.YesNo);
             if (dialogResult == DialogResult.Yes)

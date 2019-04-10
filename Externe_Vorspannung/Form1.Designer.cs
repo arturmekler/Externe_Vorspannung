@@ -103,7 +103,7 @@
             this.nowyToolStripMenuItem.Name = "nowyToolStripMenuItem";
             this.nowyToolStripMenuItem.Size = new System.Drawing.Size(113, 22);
             this.nowyToolStripMenuItem.Text = "Nowy";
-            this.nowyToolStripMenuItem.Click += new System.EventHandler(this.nowyToolStripMenuItem_Click);
+            this.nowyToolStripMenuItem.Click += new System.EventHandler(this.newToolStripMenuItem_Click);
             // 
             // otwórzToolStripMenuItem
             // 
@@ -117,14 +117,14 @@
             this.zapiszToolStripMenuItem.Name = "zapiszToolStripMenuItem";
             this.zapiszToolStripMenuItem.Size = new System.Drawing.Size(113, 22);
             this.zapiszToolStripMenuItem.Text = "Zapisz";
-            this.zapiszToolStripMenuItem.Click += new System.EventHandler(this.zapiszToolStripMenuItem_Click);
+            this.zapiszToolStripMenuItem.Click += new System.EventHandler(this.saveToolStripMenuItem_Click);
             // 
             // zakończToolStripMenuItem
             // 
             this.zakończToolStripMenuItem.Name = "zakończToolStripMenuItem";
             this.zakończToolStripMenuItem.Size = new System.Drawing.Size(113, 22);
             this.zakończToolStripMenuItem.Text = "Zakończ";
-            this.zakończToolStripMenuItem.Click += new System.EventHandler(this.zakończToolStripMenuItem_Click);
+            this.zakończToolStripMenuItem.Click += new System.EventHandler(this.endToolStripMenuItem_Click);
             // 
             // pomocToolStripMenuItem
             // 

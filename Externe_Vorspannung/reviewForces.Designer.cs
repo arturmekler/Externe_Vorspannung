@@ -1,4 +1,4 @@
-﻿namespace Externe_Vorspannung
+﻿namespace External_prestress
 {
     partial class reviewForces
     {

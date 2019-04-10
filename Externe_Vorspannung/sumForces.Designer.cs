@@ -81,7 +81,7 @@
             this.ClientSize = new System.Drawing.Size(531, 409);
             this.Controls.Add(this.sumaSilDataGridView);
             this.Name = "sumForces";
-            this.Text = "Sumasil";
+            this.Text = "ForcesSum";
             ((System.ComponentModel.ISupportInitialize)(this.sumaSilDataGridView)).EndInit();
             this.ResumeLayout(false);
 
