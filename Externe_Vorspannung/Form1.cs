@@ -292,9 +292,9 @@ namespace Externe_Vorspannung
                 }
             }
 
-            catch
+            catch(Exception exc)
             {
-                MessageBox.Show("Plik uszkodzony ");
+                MessageBox.Show("Plik uszkodzony: "+exc.Message);
             }
 
         }
