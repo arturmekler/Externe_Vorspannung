@@ -483,6 +483,11 @@ namespace Externe_Vorspannung
             cables.Remove(Convert.ToInt32(nrCableTypbox.Text));
             TextClear();
         }
+
+        private void informacjeToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            MessageBox.Show("SprezZew" + "\n" + "\n" + "Copyright " + "\u00a9" + " Artur Mekler - Version 1.0", "O programie");
+        }
     }
 
 }
