@@ -42,6 +42,10 @@
             this.saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
             this.tabPage2 = new System.Windows.Forms.TabPage();
+            this.deleteCableButton = new System.Windows.Forms.Button();
+            this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.cableEndActive = new System.Windows.Forms.CheckBox();
+            this.cableBeginActive = new System.Windows.Forms.CheckBox();
             this.SilaSum = new System.Windows.Forms.Button();
             this.labeltarcie = new System.Windows.Forms.Label();
             this.frictionTextBox = new System.Windows.Forms.TextBox();
@@ -63,17 +67,13 @@
             this.label1 = new System.Windows.Forms.Label();
             this.silaSprez = new System.Windows.Forms.Label();
             this.tabControl1 = new System.Windows.Forms.TabControl();
-            this.cableBeginActive = new System.Windows.Forms.CheckBox();
-            this.cableEndActive = new System.Windows.Forms.CheckBox();
-            this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.deleteCableButton = new System.Windows.Forms.Button();
             this.menuStrip1.SuspendLayout();
             this.tabPage2.SuspendLayout();
+            this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.chart1)).BeginInit();
             this.groupBox2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView2)).BeginInit();
             this.tabControl1.SuspendLayout();
-            this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
             // menuStrip1
@@ -135,9 +135,9 @@
             this.pomocToolStripMenuItem.Size = new System.Drawing.Size(50, 20);
             this.pomocToolStripMenuItem.Text = "Pomoc";
             // 
-            // wyświetlPomocToolStripMenuItem
+            // showHelpToolStripMenuItem
             // 
-            this.showHelpToolStripMenuItem.Name = "wyświetlPomocToolStripMenuItem";
+            this.showHelpToolStripMenuItem.Name = "showHelpToolStripMenuItem";
             this.showHelpToolStripMenuItem.Size = new System.Drawing.Size(151, 22);
             this.showHelpToolStripMenuItem.Text = "Wyświetl pomoc";
             this.showHelpToolStripMenuItem.Click += new System.EventHandler(this.showHelpToolStripMenuItem_Click);
@@ -180,6 +180,47 @@
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "Spreżenie zewnętrzne";
             this.tabPage2.UseVisualStyleBackColor = true;
+            // 
+            // deleteCableButton
+            // 
+            this.deleteCableButton.Location = new System.Drawing.Point(275, 396);
+            this.deleteCableButton.Name = "deleteCableButton";
+            this.deleteCableButton.Size = new System.Drawing.Size(229, 32);
+            this.deleteCableButton.TabIndex = 28;
+            this.deleteCableButton.Text = "Usuń kabel";
+            this.deleteCableButton.UseVisualStyleBackColor = true;
+            this.deleteCableButton.Click += new System.EventHandler(this.deleteCableButton_Click);
+            // 
+            // groupBox1
+            // 
+            this.groupBox1.Controls.Add(this.cableEndActive);
+            this.groupBox1.Controls.Add(this.cableBeginActive);
+            this.groupBox1.Location = new System.Drawing.Point(17, 89);
+            this.groupBox1.Name = "groupBox1";
+            this.groupBox1.Size = new System.Drawing.Size(254, 71);
+            this.groupBox1.TabIndex = 27;
+            this.groupBox1.TabStop = false;
+            this.groupBox1.Text = "Zakotwienie czynne kabla";
+            // 
+            // cableEndActive
+            // 
+            this.cableEndActive.AutoSize = true;
+            this.cableEndActive.Location = new System.Drawing.Point(14, 45);
+            this.cableEndActive.Name = "cableEndActive";
+            this.cableEndActive.Size = new System.Drawing.Size(88, 17);
+            this.cableEndActive.TabIndex = 26;
+            this.cableEndActive.Text = "Koniec kabla";
+            this.cableEndActive.UseVisualStyleBackColor = true;
+            // 
+            // cableBeginActive
+            // 
+            this.cableBeginActive.AutoSize = true;
+            this.cableBeginActive.Location = new System.Drawing.Point(14, 22);
+            this.cableBeginActive.Name = "cableBeginActive";
+            this.cableBeginActive.Size = new System.Drawing.Size(100, 17);
+            this.cableBeginActive.TabIndex = 25;
+            this.cableBeginActive.Text = "Początek kabla";
+            this.cableBeginActive.UseVisualStyleBackColor = true;
             // 
             // SilaSum
             // 
@@ -375,47 +416,6 @@
             this.tabControl1.Size = new System.Drawing.Size(520, 489);
             this.tabControl1.TabIndex = 11;
             // 
-            // cableBeginActive
-            // 
-            this.cableBeginActive.AutoSize = true;
-            this.cableBeginActive.Location = new System.Drawing.Point(14, 22);
-            this.cableBeginActive.Name = "cableBeginActive";
-            this.cableBeginActive.Size = new System.Drawing.Size(100, 17);
-            this.cableBeginActive.TabIndex = 25;
-            this.cableBeginActive.Text = "Początek kabla";
-            this.cableBeginActive.UseVisualStyleBackColor = true;
-            // 
-            // cableEndActive
-            // 
-            this.cableEndActive.AutoSize = true;
-            this.cableEndActive.Location = new System.Drawing.Point(14, 45);
-            this.cableEndActive.Name = "cableEndActive";
-            this.cableEndActive.Size = new System.Drawing.Size(88, 17);
-            this.cableEndActive.TabIndex = 26;
-            this.cableEndActive.Text = "Koniec kabla";
-            this.cableEndActive.UseVisualStyleBackColor = true;
-            // 
-            // groupBox1
-            // 
-            this.groupBox1.Controls.Add(this.cableEndActive);
-            this.groupBox1.Controls.Add(this.cableBeginActive);
-            this.groupBox1.Location = new System.Drawing.Point(17, 89);
-            this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(254, 71);
-            this.groupBox1.TabIndex = 27;
-            this.groupBox1.TabStop = false;
-            this.groupBox1.Text = "Zakotwienie czynne kabla";
-            // 
-            // deleteCableButton
-            // 
-            this.deleteCableButton.Location = new System.Drawing.Point(275, 396);
-            this.deleteCableButton.Name = "deleteCableButton";
-            this.deleteCableButton.Size = new System.Drawing.Size(229, 32);
-            this.deleteCableButton.TabIndex = 28;
-            this.deleteCableButton.Text = "Usuń kabel";
-            this.deleteCableButton.UseVisualStyleBackColor = true;
-            this.deleteCableButton.Click += new System.EventHandler(this.deleteCableButton_Click);
-            // 
             // Externe_Vorspannung
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -426,18 +426,17 @@
             this.MainMenuStrip = this.menuStrip1;
             this.MaximizeBox = false;
             this.Name = "Externe_Vorspannung";
-            this.Text = "Externe_Vorspannung";
-            
+            this.Text = "SprezZew";
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
             this.tabPage2.ResumeLayout(false);
             this.tabPage2.PerformLayout();
+            this.groupBox1.ResumeLayout(false);
+            this.groupBox1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.chart1)).EndInit();
             this.groupBox2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView2)).EndInit();
             this.tabControl1.ResumeLayout(false);
-            this.groupBox1.ResumeLayout(false);
-            this.groupBox1.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 

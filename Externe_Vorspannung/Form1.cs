@@ -22,7 +22,7 @@ namespace Externe_Vorspannung
             nrCableTypbox.SelectedIndex = 0;
         }
 
-        public void CableDrawing()  //draws a cable graph for review
+        public void CableDrawing()  // draws a cable graph for review
         {
             
             chart1.Series.Clear();
@@ -46,7 +46,7 @@ namespace Externe_Vorspannung
             }
         }
 
-        public double[,] Ordinates() //takes values from dataGridView and returns the 2D array with ordinates of the cable
+        public double[,] Ordinates() // takes values from dataGridView and returns the 2D array with ordinates of the cable
         {
             double[,] ordinates = new double[dataGridView2.Rows.Count - 1, 2];
 
@@ -71,7 +71,7 @@ namespace Externe_Vorspannung
             return ordinates;
         } 
 
-        public void CableAdd(int nrCable, Cable k)  //adds a cable to the list "cables"
+        public void CableAdd(int nrCable, Cable k)  // adds a cable to the list "cables"
         {
             if (cables.ContainsKey(nrCable) == false)
             {
@@ -180,7 +180,7 @@ namespace Externe_Vorspannung
             }
         }
 
-        private void reviewForces_Click(object sender, EventArgs e) //shows a new window with the forces for the selected cable
+        private void reviewForces_Click(object sender, EventArgs e) // shows a new window with the forces for the selected cable
         {
 
             if (cables.ContainsKey(Int32.Parse(nrCableTypbox.Text)) == false)
@@ -194,18 +194,18 @@ namespace Externe_Vorspannung
             }
         }
 
-        private void ForcesSum_Click(object sender, EventArgs e)    //shows a new window with sum forces
+        private void ForcesSum_Click(object sender, EventArgs e)    // shows a new window with sum forces
         {
             sumForces openForm = new sumForces(SummForces());
             openForm.Show();
         }
 
-        private void saveToolStripMenuItem_Click(object sender, EventArgs e) //save a data to txt
+        private void saveToolStripMenuItem_Click(object sender, EventArgs e) // save a data to txt
         {
             saveToTxt();
         }
 
-        private void openToolStripMenuItem_Click(object sender, EventArgs e) //open file dialog and clears everything
+        private void openToolStripMenuItem_Click(object sender, EventArgs e) // open file dialog and clears everything
         {
             OpenFileDialog openFileDialog1 = new OpenFileDialog();
 
@@ -245,7 +245,7 @@ namespace Externe_Vorspannung
 
 
 
-                            //----------------------------------PRZYPISYWANIE DANCYH DO RZEDNYCH--------------------------------------------
+                            //----------------------------------write ordinates to datagridview--------------------------------------------
                             int n = 0;
                             for (int j = i + 10; text[j] != ""; j++)
                             {
@@ -299,7 +299,7 @@ namespace Externe_Vorspannung
 
         }
 
-        private void saveToTxt() //saves data to txt
+        private void saveToTxt() // saves data to txt
         {
             SaveFileDialog saveFileDialog1 = new SaveFileDialog();
             saveFileDialog1.Filter = "txt files (*.txt)|*.txt|All files (*.*)|*.*";
@@ -330,7 +330,7 @@ namespace Externe_Vorspannung
 
                     sw.WriteLine("\n");
 
-                    // -----------------------------SILY W JEDNYM KABLU-------------------------------------//
+                    // -----------------------------Forces in one cable-------------------------------------//
                     sw.WriteLine("Sily od kabla nr " + i + " [kN]");
                     sw.WriteLine("Nr" + "\t" + "X" + "\t" + "Y");
 
@@ -340,10 +340,9 @@ namespace Externe_Vorspannung
                     }
                     sw.WriteLine("\n");
 
-                    // -----------------------------SUMA SIL -------------------------------------//
+                    // -----------------------------Sum Forces -------------------------------------//
 
                 }
-
 
                 sw.WriteLine("Sily calkowite");
                 sw.WriteLine("Nr" + "\t" + "X" + "\t" + "Y");
@@ -354,12 +353,12 @@ namespace Externe_Vorspannung
                     sw.WriteLine((i + 1) + "\t" + SummForces()[i, 0].ToString("N2") + "\t" + SummForces()[i, 1].ToString("N2"));
                 }
                 sw.WriteLine("\n");
-
+                
                 sw.Close();
             }
         }
 
-        private int quantityCommonOrdinates() //function to determine the number of x ordinates (without repetitions) 
+        private int quantityCommonOrdinates() // function to determine the number of x ordinates (without repetitions) 
         {
             List<double> quantity = new List<double>();
 
@@ -373,7 +372,7 @@ namespace Externe_Vorspannung
             return quantity.Distinct().Count();
         }
 
-        public double[,] SummForces()   //sums the forces from the cables
+        public double[,] SummForces()   // sums the forces from the cables
         {
             double[,] sumForces;
 
@@ -433,7 +432,7 @@ namespace Externe_Vorspannung
             return sumForces;
         }
 
-        private void newToolStripMenuItem_Click(object sender, EventArgs e) //save a changes to txt(if you agree) and open new txt data
+        private void newToolStripMenuItem_Click(object sender, EventArgs e) // save a changes to txt(if you agree) and open new txt data
         {
             DialogResult dialogResult = MessageBox.Show("Czy zapisać zmiany?", "Zapis", MessageBoxButtons.YesNo);
             if (dialogResult == DialogResult.Yes)
@@ -449,7 +448,7 @@ namespace Externe_Vorspannung
             }
         }
 
-        private void endToolStripMenuItem_Click(object sender, EventArgs e) //save a changes to txt(if you agree) and exit a program
+        private void endToolStripMenuItem_Click(object sender, EventArgs e) // save a changes to txt(if you agree) and exit a program
         {
             DialogResult dialogResult = MessageBox.Show("Czy zapisać zmiany?", "Zapis", MessageBoxButtons.YesNo);
             if (dialogResult == DialogResult.Yes)
@@ -464,12 +463,12 @@ namespace Externe_Vorspannung
 
         }
 
-        private void showHelpToolStripMenuItem_Click(object sender, EventArgs e) //shows help data
+        private void showHelpToolStripMenuItem_Click(object sender, EventArgs e) // shows help data
         {
             Help.ShowHelp(this, "C:\\Users\\Artur\\source\\repos\\Externe_Vorspannung\\Externe_Vorspannung\\SpreZew.chm");
         }
 
-        private void TextClear() //clear data from Form1 (not from dataGridView and variables)
+        private void TextClear() // clear data from Form1 (not from dataGridView and variables)
         {
             dataGridView2.Rows.Clear();
             chart1.Series.Clear();
@@ -479,7 +478,7 @@ namespace Externe_Vorspannung
             frictionTextBox.Clear();
         }
 
-        private void deleteCableButton_Click(object sender, EventArgs e) //delete a cable from list of cables and clear data from Form1
+        private void deleteCableButton_Click(object sender, EventArgs e) // delete a cable from list of cables and clear data from Form1
         {
             cables.Remove(Convert.ToInt32(nrCableTypbox.Text));
             TextClear();

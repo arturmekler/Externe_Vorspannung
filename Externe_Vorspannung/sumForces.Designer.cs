@@ -38,6 +38,9 @@
             // 
             // sumaSilDataGridView
             // 
+            this.sumaSilDataGridView.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.sumaSilDataGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.sumaSilDataGridView.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.nrZalamaniaDataGridView,
