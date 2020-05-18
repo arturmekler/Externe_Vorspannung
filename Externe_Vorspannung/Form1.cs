@@ -169,7 +169,7 @@ namespace Externe_Vorspannung
                 //loop writes data to the datagridview
                 for (int i = 0; i < cables[nrCable].cableOrdinates.GetLength(0); i++)    
                 {
-                    dataGridView2.Rows.Add(cables[nrCable].cableOrdinates[i, 0], cables[nrCable].cableOrdinates[i, 1]);
+                    dataGridView2.Rows.Add(cables[nrCable].cableOrdinatesNew.ordinates.ElementAt(i).X, cables[nrCable].cableOrdinatesNew.ordinates.ElementAt(i).Y);
                 }
                 CableDrawing();
             }
@@ -280,7 +280,7 @@ namespace Externe_Vorspannung
 
                     for (int i = 0; i < cables[1].cableOrdinates.GetLength(0); i++)
                     {
-                        dataGridView2.Rows.Add(cables[1].cableOrdinates[i, 0], cables[1].cableOrdinates[i, 1]);
+                        dataGridView2.Rows.Add(cables[1].cableOrdinatesNew.ordinates.ElementAt(i).X, cables[1].cableOrdinatesNew.ordinates.ElementAt(i).Y);
                     }
                     CableDrawing();
                     nrCableTypbox.Text = "1";
