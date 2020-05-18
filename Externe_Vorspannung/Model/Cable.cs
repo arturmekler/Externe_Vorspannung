@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Externe_Vorspannung.Model;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -19,6 +20,7 @@ namespace Externe_Vorspannung
         public double[,] cableOrdinates;
         private double dfi1;
         private double dfi2;
+        public Ordinates cableOrdinatesNew { get; set; }
 
 
         public Cable()
@@ -32,6 +34,7 @@ namespace Externe_Vorspannung
             cableEndActive = true;
 
             cableOrdinates = new double[2,2];
+            cableOrdinatesNew = new Ordinates();
         }
 
         public Cable(string systemName, int nrCable, int quantityCable, double prestressForce, double friction,
@@ -96,11 +99,13 @@ namespace Externe_Vorspannung
             {
                 // calculate forces in the beginning
 
-                cos = (cableOrdinates[1, 0] - cableOrdinates[0, 0])
-                   / Math.Sqrt(Math.Pow((cableOrdinates[1, 0] - cableOrdinates[0, 0]), 2) + Math.Pow((cableOrdinates[1, 1] - cableOrdinates[0, 1]), 2));
+                cos = (cableOrdinatesNew.ordinates.ElementAt(1).X - cableOrdinatesNew.ordinates.ElementAt(0).X)
+                         / Math.Sqrt(Math.Pow((cableOrdinatesNew.ordinates.ElementAt(1).X - cableOrdinatesNew.ordinates.ElementAt(0).X), 2)
+                         + Math.Pow((cableOrdinatesNew.ordinates.ElementAt(1).Y - cableOrdinatesNew.ordinates.ElementAt(0).Y), 2));
 
-                sin = (cableOrdinates[1, 1] - cableOrdinates[0, 1])
-                   / Math.Sqrt(Math.Pow((cableOrdinates[1, 0] - cableOrdinates[0, 0]), 2) + Math.Pow((cableOrdinates[1, 1] - cableOrdinates[0, 1]), 2));
+                sin = (cableOrdinatesNew.ordinates.ElementAt(1).Y - cableOrdinatesNew.ordinates.ElementAt(0).Y)
+                         / Math.Sqrt(Math.Pow((cableOrdinatesNew.ordinates.ElementAt(1).X - cableOrdinatesNew.ordinates.ElementAt(0).X), 2) 
+                         + Math.Pow((cableOrdinatesNew.ordinates.ElementAt(1).Y - cableOrdinatesNew.ordinates.ElementAt(0).Y), 2));
 
                 forcePx = quantityCable * prestressForce * cos;
                 forcePy = quantityCable * prestressForce * sin;

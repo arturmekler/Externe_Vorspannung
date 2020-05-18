@@ -6,9 +6,11 @@ using System.Threading.Tasks;
 
 namespace Externe_Vorspannung.Model
 {
-    public class Ordinates
+    public class Point
     {
-        public Point point { get; set; }
-        public List<Point> ordinates { get; set; } = new List<Point>();
+        public int X { get; set; }
+        public int Y { get; set; }
+        public int Z { get; set; }
     }
+
 }
