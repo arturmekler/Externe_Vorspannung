@@ -6,7 +6,8 @@ using System.Windows.Forms;
 using System.Windows.Forms.DataVisualization.Charting;
 using System.IO;
 using System.Text.RegularExpressions;
-
+using Externe_Vorspannung.Model;
+using Point = Externe_Vorspannung.Model.Point;
 
 namespace Externe_Vorspannung
 {
@@ -15,6 +16,7 @@ namespace Externe_Vorspannung
         public Dictionary<int, Cable> cables = new Dictionary<int, Cable>();
 
         public double[,] ordinates;
+        public List<Point> ordinatesNew;
 
         public Externe_Vorspannung()
         {
@@ -46,19 +48,33 @@ namespace Externe_Vorspannung
             }
         }
 
+
+
         public double[,] Ordinates() // takes values from dataGridView and returns the 2D array with ordinates of the cable
         {
+            ordinatesNew = new List<Point>();
+
             double[,] ordinates = new double[dataGridView2.Rows.Count - 1, 2];
+
+            foreach(object asd in dataGridView2.Rows)
+            {
+                
+            }
 
             for (int i = 0; i < dataGridView2.Rows.Count - 1; i++)
             {
                 for (int j = 0; j <= 1; j++)
                 {
-                    if(dataGridView2.Rows[i].Cells[j].Value!=null)
+                    if (dataGridView2.Rows[i].Cells[j].Value != null)
                     {
                         bool isDouble = Double.TryParse(dataGridView2.Rows[i].Cells[j].Value.ToString(), out ordinates[i, j]);
                         if (isDouble)
                         {
+                            ordinatesNew.Add(new Point()
+                            {
+
+                            }
+                                );
                             ordinates[i, j] = Convert.ToDouble(dataGridView2.Rows[i].Cells[j].Value);
                         }
                     }
