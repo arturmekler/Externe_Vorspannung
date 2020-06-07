@@ -55,10 +55,16 @@ namespace Externe_Vorspannung
             ordinatesNew = new List<Point>();
 
             double[,] ordinates = new double[dataGridView2.Rows.Count - 1, 2];
+            double XValue;
+            double YValue;
 
-            foreach(object asd in dataGridView2.Rows)
+            foreach (DataGridViewRow row in dataGridView2.Rows)
             {
-                
+                ordinatesNew.Add(new Point()
+                {
+                    X = Convert.ToDouble(row.Cells[0].Value),
+                    Y = Convert.ToDouble(row.Cells[1].Value),
+                });
             }
 
             for (int i = 0; i < dataGridView2.Rows.Count - 1; i++)
