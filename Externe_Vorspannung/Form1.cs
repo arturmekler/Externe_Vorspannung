@@ -52,17 +52,18 @@ namespace Externe_Vorspannung
 
         public List<Point> Ordinates() // takes values from dataGridView and returns the 2D array with ordinates of the cable
         {
-
-
             List<Point> ordinates = new List<Point>();
 
             foreach (DataGridViewRow row in dataGridView2.Rows)
             {
-                ordinates.Add(new Point()
+                if (row.Cells[0].Value != null && row.Cells[1].Value != null)
                 {
-                    X = Convert.ToDouble(row.Cells[0].Value),
-                    Y = Convert.ToDouble(row.Cells[1].Value),
-                });
+                    ordinates.Add(new Point()
+                    {
+                        X = Convert.ToDouble(row.Cells[0].Value),
+                        Y = Convert.ToDouble(row.Cells[1].Value),
+                    });
+                }
             }
 
             return ordinates;
@@ -134,12 +135,16 @@ namespace Externe_Vorspannung
                 CableDrawing();
                 Ordinates();
 
-                Cable k = new Cable(systemNameTextbox.Text, Int32.Parse(nrCableTypbox.Text), Int32.Parse(quantitiyCableTextbox.Text),
-                Double.Parse(prestressForceTextbox.Text), Double.Parse(frictionTextBox.Text), cableBeginActive.Checked, cableEndActive.Checked);
+                Cable cable = new Cable(systemNameTextbox.Text, Int32.Parse(nrCableTypbox.Text),
+                    Int32.Parse(quantitiyCableTextbox.Text),
+                    Double.Parse(prestressForceTextbox.Text), 
+                    Double.Parse(frictionTextBox.Text), 
+                    cableBeginActive.Checked, 
+                    cableEndActive.Checked);
 
-                k.cableOrdinates.ordinates = Ordinates();
+                cable.cableOrdinates.ordinates = Ordinates();
 
-                CableAdd(Int32.Parse(nrCableTypbox.Text), k);
+                CableAdd(Int32.Parse(nrCableTypbox.Text), cable);
             }
         }
 

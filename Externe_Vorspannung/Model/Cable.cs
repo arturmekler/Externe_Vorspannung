@@ -32,7 +32,6 @@ namespace Externe_Vorspannung
             cableBeginActive = true;
             cableEndActive = true;
             cableOrdinates = new Ordinates();
-
         }
 
         public Cable(string systemName, int nrCable, int quantityCable, double prestressForce, double friction,
@@ -89,7 +88,6 @@ namespace Externe_Vorspannung
             }
             else
             {
-
                 return null;
             }
 
@@ -332,13 +330,7 @@ namespace Externe_Vorspannung
                 {
                     forces[Convert.ToInt32(oR / 2 - 0.5), 0] = 0;
                 }
-                else
-                {
-
-                };
             }
-
         }
-
     }
 }
