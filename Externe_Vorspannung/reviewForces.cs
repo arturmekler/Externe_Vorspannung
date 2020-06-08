@@ -10,9 +10,9 @@ using System.Windows.Forms;
 
 namespace Externe_Vorspannung
 {
-    public partial class reviewForces : Form
+    public partial class ReviewForces : Form
     {
-        public reviewForces(Cable k)
+        public ReviewForces(Cable k)
         {
             InitializeComponent();
             systemNameLabel.Text = k.systemName;

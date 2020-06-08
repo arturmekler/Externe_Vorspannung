@@ -1,6 +1,6 @@
 ﻿namespace Externe_Vorspannung
 {
-    partial class reviewForces
+    partial class ReviewForces
     {
         /// <summary>
         /// Required designer variable.

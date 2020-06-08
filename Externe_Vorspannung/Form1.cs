@@ -191,7 +191,7 @@ namespace Externe_Vorspannung
             }
             else
             {
-                reviewForces openForm = new reviewForces(cables[Int32.Parse(nrCableTypbox.Text)]);
+                ReviewForces openForm = new ReviewForces(cables[Int32.Parse(nrCableTypbox.Text)]);
                 openForm.Show();
             }
         }
