@@ -15,8 +15,7 @@ namespace Externe_Vorspannung
     {
         public Dictionary<int, Cable> cables = new Dictionary<int, Cable>();
 
-        public double[,] ordinates;
-        public List<Point> ordinatesNew;
+        public List<Point> ordinates;
 
         public Externe_Vorspannung()
         {
@@ -42,54 +41,30 @@ namespace Externe_Vorspannung
             chart.AxisX.Title = "[m]";
             chart.AxisY.Title = "[m]";
 
-            for (int i = 0; i < Ordinates().GetLength(0); i++) 
+            var ordinates = Ordinates();
+
+            foreach(var ordinate in ordinates)
             {
-                chart1.Series["Cable"].Points.AddXY(Ordinates()[i, 0], Ordinates()[i, 1]);
+                chart1.Series["Cable"].Points.AddXY(ordinate.X, ordinate.Y);
+
             }
         }
 
-
-
-        public double[,] Ordinates() // takes values from dataGridView and returns the 2D array with ordinates of the cable
+        public List<Point> Ordinates() // takes values from dataGridView and returns the 2D array with ordinates of the cable
         {
-            ordinatesNew = new List<Point>();
 
-            double[,] ordinates = new double[dataGridView2.Rows.Count - 1, 2];
-            double XValue;
-            double YValue;
+
+            List<Point> ordinates = new List<Point>();
 
             foreach (DataGridViewRow row in dataGridView2.Rows)
             {
-                ordinatesNew.Add(new Point()
+                ordinates.Add(new Point()
                 {
                     X = Convert.ToDouble(row.Cells[0].Value),
                     Y = Convert.ToDouble(row.Cells[1].Value),
                 });
             }
 
-            for (int i = 0; i < dataGridView2.Rows.Count - 1; i++)
-            {
-                for (int j = 0; j <= 1; j++)
-                {
-                    if (dataGridView2.Rows[i].Cells[j].Value != null)
-                    {
-                        bool isDouble = Double.TryParse(dataGridView2.Rows[i].Cells[j].Value.ToString(), out ordinates[i, j]);
-                        if (isDouble)
-                        {
-                            ordinatesNew.Add(new Point()
-                            {
-
-                            }
-                                );
-                            ordinates[i, j] = Convert.ToDouble(dataGridView2.Rows[i].Cells[j].Value);
-                        }
-                    }
-                    else
-                    {
-                        ordinates[i, j] = 0;
-                    } 
-                }
-            }
             return ordinates;
         } 
 
@@ -162,7 +137,7 @@ namespace Externe_Vorspannung
                 Cable k = new Cable(systemNameTextbox.Text, Int32.Parse(nrCableTypbox.Text), Int32.Parse(quantitiyCableTextbox.Text),
                 Double.Parse(prestressForceTextbox.Text), Double.Parse(frictionTextBox.Text), cableBeginActive.Checked, cableEndActive.Checked);
 
-                k.cableOrdinates=Ordinates();
+                k.cableOrdinates.ordinates = Ordinates();
 
                 CableAdd(Int32.Parse(nrCableTypbox.Text), k);
             }
@@ -189,9 +164,9 @@ namespace Externe_Vorspannung
 
 
                 //loop writes data to the datagridview
-                for (int i = 0; i < cables[nrCable].cableOrdinates.GetLength(0); i++)    
+                for (int i = 0; i < cables[nrCable].cableOrdinates.ordinates.Count(); i++)    
                 {
-                    dataGridView2.Rows.Add(cables[nrCable].cableOrdinatesNew.ordinates.ElementAt(i).X, cables[nrCable].cableOrdinatesNew.ordinates.ElementAt(i).Y);
+                    dataGridView2.Rows.Add(cables[nrCable].cableOrdinates.ordinates.ElementAt(i).X, cables[nrCable].cableOrdinates.ordinates.ElementAt(i).Y);
                 }
                 CableDrawing();
             }
@@ -273,19 +248,21 @@ namespace Externe_Vorspannung
                             {
                                 n++;
                             }
-                            ordinates = new double[n, 2];
 
 
                             n = 0;
                             for (int j = i + 10; text[j] != ""; j++)
                             {
                                 ordinatesTemp = (Regex.Split(text[j], "\t"));
-                                ordinates[n, 0] = Double.Parse(ordinatesTemp[1]);
-                                ordinates[n, 1] = Double.Parse(ordinatesTemp[2]);
+                                ordinates.Add(new Point()
+                                {
+                                    X = Double.Parse(ordinatesTemp[1]),
+                                    Y = Double.Parse(ordinatesTemp[2])
+                                });
                                 n++;
                             }
 
-                            k.cableOrdinates = ordinates;
+                            k.cableOrdinates.ordinates = ordinates;
 
                             cables[k.nrCable] = k;
                         }
@@ -300,9 +277,9 @@ namespace Externe_Vorspannung
                     cableEndActive.Checked = cables[1].cableEndActive;
 
 
-                    for (int i = 0; i < cables[1].cableOrdinates.GetLength(0); i++)
+                    for (int i = 0; i < cables[1].cableOrdinates.ordinates.Count(); i++)
                     {
-                        dataGridView2.Rows.Add(cables[1].cableOrdinatesNew.ordinates.ElementAt(i).X, cables[1].cableOrdinatesNew.ordinates.ElementAt(i).Y);
+                        dataGridView2.Rows.Add(cables[1].cableOrdinates.ordinates.ElementAt(i).X, cables[1].cableOrdinates.ordinates.ElementAt(i).Y);
                     }
                     CableDrawing();
                     nrCableTypbox.Text = "1";
@@ -345,9 +322,9 @@ namespace Externe_Vorspannung
                     sw.WriteLine("Rzędne kabla nr " + i + "[m]");
                     sw.WriteLine("Nr" + "\t" + "X" + "\t" + "Y");
 
-                    for (int j = 0; j < cables[i].cableOrdinates.GetLength(0); j++)
+                    for (int j = 0; j < cables[i].cableOrdinates.ordinates.Count(); j++)
                     {
-                        sw.WriteLine((j + 1) + "\t" + cables[i].cableOrdinates[j, 0] + "\t" + cables[i].cableOrdinates[j, 1]);
+                        sw.WriteLine((j + 1) + "\t" + cables[i].cableOrdinates.ordinates[j].X + "\t" + cables[i].cableOrdinates.ordinates[j].Y);
                     }
 
                     sw.WriteLine("\n");
@@ -407,9 +384,9 @@ namespace Externe_Vorspannung
 
             for (int i = 1; i <= cables.Count(); i++)
             {
-                for (int j = 0; j < cables[i].cableOrdinates.GetLength(0); j++)
+                for (int j = 0; j < cables[i].cableOrdinates.ordinates.Count(); j++)
                 {
-                    globalOrdinatesX.Add(cables[i].cableOrdinates[j, 0]);
+                    globalOrdinatesX.Add(cables[i].cableOrdinates.ordinates[j].X);
                 }
             }
             ordinatesX = globalOrdinatesX.ToList<double>();
@@ -426,14 +403,13 @@ namespace Externe_Vorspannung
                 sumForcesY.Add(ordinatesX[i], 0);
             }
 
-
             for (int i = 1; i <= cables.Count(); i++) // loop through cables
             {
-                for (int j = 0; j < cables[i].cableOrdinates.GetLength(0); j++) // loop through "X" ordinate
+                for (int j = 0; j < cables[i].cableOrdinates.ordinates.Count(); j++) // loop through "X" ordinate
                 {
                     for (int k = 0; k < ordinatesX.Count(); k++) // loop looking for a common "X" ordinate
                     {
-                        if (cables[i].cableOrdinates[j, 0] == ordinatesX[k])
+                        if (cables[i].cableOrdinates.ordinates[k].X == ordinatesX[k])
                         {
                             ordinatesX.Sort();
                             sumForcesX[ordinatesX[k]] = cables[i].Forces()[j, 0] + sumForcesX[ordinatesX[k]];
