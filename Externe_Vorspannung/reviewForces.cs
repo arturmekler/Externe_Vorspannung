@@ -20,9 +20,9 @@ namespace Externe_Vorspannung
             quantityCableLabel.Text = k.quantityCable.ToString();
             prestressForceLabel.Text = k.prestressForce.ToString();
 
-            for (int i = 0; i < k.Forces().GetLength(0); i++)
+            for (int i = 0; i < k.Forces().Count(); i++)
             {
-                silyDataGridView.Rows.Add((i+1).ToString(), k.Forces()[i, 0].ToString("N2"), k.Forces()[i, 1].ToString("N2"));
+                silyDataGridView.Rows.Add((i+1).ToString(), k.Forces()[i].X.ToString("N2"), k.Forces()[i].Y.ToString("N2"));
                 
             }
         }

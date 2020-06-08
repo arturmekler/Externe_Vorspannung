@@ -46,8 +46,9 @@ namespace Externe_Vorspannung
             this.cableEndActive = cableEndActive;
             cableOrdinates = new Ordinates();
         }
+        
 
-        public double[,] Forces()
+        public List<Force> Forces()
         {
             int oR;
             double cos;
@@ -63,11 +64,8 @@ namespace Externe_Vorspannung
             double forcePx2;
             double forcePy2;
             double prestressForceNew;
-            double[,] forces;
-
-            oR = cableOrdinates.ordinates.Count();        //last force's ordinate
-
-            forces = new double[oR, 3];
+            List<Force> forces = new List<Force>();
+            oR = cableOrdinates.ordinates.Count();
 
             if (cableBeginActive && cableEndActive)
             {
@@ -106,9 +104,15 @@ namespace Externe_Vorspannung
                 forcePx = quantityCable * prestressForce * cos;
                 forcePy = quantityCable * prestressForce * sin;
 
-                forces[0, 0] = forcePx;
-                forces[0, 1] = forcePy;
-                forces[0, 2] = cableOrdinates.ordinates.ElementAt(0).X;
+                forces.Add(new Force()
+                {
+                    X = forcePx,
+                    Y = forcePy,
+                    point = new Point()
+                    {
+                        X = cableOrdinates.ordinates.ElementAt(0).X
+                    }
+                });
 
                 // calculate forces in the middle
                 prestressForceNew = quantityCable * prestressForce;
@@ -138,9 +142,15 @@ namespace Externe_Vorspannung
                     forcePx2 = prestressForceNew * (1 - Math.Exp(-friction * dfi2)) * cos2;
                     forcePy2 = prestressForceNew * sin2;
 
-                    forces[i, 0] = -forcePx1 - forcePx2;
-                    forces[i, 1] = forcePy1 + forcePy2;
-                    forces[i, 2] = cableOrdinates.ordinates.ElementAt(i).X;
+                    forces.Add(new Force()
+                    {
+                        X = -forcePx1 - forcePx2,
+                        Y = forcePy1 + forcePy2,
+                        point = new Point()
+                        {
+                            X = cableOrdinates.ordinates.ElementAt(i).X
+                        }
+                    });
                 }
 
                 // calculate forces in the end
@@ -153,9 +163,15 @@ namespace Externe_Vorspannung
                 forcePx = prestressForceNew * cos;
                 forcePy = prestressForceNew * sin;
 
-                forces[oR - 1, 0] = -forcePx;
-                forces[oR - 1, 1] = -forcePy;
-                forces[oR - 1, 2] = cableOrdinates.ordinates.ElementAt(oR - 1).X;
+                forces.Add(new Force()
+                {
+                    X = -forcePx,
+                    Y = -forcePy,
+                    point = new Point()
+                    {
+                        X = cableOrdinates.ordinates.ElementAt(oR - 1).X
+                    }
+                });
             }
 
             void ActiveEndCableForce()
@@ -171,9 +187,15 @@ namespace Externe_Vorspannung
                 forcePx = quantityCable * prestressForce * cos;
                 forcePy = quantityCable * prestressForce * sin;
 
-                forces[oR - 1, 0] = -forcePx;
-                forces[oR - 1, 1] = -forcePy;
-                forces[oR - 1, 2] = cableOrdinates.ordinates.ElementAt(oR - 1).X;
+                forces.Add(new Force()
+                {
+                    X = -forcePx,
+                    Y = -forcePy,
+                    point = new Point()
+                    {
+                        X = cableOrdinates.ordinates.ElementAt(oR - 1).X
+                    }
+                });
 
                 // calculate forces in the middle
 
@@ -204,9 +226,15 @@ namespace Externe_Vorspannung
                     forcePx2 = prestressForceNew * (1 - Math.Exp(-friction * dfi2)) * cos2;
                     forcePy2 = prestressForceNew * sin2;
 
-                    forces[i, 0] = forcePx1 + forcePx2;
-                    forces[i, 1] = forcePy1 + forcePy2;
-                    forces[i, 2] = cableOrdinates.ordinates.ElementAt(i).X;
+                    forces.Add(new Force()
+                    {
+                        X = forcePx1 + forcePx2,
+                        Y = forcePy1 + forcePy2,
+                    point = new Point()
+                        {
+                            X = cableOrdinates.ordinates.ElementAt(i).X
+                        }
+                    });
                 }
 
                 // calculate forces in the begin
@@ -220,9 +248,15 @@ namespace Externe_Vorspannung
                 forcePx = prestressForceNew * cos;
                 forcePy = prestressForceNew * sin;
 
-                forces[0, 0] = forcePx;
-                forces[0, 1] = forcePy;
-                forces[0, 2] = cableOrdinates.ordinates.ElementAt(0).X;
+                forces.Add(new Force()
+                {
+                    X = forcePx,
+                    Y = forcePy,
+                    point = new Point()
+                    {
+                        X = cableOrdinates.ordinates.ElementAt(0).X
+                    }
+                });
             }
 
             void ActiveBeginEndCableForce()
@@ -238,9 +272,15 @@ namespace Externe_Vorspannung
                 forcePx = quantityCable * prestressForce * cos;
                 forcePy = quantityCable * prestressForce * sin;
 
-                forces[0, 0] = forcePx;
-                forces[0, 1] = forcePy;
-                forces[0, 2] = cableOrdinates.ordinates.ElementAt(0).X;
+                forces.Add(new Force()
+                {
+                    X = forcePx,
+                    Y = forcePy,
+                    point = new Point()
+                    {
+                        X = cableOrdinates.ordinates.ElementAt(0).X
+                    }
+                });
 
                 // calculate forces in the middle ONE
                 prestressForceNew = quantityCable * prestressForce;
@@ -271,9 +311,15 @@ namespace Externe_Vorspannung
                     forcePy2 = prestressForceNew * sin2;
 
 
-                    forces[i, 0] = -forcePx1 - forcePx2;
-                    forces[i, 1] = forcePy1 + forcePy2;
-                    forces[i, 2] = cableOrdinates.ordinates.ElementAt(i).X;
+                    forces.Add(new Force()
+                    {
+                        X = -forcePx1 - forcePx2,
+                        Y = forcePy1 + forcePy2,
+                        point = new Point()
+                        {
+                            X = cableOrdinates.ordinates.ElementAt(i).X
+                        }
+                    });
                 }
 
 
@@ -288,9 +334,15 @@ namespace Externe_Vorspannung
                 forcePx = quantityCable * prestressForce * cos;
                 forcePy = quantityCable * prestressForce * sin;
 
-                forces[oR - 1, 0] = -forcePx;
-                forces[oR - 1, 1] = -forcePy;
-                forces[oR - 1, 2] = cableOrdinates.ordinates.ElementAt(oR - 1).X;
+                forces.Add(new Force()
+                {
+                    X = -forcePx,
+                    Y = -forcePy,
+                    point = new Point()
+                    {
+                        X = cableOrdinates.ordinates.ElementAt(oR - 1).X
+                    }
+                });
 
                 // calculate forces in the middle
 
@@ -321,14 +373,20 @@ namespace Externe_Vorspannung
                     forcePx2 = prestressForceNew * (1 - Math.Exp(-friction * dfi2)) * cos2;
                     forcePy2 = prestressForceNew * sin2;
 
-                    forces[i, 0] = forcePx1 + forcePx2;
-                    forces[i, 1] = forcePy1 + forcePy2;
-                    forces[i, 2] = cableOrdinates.ordinates.ElementAt(i).X;
+                    forces.Add(new Force()
+                    {
+                        X = forcePx1 + forcePx2,
+                        Y = forcePy1 + forcePy2,
+                        point = new Point()
+                        {
+                            X = cableOrdinates.ordinates.ElementAt(i).X
+                        }
+                    });
                 }
 
                 if (oR % 2 != 0)
                 {
-                    forces[Convert.ToInt32(oR / 2 - 0.5), 0] = 0;
+                    forces[Convert.ToInt32(oR / 2 - 0.5)].X = 0;
                 }
             }
         }

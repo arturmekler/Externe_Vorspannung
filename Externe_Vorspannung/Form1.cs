@@ -338,9 +338,9 @@ namespace Externe_Vorspannung
                     sw.WriteLine("Sily od kabla nr " + i + " [kN]");
                     sw.WriteLine("Nr" + "\t" + "X" + "\t" + "Y");
 
-                    for (int j = 0; j < cables[i].Forces().GetLength(0); j++)
+                    for (int j = 0; j < cables[i].Forces().Count(); j++)
                     {
-                        sw.WriteLine((j + 1) + "\t" + cables[i].Forces()[j, 0].ToString("N2") + "\t" + cables[i].Forces()[j, 1].ToString("N2"));
+                        sw.WriteLine((j + 1) + "\t" + cables[i].Forces()[j].X.ToString("N2") + "\t" + cables[i].Forces()[j].Y.ToString("N2"));
                     }
                     sw.WriteLine("\n");
 
@@ -368,9 +368,9 @@ namespace Externe_Vorspannung
 
             for (int nrCable = 1; nrCable <= cables.Count(); nrCable++)     //loop through the cables
             {
-                for (int ordinatesX = 0; ordinatesX < cables[nrCable].Forces().GetLength(0); ordinatesX++) //loop through the "X" ordinate
+                for (int ordinatesX = 0; ordinatesX < cables[nrCable].Forces().Count(); ordinatesX++) //loop through the "X" ordinate
                 {
-                    quantity.Add(cables[nrCable].Forces()[ordinatesX, 0]);
+                    quantity.Add(cables[nrCable].Forces()[ordinatesX].X);
                 }
             }
             return quantity.Distinct().Count();
@@ -417,8 +417,8 @@ namespace Externe_Vorspannung
                         if (cables[i].cableOrdinates.ordinates[k].X == ordinatesX[k])
                         {
                             ordinatesX.Sort();
-                            sumForcesX[ordinatesX[k]] = cables[i].Forces()[j, 0] + sumForcesX[ordinatesX[k]];
-                            sumForcesY[ordinatesX[k]] = cables[i].Forces()[j, 1] + sumForcesY[ordinatesX[k]];
+                            sumForcesX[ordinatesX[k]] = cables[i].Forces()[j].X + sumForcesX[ordinatesX[k]];
+                            sumForcesY[ordinatesX[k]] = cables[i].Forces()[j].Y + sumForcesY[ordinatesX[k]];
                         }
                     }
                 }
