@@ -10,9 +10,9 @@ using System.Windows.Forms;
 
 namespace Externe_Vorspannung
 {
-    public partial class sumForces : Form
+    public partial class SumForces : Form
     {
-        public sumForces(double [,] sumForces)
+        public SumForces(double [,] sumForces)
         {
             InitializeComponent();
 

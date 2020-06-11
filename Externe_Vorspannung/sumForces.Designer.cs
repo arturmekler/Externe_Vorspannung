@@ -1,6 +1,6 @@
 ﻿namespace Externe_Vorspannung
 {
-    partial class sumForces
+    partial class SumForces
     {
         /// <summary>
         /// Required designer variable.

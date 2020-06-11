@@ -198,7 +198,7 @@ namespace Externe_Vorspannung
 
         private void ForcesSum_Click(object sender, EventArgs e)    // shows a new window with sum forces
         {
-            sumForces openForm = new sumForces(SummForces());
+            SumForces openForm = new SumForces(SummForces());
             openForm.Show();
         }
 
