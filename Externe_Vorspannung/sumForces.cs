@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Externe_Vorspannung.Model;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -12,15 +13,18 @@ namespace Externe_Vorspannung
 {
     public partial class SumForces : Form
     {
-        public SumForces(double [,] sumForces)
+        public SumForces(List<Force> sumForces)
         {
             InitializeComponent();
-
-            for (int i = 1; i <= sumForces.GetLength(0); i++)
+            int i = 0;
+            foreach(var force in sumForces)
             {
-                sumaSilDataGridView.Rows.Add(i, sumForces[i-1,2].ToString("N2"),
-                    sumForces[i - 1, 0].ToString("N2"), sumForces[i - 1, 1].ToString("N2"));
+                i++;
+                sumaSilDataGridView.Rows.Add(i, force.point.X.ToString(),
+                    force.X.ToString("N2"), force.Y.ToString("N2"));
+
             }
+
         }
     }
 }
