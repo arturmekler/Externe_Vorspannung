@@ -42,7 +42,6 @@ namespace Externe_Vorspannung
             this.cableBeginActive = cableBeginActive;
             this.cableEndActive = cableEndActive;
             this.quantityCable = quantityCable;
-
             cableOrdinates = new List<Point>();
         }
         
