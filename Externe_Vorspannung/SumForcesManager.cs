@@ -12,80 +12,26 @@ namespace Externe_Vorspannung
         public static List<Force> SummForces(Dictionary<int, Cable> cables)   // sums the forces from the cables
         {
             List<Force> sumForcesNew = new List<Force>();
-            List<double> globalX = new List<double>();
+
 
             foreach (var cable in cables)
             {
-                var asd = cable.Value.cableOrdinates.ordinates;
-                globalX.AddRange(asd.Select(p=>p.X));
+                sumForcesNew.AddRange(cable.Value.Forces());
             }
 
-            var newglobalx = globalX.OrderBy(p=>p).Distinct();
-
-            var forcesList = cables[1].Forces();
-
-            var dupa = "asda";
-
-            foreach(var a in cables)
-            {
-                a.Value.cableOrdinates.ordinates.ForEach(p=>p.)
-            }
-
-            //double[,] sumForces;
-
-            //HashSet<double> globalOrdinatesX;
-            //globalOrdinatesX = new HashSet<double>();
-            //List<double> ordinatesX;
-            //Dictionary<double, double> sumForcesX;
-            //Dictionary<double, double> sumForcesY;
-
-
-            //for (int i = 1; i <= cables.Count(); i++)
-            //{
-            //    for (int j = 0; j < cables[i].cableOrdinates.ordinates.Count(); j++)
-            //    {
-            //        globalOrdinatesX.Add(cables[i].cableOrdinates.ordinates[j].X);
-            //    }
-            //}
-            //ordinatesX = globalOrdinatesX.ToList<double>();
-
-            //sumForces = new double[ordinatesX.Count(), 3];
-            //sumForcesX = new Dictionary<double, double>();
-            //sumForcesY = new Dictionary<double, double>();
-
-
-            //making dictionary
-            //for (int i = 0; i < ordinatesX.Count(); i++)
-            //{
-            //    sumForcesX.Add(ordinatesX[i], 0);
-            //    sumForcesY.Add(ordinatesX[i], 0);
-            //}
-
-            //for (int i = 1; i <= cables.Count(); i++) // loop through cables
-            //{
-            //    for (int j = 0; j < cables[i].cableOrdinates.ordinates.Count(); j++) // loop through "X" ordinate
-            //    {
-            //        for (int k = 0; k < ordinatesX.Count(); k++) // loop looking for a common "X" ordinate
-            //        {
-            //            if (cables[i].cableOrdinates.ordinates[k].X == ordinatesX[k])
-            //            {
-            //                ordinatesX.Sort();
-            //                sumForcesX[ordinatesX[k]] = cables[i].Forces()[j].X + sumForcesX[ordinatesX[k]];
-            //                sumForcesY[ordinatesX[k]] = cables[i].Forces()[j].Y + sumForcesY[ordinatesX[k]];
-            //            }
-            //        }
-            //    }
-            //}
-
-
-            //for (int i = 0; i < ordinatesX.Count; i++) // loop writes values into one array
-            //{
-            //    sumForces[i, 0] = sumForcesX[ordinatesX[i]];
-            //    sumForces[i, 1] = sumForcesY[ordinatesX[i]];
-            //    sumForces[i, 2] = ordinatesX[i];
-            //}
-
-            return sumForcesNew;
+            var test = sumForcesNew
+                .OrderBy(qw => qw.point.X)
+                .GroupBy(p => p.point.X)
+                .Select(pw => new Force()
+                {
+                    X = pw.Sum(qw => qw.X),
+                    Y = pw.Sum(qw => qw.Y),
+                    Z = pw.Sum(qw => qw.Z),
+                    point = pw.Select(pww => pww.point).FirstOrDefault()
+                })
+                .ToList();
+        
+            return test;
         }
     }
 }
