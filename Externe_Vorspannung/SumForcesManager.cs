@@ -13,7 +13,6 @@ namespace Externe_Vorspannung
         {
             List<Force> sumForcesNew = new List<Force>();
 
-
             foreach (var cable in cables)
             {
                 sumForcesNew.AddRange(cable.Value.Forces());
