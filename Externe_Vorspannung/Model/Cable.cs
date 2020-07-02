@@ -17,8 +17,6 @@ namespace Externe_Vorspannung
         public double friction;
         public bool cableBeginActive;
         public bool cableEndActive;
-        private double dfi1;
-        private double dfi2;
         public Ordinates cableOrdinates { get; set; }
 
 
@@ -39,11 +37,12 @@ namespace Externe_Vorspannung
         {
             this.systemName = systemName;
             this.nrCable = nrCable;
-            this.quantityCable = quantityCable;
             this.prestressForce = prestressForce;
             this.friction = friction;
             this.cableBeginActive = cableBeginActive;
             this.cableEndActive = cableEndActive;
+            this.quantityCable = quantityCable;
+
             cableOrdinates = new Ordinates();
         }
         
@@ -91,6 +90,7 @@ namespace Externe_Vorspannung
 
             void ActiveBeginCableForce()
             {
+
                 // calculate forces in the beginning
 
                 cos = (cableOrdinates.ordinates.ElementAt(1).X - cableOrdinates.ordinates.ElementAt(0).X)
@@ -131,8 +131,8 @@ namespace Externe_Vorspannung
                     sin2 = (cableOrdinates.ordinates.ElementAt(i + 1).Y - cableOrdinates.ordinates.ElementAt(i).Y)
                         / Math.Sqrt(Math.Pow((cableOrdinates.ordinates.ElementAt(i + 1).X - cableOrdinates.ordinates.ElementAt(i).X), 2) + Math.Pow((cableOrdinates.ordinates.ElementAt(i + 1).Y - cableOrdinates.ordinates.ElementAt(i).Y), 2));
 
-                    dfi1 = Math.Acos(cos1);
-                    dfi2 = Math.Acos(cos2);
+                    var dfi1 = Math.Acos(cos1);
+                    var dfi2 = Math.Acos(cos2);
 
                     prestressForceNew = prestressForceNew - prestressForceNew * (1 - Math.Exp(-friction * (dfi1 + dfi2)));
 
@@ -215,8 +215,8 @@ namespace Externe_Vorspannung
                     sin2 = (cableOrdinates.ordinates.ElementAt(i + 1).Y - cableOrdinates.ordinates.ElementAt(i).Y)
                         / Math.Sqrt(Math.Pow((cableOrdinates.ordinates.ElementAt(i + 1).X - cableOrdinates.ordinates.ElementAt(i).X), 2) + Math.Pow((cableOrdinates.ordinates.ElementAt(i + 1).Y - cableOrdinates.ordinates.ElementAt(i).Y), 2));
 
-                    dfi1 = Math.Acos(cos1);
-                    dfi2 = Math.Acos(cos2);
+                    var dfi1 = Math.Acos(cos1);
+                    var dfi2 = Math.Acos(cos2);
 
                     prestressForceNew = prestressForceNew - prestressForceNew * (1 - Math.Exp(-friction * (dfi1 + dfi2)));
 
@@ -299,8 +299,8 @@ namespace Externe_Vorspannung
                     sin2 = (cableOrdinates.ordinates.ElementAt(i + 1).Y - cableOrdinates.ordinates.ElementAt(i).Y)
                         / Math.Sqrt(Math.Pow((cableOrdinates.ordinates.ElementAt(i + 1).X - cableOrdinates.ordinates.ElementAt(i).X), 2) + Math.Pow((cableOrdinates.ordinates.ElementAt(i + 1).Y - cableOrdinates.ordinates.ElementAt(i).Y), 2));
 
-                    dfi1 = Math.Acos(cos1);
-                    dfi2 = Math.Acos(cos2);
+                    var dfi1 = Math.Acos(cos1);
+                    var dfi2 = Math.Acos(cos2);
 
                     prestressForceNew = prestressForceNew - prestressForceNew * (1 - Math.Exp(-friction * (dfi1 + dfi2)));
 
@@ -362,8 +362,8 @@ namespace Externe_Vorspannung
                     sin2 = (cableOrdinates.ordinates.ElementAt(i + 1).Y - cableOrdinates.ordinates.ElementAt(i).Y)
                         / Math.Sqrt(Math.Pow((cableOrdinates.ordinates.ElementAt(i + 1).X - cableOrdinates.ordinates.ElementAt(i).X), 2) + Math.Pow((cableOrdinates.ordinates.ElementAt(i + 1).Y - cableOrdinates.ordinates.ElementAt(i).Y), 2));
 
-                    dfi1 = Math.Acos(cos1);
-                    dfi2 = Math.Acos(cos2);
+                    var dfi1 = Math.Acos(cos1);
+                    var dfi2 = Math.Acos(cos2);
 
                     prestressForceNew = prestressForceNew - prestressForceNew * (1 - Math.Exp(-friction * (dfi1 + dfi2)));
 

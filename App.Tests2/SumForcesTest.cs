@@ -53,7 +53,19 @@ namespace App.Tests
             });
 
             cable1.cableOrdinates.ordinates = points1;
+            cable1.cableBeginActive = true;
+            cable1.cableEndActive = false;
+            cable1.prestressForce = 1233;
+            cable1.quantityCable = 1;
+            cable1.nrCable = 1;
+
             cable2.cableOrdinates.ordinates = points2;
+            cable2.cableBeginActive = true;
+            cable2.cableEndActive = false;
+            cable2.prestressForce = 2233;
+            cable2.quantityCable = 1;
+            cable2.nrCable = 2;
+
             cables.Add(1, cable1);
             cables.Add(2, cable2);
 

@@ -12,16 +12,24 @@ namespace Externe_Vorspannung
         public static List<Force> SummForces(Dictionary<int, Cable> cables)   // sums the forces from the cables
         {
             List<Force> sumForcesNew = new List<Force>();
-            List<Point> globalX = new List<Point>();
-
+            List<double> globalX = new List<double>();
 
             foreach (var cable in cables)
             {
                 var asd = cable.Value.cableOrdinates.ordinates;
-
-
+                globalX.AddRange(asd.Select(p=>p.X));
             }
 
+            var newglobalx = globalX.OrderBy(p=>p).Distinct();
+
+            var forcesList = cables[1].Forces();
+
+            var dupa = "asda";
+
+            foreach(var a in cables)
+            {
+                a.Value.cableOrdinates.ordinates.ForEach(p=>p.)
+            }
 
             //double[,] sumForces;
 
@@ -46,7 +54,7 @@ namespace Externe_Vorspannung
             //sumForcesY = new Dictionary<double, double>();
 
 
-            //// making dictionary
+            //making dictionary
             //for (int i = 0; i < ordinatesX.Count(); i++)
             //{
             //    sumForcesX.Add(ordinatesX[i], 0);
