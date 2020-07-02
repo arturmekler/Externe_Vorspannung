@@ -142,7 +142,7 @@ namespace Externe_Vorspannung
                     cableBeginActive.Checked, 
                     cableEndActive.Checked);
 
-                cable.cableOrdinates.ordinates = Ordinates();
+                cable.cableOrdinates = Ordinates();
 
                 CableAdd(Int32.Parse(nrCableTypbox.Text), cable);
             }
@@ -169,9 +169,9 @@ namespace Externe_Vorspannung
 
 
                 //loop writes data to the datagridview
-                for (int i = 0; i < cables[nrCable].cableOrdinates.ordinates.Count(); i++)    
+                for (int i = 0; i < cables[nrCable].cableOrdinates.Count(); i++)    
                 {
-                    dataGridView2.Rows.Add(cables[nrCable].cableOrdinates.ordinates.ElementAt(i).X, cables[nrCable].cableOrdinates.ordinates.ElementAt(i).Y);
+                    dataGridView2.Rows.Add(cables[nrCable].cableOrdinates.ElementAt(i).X, cables[nrCable].cableOrdinates.ElementAt(i).Y);
                 }
                 CableDrawing();
             }
@@ -267,7 +267,7 @@ namespace Externe_Vorspannung
                                 n++;
                             }
 
-                            k.cableOrdinates.ordinates = ordinates;
+                            k.cableOrdinates = ordinates;
 
                             cables[k.nrCable] = k;
                         }
@@ -282,9 +282,9 @@ namespace Externe_Vorspannung
                     cableEndActive.Checked = cables[1].cableEndActive;
 
 
-                    for (int i = 0; i < cables[1].cableOrdinates.ordinates.Count(); i++)
+                    for (int i = 0; i < cables[1].cableOrdinates.Count(); i++)
                     {
-                        dataGridView2.Rows.Add(cables[1].cableOrdinates.ordinates.ElementAt(i).X, cables[1].cableOrdinates.ordinates.ElementAt(i).Y);
+                        dataGridView2.Rows.Add(cables[1].cableOrdinates.ElementAt(i).X, cables[1].cableOrdinates.ElementAt(i).Y);
                     }
                     CableDrawing();
                     nrCableTypbox.Text = "1";
@@ -327,9 +327,9 @@ namespace Externe_Vorspannung
                     sw.WriteLine("Rzędne kabla nr " + i + "[m]");
                     sw.WriteLine("Nr" + "\t" + "X" + "\t" + "Y");
 
-                    for (int j = 0; j < cables[i].cableOrdinates.ordinates.Count(); j++)
+                    for (int j = 0; j < cables[i].cableOrdinates.Count(); j++)
                     {
-                        sw.WriteLine((j + 1) + "\t" + cables[i].cableOrdinates.ordinates[j].X + "\t" + cables[i].cableOrdinates.ordinates[j].Y);
+                        sw.WriteLine((j + 1) + "\t" + cables[i].cableOrdinates[j].X + "\t" + cables[i].cableOrdinates[j].Y);
                     }
 
                     sw.WriteLine("\n");

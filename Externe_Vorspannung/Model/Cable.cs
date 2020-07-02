@@ -17,7 +17,7 @@ namespace Externe_Vorspannung
         public double friction;
         public bool cableBeginActive;
         public bool cableEndActive;
-        public Ordinates cableOrdinates { get; set; }
+        public List<Point> cableOrdinates { get; set; }
 
 
         public Cable()
@@ -29,7 +29,7 @@ namespace Externe_Vorspannung
             friction = 0;
             cableBeginActive = true;
             cableEndActive = true;
-            cableOrdinates = new Ordinates();
+            cableOrdinates = new List<Point>();
         }
 
         public Cable(string systemName, int nrCable, int quantityCable, double prestressForce, double friction,
@@ -43,7 +43,7 @@ namespace Externe_Vorspannung
             this.cableEndActive = cableEndActive;
             this.quantityCable = quantityCable;
 
-            cableOrdinates = new Ordinates();
+            cableOrdinates = new List<Point>();
         }
         
 
@@ -64,7 +64,7 @@ namespace Externe_Vorspannung
             double forcePy2;
             double prestressForceNew;
             List<Force> forces = new List<Force>();
-            oR = cableOrdinates.ordinates.Count();
+            oR = cableOrdinates.Count();
 
             if (cableBeginActive && cableEndActive)
             {
@@ -93,13 +93,13 @@ namespace Externe_Vorspannung
 
                 // calculate forces in the beginning
 
-                cos = (cableOrdinates.ordinates.ElementAt(1).X - cableOrdinates.ordinates.ElementAt(0).X)
-                         / Math.Sqrt(Math.Pow((cableOrdinates.ordinates.ElementAt(1).X - cableOrdinates.ordinates.ElementAt(0).X), 2)
-                         + Math.Pow((cableOrdinates.ordinates.ElementAt(1).Y - cableOrdinates.ordinates.ElementAt(0).Y), 2));
+                cos = (cableOrdinates.ElementAt(1).X - cableOrdinates.ElementAt(0).X)
+                         / Math.Sqrt(Math.Pow((cableOrdinates.ElementAt(1).X - cableOrdinates.ElementAt(0).X), 2)
+                         + Math.Pow((cableOrdinates.ElementAt(1).Y - cableOrdinates.ElementAt(0).Y), 2));
 
-                sin = (cableOrdinates.ordinates.ElementAt(1).Y - cableOrdinates.ordinates.ElementAt(0).Y)
-                         / Math.Sqrt(Math.Pow((cableOrdinates.ordinates.ElementAt(1).X - cableOrdinates.ordinates.ElementAt(0).X), 2) 
-                         + Math.Pow((cableOrdinates.ordinates.ElementAt(1).Y - cableOrdinates.ordinates.ElementAt(0).Y), 2));
+                sin = (cableOrdinates.ElementAt(1).Y - cableOrdinates.ElementAt(0).Y)
+                         / Math.Sqrt(Math.Pow((cableOrdinates.ElementAt(1).X - cableOrdinates.ElementAt(0).X), 2) 
+                         + Math.Pow((cableOrdinates.ElementAt(1).Y - cableOrdinates.ElementAt(0).Y), 2));
 
                 forcePx = quantityCable * prestressForce * cos;
                 forcePy = quantityCable * prestressForce * sin;
@@ -110,7 +110,7 @@ namespace Externe_Vorspannung
                     Y = forcePy,
                     point = new Point()
                     {
-                        X = cableOrdinates.ordinates.ElementAt(0).X
+                        X = cableOrdinates.ElementAt(0).X
                     }
                 });
 
@@ -119,17 +119,17 @@ namespace Externe_Vorspannung
 
                 for (int i = 1; i < oR - 1; i++)
                 {
-                    cos1 = (cableOrdinates.ordinates.ElementAt(i).X - cableOrdinates.ordinates.ElementAt(i - 1).X)
-                        / Math.Sqrt(Math.Pow((cableOrdinates.ordinates.ElementAt(i).X - cableOrdinates.ordinates.ElementAt(i - 1).X), 2) + Math.Pow((cableOrdinates.ordinates.ElementAt(i).Y - cableOrdinates.ordinates.ElementAt(i - 1).Y), 2));
+                    cos1 = (cableOrdinates.ElementAt(i).X - cableOrdinates.ElementAt(i - 1).X)
+                        / Math.Sqrt(Math.Pow((cableOrdinates.ElementAt(i).X - cableOrdinates.ElementAt(i - 1).X), 2) + Math.Pow((cableOrdinates.ElementAt(i).Y - cableOrdinates.ElementAt(i - 1).Y), 2));
 
-                    sin1 = (cableOrdinates.ordinates.ElementAt(i).Y - cableOrdinates.ordinates.ElementAt(i - 1).Y)
-                        / Math.Sqrt(Math.Pow((cableOrdinates.ordinates.ElementAt(i).X - cableOrdinates.ordinates.ElementAt(i - 1).X), 2) + Math.Pow((cableOrdinates.ordinates.ElementAt(i).Y - cableOrdinates.ordinates.ElementAt(i - 1).Y), 2));
+                    sin1 = (cableOrdinates.ElementAt(i).Y - cableOrdinates.ElementAt(i - 1).Y)
+                        / Math.Sqrt(Math.Pow((cableOrdinates.ElementAt(i).X - cableOrdinates.ElementAt(i - 1).X), 2) + Math.Pow((cableOrdinates.ElementAt(i).Y - cableOrdinates.ElementAt(i - 1).Y), 2));
 
-                    cos2 = (cableOrdinates.ordinates.ElementAt(i + 1).X - cableOrdinates.ordinates.ElementAt(i).X)
-                        / Math.Sqrt(Math.Pow((cableOrdinates.ordinates.ElementAt(i + 1).X - cableOrdinates.ordinates.ElementAt(i).X), 2) + Math.Pow((cableOrdinates.ordinates.ElementAt(i + 1).Y - cableOrdinates.ordinates.ElementAt(i).Y), 2));
+                    cos2 = (cableOrdinates.ElementAt(i + 1).X - cableOrdinates.ElementAt(i).X)
+                        / Math.Sqrt(Math.Pow((cableOrdinates.ElementAt(i + 1).X - cableOrdinates.ElementAt(i).X), 2) + Math.Pow((cableOrdinates.ElementAt(i + 1).Y - cableOrdinates.ElementAt(i).Y), 2));
 
-                    sin2 = (cableOrdinates.ordinates.ElementAt(i + 1).Y - cableOrdinates.ordinates.ElementAt(i).Y)
-                        / Math.Sqrt(Math.Pow((cableOrdinates.ordinates.ElementAt(i + 1).X - cableOrdinates.ordinates.ElementAt(i).X), 2) + Math.Pow((cableOrdinates.ordinates.ElementAt(i + 1).Y - cableOrdinates.ordinates.ElementAt(i).Y), 2));
+                    sin2 = (cableOrdinates.ElementAt(i + 1).Y - cableOrdinates.ElementAt(i).Y)
+                        / Math.Sqrt(Math.Pow((cableOrdinates.ElementAt(i + 1).X - cableOrdinates.ElementAt(i).X), 2) + Math.Pow((cableOrdinates.ElementAt(i + 1).Y - cableOrdinates.ElementAt(i).Y), 2));
 
                     var dfi1 = Math.Acos(cos1);
                     var dfi2 = Math.Acos(cos2);
@@ -148,17 +148,17 @@ namespace Externe_Vorspannung
                         Y = forcePy1 + forcePy2,
                         point = new Point()
                         {
-                            X = cableOrdinates.ordinates.ElementAt(i).X
+                            X = cableOrdinates.ElementAt(i).X
                         }
                     });
                 }
 
                 // calculate forces in the end
-                cos = (cableOrdinates.ordinates.ElementAt(oR - 1).X - cableOrdinates.ordinates.ElementAt(oR - 2).X)
-           / Math.Sqrt(Math.Pow((cableOrdinates.ordinates.ElementAt(oR - 1).X - cableOrdinates.ordinates.ElementAt(oR - 2).X), 2) + Math.Pow((cableOrdinates.ordinates.ElementAt(oR - 1).Y - cableOrdinates.ordinates.ElementAt(oR - 2).Y), 2));
+                cos = (cableOrdinates.ElementAt(oR - 1).X - cableOrdinates.ElementAt(oR - 2).X)
+           / Math.Sqrt(Math.Pow((cableOrdinates.ElementAt(oR - 1).X - cableOrdinates.ElementAt(oR - 2).X), 2) + Math.Pow((cableOrdinates.ElementAt(oR - 1).Y - cableOrdinates.ElementAt(oR - 2).Y), 2));
 
-                sin = (cableOrdinates.ordinates.ElementAt(oR - 1).Y - cableOrdinates.ordinates.ElementAt(oR - 2).Y)
-                   / Math.Sqrt(Math.Pow((cableOrdinates.ordinates.ElementAt(oR - 1).X - cableOrdinates.ordinates.ElementAt(oR - 2).X), 2) + Math.Pow((cableOrdinates.ordinates.ElementAt(oR - 1).Y - cableOrdinates.ordinates.ElementAt(oR - 2).Y), 2));
+                sin = (cableOrdinates.ElementAt(oR - 1).Y - cableOrdinates.ElementAt(oR - 2).Y)
+                   / Math.Sqrt(Math.Pow((cableOrdinates.ElementAt(oR - 1).X - cableOrdinates.ElementAt(oR - 2).X), 2) + Math.Pow((cableOrdinates.ElementAt(oR - 1).Y - cableOrdinates.ElementAt(oR - 2).Y), 2));
 
                 forcePx = prestressForceNew * cos;
                 forcePy = prestressForceNew * sin;
@@ -169,7 +169,7 @@ namespace Externe_Vorspannung
                     Y = -forcePy,
                     point = new Point()
                     {
-                        X = cableOrdinates.ordinates.ElementAt(oR - 1).X
+                        X = cableOrdinates.ElementAt(oR - 1).X
                     }
                 });
             }
@@ -178,11 +178,11 @@ namespace Externe_Vorspannung
             {
                 // calculate forces in the end
 
-                cos = (cableOrdinates.ordinates.ElementAt(oR - 1).X - cableOrdinates.ordinates.ElementAt(oR - 2).X)
-               / Math.Sqrt(Math.Pow((cableOrdinates.ordinates.ElementAt(oR - 1).X - cableOrdinates.ordinates.ElementAt(oR - 2).X), 2) + Math.Pow((cableOrdinates.ordinates.ElementAt(oR - 1).Y - cableOrdinates.ordinates.ElementAt(oR - 2).Y), 2));
+                cos = (cableOrdinates.ElementAt(oR - 1).X - cableOrdinates.ElementAt(oR - 2).X)
+               / Math.Sqrt(Math.Pow((cableOrdinates.ElementAt(oR - 1).X - cableOrdinates.ElementAt(oR - 2).X), 2) + Math.Pow((cableOrdinates.ElementAt(oR - 1).Y - cableOrdinates.ElementAt(oR - 2).Y), 2));
 
-                sin = (cableOrdinates.ordinates.ElementAt(oR - 1).Y - cableOrdinates.ordinates.ElementAt(oR - 2).Y)
-                   / Math.Sqrt(Math.Pow((cableOrdinates.ordinates.ElementAt(oR - 1).X - cableOrdinates.ordinates.ElementAt(oR - 2).X), 2) + Math.Pow((cableOrdinates.ordinates.ElementAt(oR - 1).Y - cableOrdinates.ordinates.ElementAt(oR - 2).Y), 2));
+                sin = (cableOrdinates.ElementAt(oR - 1).Y - cableOrdinates.ElementAt(oR - 2).Y)
+                   / Math.Sqrt(Math.Pow((cableOrdinates.ElementAt(oR - 1).X - cableOrdinates.ElementAt(oR - 2).X), 2) + Math.Pow((cableOrdinates.ElementAt(oR - 1).Y - cableOrdinates.ElementAt(oR - 2).Y), 2));
 
                 forcePx = quantityCable * prestressForce * cos;
                 forcePy = quantityCable * prestressForce * sin;
@@ -193,7 +193,7 @@ namespace Externe_Vorspannung
                     Y = -forcePy,
                     point = new Point()
                     {
-                        X = cableOrdinates.ordinates.ElementAt(oR - 1).X
+                        X = cableOrdinates.ElementAt(oR - 1).X
                     }
                 });
 
@@ -203,17 +203,17 @@ namespace Externe_Vorspannung
 
                 for (int i = oR - 2; i >= 1; i--)
                 {
-                    cos1 = (cableOrdinates.ordinates.ElementAt(i).X - cableOrdinates.ordinates.ElementAt(i - 1).X)
-                        / Math.Sqrt(Math.Pow((cableOrdinates.ordinates.ElementAt(i).X - cableOrdinates.ordinates.ElementAt(i - 1).X), 2) + Math.Pow((cableOrdinates.ordinates.ElementAt(i).Y - cableOrdinates.ordinates.ElementAt(i - 1).Y), 2));
+                    cos1 = (cableOrdinates.ElementAt(i).X - cableOrdinates.ElementAt(i - 1).X)
+                        / Math.Sqrt(Math.Pow((cableOrdinates.ElementAt(i).X - cableOrdinates.ElementAt(i - 1).X), 2) + Math.Pow((cableOrdinates.ElementAt(i).Y - cableOrdinates.ElementAt(i - 1).Y), 2));
 
-                    sin1 = (cableOrdinates.ordinates.ElementAt(i).Y - cableOrdinates.ordinates.ElementAt(i - 1).Y)
-                        / Math.Sqrt(Math.Pow((cableOrdinates.ordinates.ElementAt(i).X - cableOrdinates.ordinates.ElementAt(i - 1).X), 2) + Math.Pow((cableOrdinates.ordinates.ElementAt(i).Y - cableOrdinates.ordinates.ElementAt(i - 1).Y), 2));
+                    sin1 = (cableOrdinates.ElementAt(i).Y - cableOrdinates.ElementAt(i - 1).Y)
+                        / Math.Sqrt(Math.Pow((cableOrdinates.ElementAt(i).X - cableOrdinates.ElementAt(i - 1).X), 2) + Math.Pow((cableOrdinates.ElementAt(i).Y - cableOrdinates.ElementAt(i - 1).Y), 2));
 
-                    cos2 = (cableOrdinates.ordinates.ElementAt(i + 1).X - cableOrdinates.ordinates.ElementAt(i).X)
-                        / Math.Sqrt(Math.Pow((cableOrdinates.ordinates.ElementAt(i + 1).X - cableOrdinates.ordinates.ElementAt(i).X), 2) + Math.Pow((cableOrdinates.ordinates.ElementAt(i + 1).Y - cableOrdinates.ordinates.ElementAt(i).Y), 2));
+                    cos2 = (cableOrdinates.ElementAt(i + 1).X - cableOrdinates.ElementAt(i).X)
+                        / Math.Sqrt(Math.Pow((cableOrdinates.ElementAt(i + 1).X - cableOrdinates.ElementAt(i).X), 2) + Math.Pow((cableOrdinates.ElementAt(i + 1).Y - cableOrdinates.ElementAt(i).Y), 2));
 
-                    sin2 = (cableOrdinates.ordinates.ElementAt(i + 1).Y - cableOrdinates.ordinates.ElementAt(i).Y)
-                        / Math.Sqrt(Math.Pow((cableOrdinates.ordinates.ElementAt(i + 1).X - cableOrdinates.ordinates.ElementAt(i).X), 2) + Math.Pow((cableOrdinates.ordinates.ElementAt(i + 1).Y - cableOrdinates.ordinates.ElementAt(i).Y), 2));
+                    sin2 = (cableOrdinates.ElementAt(i + 1).Y - cableOrdinates.ElementAt(i).Y)
+                        / Math.Sqrt(Math.Pow((cableOrdinates.ElementAt(i + 1).X - cableOrdinates.ElementAt(i).X), 2) + Math.Pow((cableOrdinates.ElementAt(i + 1).Y - cableOrdinates.ElementAt(i).Y), 2));
 
                     var dfi1 = Math.Acos(cos1);
                     var dfi2 = Math.Acos(cos2);
@@ -232,18 +232,18 @@ namespace Externe_Vorspannung
                         Y = forcePy1 + forcePy2,
                     point = new Point()
                         {
-                            X = cableOrdinates.ordinates.ElementAt(i).X
+                            X = cableOrdinates.ElementAt(i).X
                         }
                     });
                 }
 
                 // calculate forces in the begin
 
-                cos = (cableOrdinates.ordinates.ElementAt(1).X - cableOrdinates.ordinates.ElementAt(0).X)
-               / Math.Sqrt(Math.Pow((cableOrdinates.ordinates.ElementAt(1).X - cableOrdinates.ordinates.ElementAt(0).X), 2) + Math.Pow((cableOrdinates.ordinates.ElementAt(1).Y - cableOrdinates.ordinates.ElementAt(0).Y), 2));
+                cos = (cableOrdinates.ElementAt(1).X - cableOrdinates.ElementAt(0).X)
+               / Math.Sqrt(Math.Pow((cableOrdinates.ElementAt(1).X - cableOrdinates.ElementAt(0).X), 2) + Math.Pow((cableOrdinates.ElementAt(1).Y - cableOrdinates.ElementAt(0).Y), 2));
 
-                sin = (cableOrdinates.ordinates.ElementAt(1).Y - cableOrdinates.ordinates.ElementAt(0).Y)
-                   / Math.Sqrt(Math.Pow((cableOrdinates.ordinates.ElementAt(1).X - cableOrdinates.ordinates.ElementAt(0).X), 2) + Math.Pow((cableOrdinates.ordinates.ElementAt(1).Y - cableOrdinates.ordinates.ElementAt(0).Y), 2));
+                sin = (cableOrdinates.ElementAt(1).Y - cableOrdinates.ElementAt(0).Y)
+                   / Math.Sqrt(Math.Pow((cableOrdinates.ElementAt(1).X - cableOrdinates.ElementAt(0).X), 2) + Math.Pow((cableOrdinates.ElementAt(1).Y - cableOrdinates.ElementAt(0).Y), 2));
 
                 forcePx = prestressForceNew * cos;
                 forcePy = prestressForceNew * sin;
@@ -254,7 +254,7 @@ namespace Externe_Vorspannung
                     Y = forcePy,
                     point = new Point()
                     {
-                        X = cableOrdinates.ordinates.ElementAt(0).X
+                        X = cableOrdinates.ElementAt(0).X
                     }
                 });
             }
@@ -263,11 +263,11 @@ namespace Externe_Vorspannung
             {
                 // calculate forces in the beginning
 
-                cos = (cableOrdinates.ordinates.ElementAt(1).X - cableOrdinates.ordinates.ElementAt(0).X)
-                   / Math.Sqrt(Math.Pow((cableOrdinates.ordinates.ElementAt(1).X - cableOrdinates.ordinates.ElementAt(0).X), 2) + Math.Pow((cableOrdinates.ordinates.ElementAt(1).Y - cableOrdinates.ordinates.ElementAt(0).Y), 2));
+                cos = (cableOrdinates.ElementAt(1).X - cableOrdinates.ElementAt(0).X)
+                   / Math.Sqrt(Math.Pow((cableOrdinates.ElementAt(1).X - cableOrdinates.ElementAt(0).X), 2) + Math.Pow((cableOrdinates.ElementAt(1).Y - cableOrdinates.ElementAt(0).Y), 2));
 
-                sin = (cableOrdinates.ordinates.ElementAt(1).Y - cableOrdinates.ordinates.ElementAt(0).Y)
-                   / Math.Sqrt(Math.Pow((cableOrdinates.ordinates.ElementAt(1).X - cableOrdinates.ordinates.ElementAt(0).X), 2) + Math.Pow((cableOrdinates.ordinates.ElementAt(1).Y - cableOrdinates.ordinates.ElementAt(0).Y), 2));
+                sin = (cableOrdinates.ElementAt(1).Y - cableOrdinates.ElementAt(0).Y)
+                   / Math.Sqrt(Math.Pow((cableOrdinates.ElementAt(1).X - cableOrdinates.ElementAt(0).X), 2) + Math.Pow((cableOrdinates.ElementAt(1).Y - cableOrdinates.ElementAt(0).Y), 2));
 
                 forcePx = quantityCable * prestressForce * cos;
                 forcePy = quantityCable * prestressForce * sin;
@@ -278,7 +278,7 @@ namespace Externe_Vorspannung
                     Y = forcePy,
                     point = new Point()
                     {
-                        X = cableOrdinates.ordinates.ElementAt(0).X
+                        X = cableOrdinates.ElementAt(0).X
                     }
                 });
 
@@ -287,17 +287,17 @@ namespace Externe_Vorspannung
 
                 for (int i = 1; i < oR / 2; i++)
                 {
-                    cos1 = (cableOrdinates.ordinates.ElementAt(i).X - cableOrdinates.ordinates.ElementAt(i - 1).X)
-                        / Math.Sqrt(Math.Pow((cableOrdinates.ordinates.ElementAt(i).X - cableOrdinates.ordinates.ElementAt(i - 1).X), 2) + Math.Pow((cableOrdinates.ordinates.ElementAt(i).Y - cableOrdinates.ordinates.ElementAt(i - 1).Y), 2));
+                    cos1 = (cableOrdinates.ElementAt(i).X - cableOrdinates.ElementAt(i - 1).X)
+                        / Math.Sqrt(Math.Pow((cableOrdinates.ElementAt(i).X - cableOrdinates.ElementAt(i - 1).X), 2) + Math.Pow((cableOrdinates.ElementAt(i).Y - cableOrdinates.ElementAt(i - 1).Y), 2));
 
-                    sin1 = (cableOrdinates.ordinates.ElementAt(i).Y - cableOrdinates.ordinates.ElementAt(i - 1).Y)
-                        / Math.Sqrt(Math.Pow((cableOrdinates.ordinates.ElementAt(i).X - cableOrdinates.ordinates.ElementAt(i - 1).X), 2) + Math.Pow((cableOrdinates.ordinates.ElementAt(i).Y - cableOrdinates.ordinates.ElementAt(i - 1).Y), 2));
+                    sin1 = (cableOrdinates.ElementAt(i).Y - cableOrdinates.ElementAt(i - 1).Y)
+                        / Math.Sqrt(Math.Pow((cableOrdinates.ElementAt(i).X - cableOrdinates.ElementAt(i - 1).X), 2) + Math.Pow((cableOrdinates.ElementAt(i).Y - cableOrdinates.ElementAt(i - 1).Y), 2));
 
-                    cos2 = (cableOrdinates.ordinates.ElementAt(i + 1).X - cableOrdinates.ordinates.ElementAt(i).X)
-                        / Math.Sqrt(Math.Pow((cableOrdinates.ordinates.ElementAt(i + 1).X - cableOrdinates.ordinates.ElementAt(i).X), 2) + Math.Pow((cableOrdinates.ordinates.ElementAt(i + 1).Y - cableOrdinates.ordinates.ElementAt(i).Y), 2));
+                    cos2 = (cableOrdinates.ElementAt(i + 1).X - cableOrdinates.ElementAt(i).X)
+                        / Math.Sqrt(Math.Pow((cableOrdinates.ElementAt(i + 1).X - cableOrdinates.ElementAt(i).X), 2) + Math.Pow((cableOrdinates.ElementAt(i + 1).Y - cableOrdinates.ElementAt(i).Y), 2));
 
-                    sin2 = (cableOrdinates.ordinates.ElementAt(i + 1).Y - cableOrdinates.ordinates.ElementAt(i).Y)
-                        / Math.Sqrt(Math.Pow((cableOrdinates.ordinates.ElementAt(i + 1).X - cableOrdinates.ordinates.ElementAt(i).X), 2) + Math.Pow((cableOrdinates.ordinates.ElementAt(i + 1).Y - cableOrdinates.ordinates.ElementAt(i).Y), 2));
+                    sin2 = (cableOrdinates.ElementAt(i + 1).Y - cableOrdinates.ElementAt(i).Y)
+                        / Math.Sqrt(Math.Pow((cableOrdinates.ElementAt(i + 1).X - cableOrdinates.ElementAt(i).X), 2) + Math.Pow((cableOrdinates.ElementAt(i + 1).Y - cableOrdinates.ElementAt(i).Y), 2));
 
                     var dfi1 = Math.Acos(cos1);
                     var dfi2 = Math.Acos(cos2);
@@ -317,7 +317,7 @@ namespace Externe_Vorspannung
                         Y = forcePy1 + forcePy2,
                         point = new Point()
                         {
-                            X = cableOrdinates.ordinates.ElementAt(i).X
+                            X = cableOrdinates.ElementAt(i).X
                         }
                     });
                 }
@@ -325,11 +325,11 @@ namespace Externe_Vorspannung
 
                 // calculate forces in the end
 
-                cos = (cableOrdinates.ordinates.ElementAt(oR - 1).X - cableOrdinates.ordinates.ElementAt(oR - 2).X)
-               / Math.Sqrt(Math.Pow((cableOrdinates.ordinates.ElementAt(oR - 1).X - cableOrdinates.ordinates.ElementAt(oR - 2).X), 2) + Math.Pow((cableOrdinates.ordinates.ElementAt(oR - 1).Y - cableOrdinates.ordinates.ElementAt(oR - 2).Y), 2));
+                cos = (cableOrdinates.ElementAt(oR - 1).X - cableOrdinates.ElementAt(oR - 2).X)
+               / Math.Sqrt(Math.Pow((cableOrdinates.ElementAt(oR - 1).X - cableOrdinates.ElementAt(oR - 2).X), 2) + Math.Pow((cableOrdinates.ElementAt(oR - 1).Y - cableOrdinates.ElementAt(oR - 2).Y), 2));
 
-                sin = (cableOrdinates.ordinates.ElementAt(oR - 1).Y - cableOrdinates.ordinates.ElementAt(oR - 2).Y)
-                   / Math.Sqrt(Math.Pow((cableOrdinates.ordinates.ElementAt(oR - 1).X - cableOrdinates.ordinates.ElementAt(oR - 2).X), 2) + Math.Pow((cableOrdinates.ordinates.ElementAt(oR - 1).Y - cableOrdinates.ordinates.ElementAt(oR - 2).Y), 2));
+                sin = (cableOrdinates.ElementAt(oR - 1).Y - cableOrdinates.ElementAt(oR - 2).Y)
+                   / Math.Sqrt(Math.Pow((cableOrdinates.ElementAt(oR - 1).X - cableOrdinates.ElementAt(oR - 2).X), 2) + Math.Pow((cableOrdinates.ElementAt(oR - 1).Y - cableOrdinates.ElementAt(oR - 2).Y), 2));
 
                 forcePx = quantityCable * prestressForce * cos;
                 forcePy = quantityCable * prestressForce * sin;
@@ -340,7 +340,7 @@ namespace Externe_Vorspannung
                     Y = -forcePy,
                     point = new Point()
                     {
-                        X = cableOrdinates.ordinates.ElementAt(oR - 1).X
+                        X = cableOrdinates.ElementAt(oR - 1).X
                     }
                 });
 
@@ -350,17 +350,17 @@ namespace Externe_Vorspannung
 
                 for (int i = oR - 2; i >= oR / 2; i--)
                 {
-                    cos1 = (cableOrdinates.ordinates.ElementAt(i).X - cableOrdinates.ordinates.ElementAt(i - 1).X)
-                        / Math.Sqrt(Math.Pow((cableOrdinates.ordinates.ElementAt(i).X - cableOrdinates.ordinates.ElementAt(i - 1).X), 2) + Math.Pow((cableOrdinates.ordinates.ElementAt(i).Y - cableOrdinates.ordinates.ElementAt(i - 1).Y), 2));
+                    cos1 = (cableOrdinates.ElementAt(i).X - cableOrdinates.ElementAt(i - 1).X)
+                        / Math.Sqrt(Math.Pow((cableOrdinates.ElementAt(i).X - cableOrdinates.ElementAt(i - 1).X), 2) + Math.Pow((cableOrdinates.ElementAt(i).Y - cableOrdinates.ElementAt(i - 1).Y), 2));
 
-                    sin1 = (cableOrdinates.ordinates.ElementAt(i).Y - cableOrdinates.ordinates.ElementAt(i - 1).Y)
-                        / Math.Sqrt(Math.Pow((cableOrdinates.ordinates.ElementAt(i).X - cableOrdinates.ordinates.ElementAt(i - 1).X), 2) + Math.Pow((cableOrdinates.ordinates.ElementAt(i).Y - cableOrdinates.ordinates.ElementAt(i - 1).Y), 2));
+                    sin1 = (cableOrdinates.ElementAt(i).Y - cableOrdinates.ElementAt(i - 1).Y)
+                        / Math.Sqrt(Math.Pow((cableOrdinates.ElementAt(i).X - cableOrdinates.ElementAt(i - 1).X), 2) + Math.Pow((cableOrdinates.ElementAt(i).Y - cableOrdinates.ElementAt(i - 1).Y), 2));
 
-                    cos2 = (cableOrdinates.ordinates.ElementAt(i + 1).X - cableOrdinates.ordinates.ElementAt(i).X)
-                        / Math.Sqrt(Math.Pow((cableOrdinates.ordinates.ElementAt(i + 1).X - cableOrdinates.ordinates.ElementAt(i).X), 2) + Math.Pow((cableOrdinates.ordinates.ElementAt(i + 1).Y - cableOrdinates.ordinates.ElementAt(i).Y), 2));
+                    cos2 = (cableOrdinates.ElementAt(i + 1).X - cableOrdinates.ElementAt(i).X)
+                        / Math.Sqrt(Math.Pow((cableOrdinates.ElementAt(i + 1).X - cableOrdinates.ElementAt(i).X), 2) + Math.Pow((cableOrdinates.ElementAt(i + 1).Y - cableOrdinates.ElementAt(i).Y), 2));
 
-                    sin2 = (cableOrdinates.ordinates.ElementAt(i + 1).Y - cableOrdinates.ordinates.ElementAt(i).Y)
-                        / Math.Sqrt(Math.Pow((cableOrdinates.ordinates.ElementAt(i + 1).X - cableOrdinates.ordinates.ElementAt(i).X), 2) + Math.Pow((cableOrdinates.ordinates.ElementAt(i + 1).Y - cableOrdinates.ordinates.ElementAt(i).Y), 2));
+                    sin2 = (cableOrdinates.ElementAt(i + 1).Y - cableOrdinates.ElementAt(i).Y)
+                        / Math.Sqrt(Math.Pow((cableOrdinates.ElementAt(i + 1).X - cableOrdinates.ElementAt(i).X), 2) + Math.Pow((cableOrdinates.ElementAt(i + 1).Y - cableOrdinates.ElementAt(i).Y), 2));
 
                     var dfi1 = Math.Acos(cos1);
                     var dfi2 = Math.Acos(cos2);
@@ -379,7 +379,7 @@ namespace Externe_Vorspannung
                         Y = forcePy1 + forcePy2,
                         point = new Point()
                         {
-                            X = cableOrdinates.ordinates.ElementAt(i).X
+                            X = cableOrdinates.ElementAt(i).X
                         }
                     });
                 }
