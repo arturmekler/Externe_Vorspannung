@@ -69,7 +69,62 @@ namespace App.Tests
             cables.Add(1, cable1);
             cables.Add(2, cable2);
 
-            SumForcesManager.SumForces(cables);
+            var sumForcesResult = SumForcesManager.SumForces(cables);
+            var asd = "asd";
+
+            var sumForcesExpect = new List<Force>();
+            sumForcesExpect.Add(new Force()
+            {
+                X = 1226.8808555289165,
+                Y = 122.68808555289166,
+                Z = 0,
+                point = new Point()
+                {
+                    X = 0,
+                    Y = 0,
+                    Z = 0,
+                }
+            });
+            sumForcesExpect.Add(new Force()
+            {
+                X = 2189.6366488178251,
+                Y = -683.30350086934823,
+                Z = 0,
+                point = new Point()
+                {
+                    X = 20,
+                    Y = 0,
+                    Z = 0,
+                }
+            });
+            sumForcesExpect.Add(new Force()
+            {
+                X = 0,
+                Y = 875.85465952712991,
+                Z = 0,
+                point = new Point()
+                {
+                    X = 30,
+                    Y = 0,
+                    Z = 0,
+                }
+            });
+            sumForcesExpect.Add(new Force()
+            {
+                X = -3416.5175043467416,
+                Y = -315.23924421067329,
+                Z = 0,
+                point = new Point()
+                {
+                    X = 40,
+                    Y = 0,
+                    Z = 0,
+                }
+            });
+
+            Assert.AreEqual(sumForcesExpect[1].Y, sumForcesResult[1].Y);
+            Assert.AreEqual(sumForcesExpect[2].Y, sumForcesResult[2].Y);
+            Assert.AreEqual(sumForcesExpect[3].Y, sumForcesResult[3].Y);
 
         }
     }
