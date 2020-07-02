@@ -69,7 +69,7 @@ namespace App.Tests
             cables.Add(1, cable1);
             cables.Add(2, cable2);
 
-            SumForcesManager.SummForces(cables);
+            SumForcesManager.SumForces(cables);
 
         }
     }

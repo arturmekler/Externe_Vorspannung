@@ -9,7 +9,7 @@ namespace Externe_Vorspannung
 {
     public class SumForcesManager
     {
-        public static List<Force> SummForces(Dictionary<int, Cable> cables)   // sums the forces from the cables
+        public static List<Force> SumForces(Dictionary<int, Cable> cables)   // sums the forces from the cables
         {
             List<Force> sumForcesNew = new List<Force>();
 

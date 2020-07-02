@@ -198,7 +198,7 @@ namespace Externe_Vorspannung
 
         private void ForcesSum_Click(object sender, EventArgs e)    // shows a new window with sum forces
         {
-            SumForces openForm = new SumForces(SumForcesManager.SummForces(cables));
+            SumForces openForm = new SumForces(SumForcesManager.SumForces(cables));
             openForm.Show();
         }
 
@@ -352,9 +352,9 @@ namespace Externe_Vorspannung
                 sw.WriteLine("Nr" + "\t" + "X" + "\t" + "Y");
 
 
-                for (int i = 0; i < SumForcesManager.SummForces(cables).Count(); i++)
+                for (int i = 0; i < SumForcesManager.SumForces(cables).Count(); i++)
                 {
-                    sw.WriteLine((i + 1) + "\t" + SumForcesManager.SummForces(cables)[i].X.ToString("N2") + "\t" + SumForcesManager.SummForces(cables)[i].Y.ToString("N2"));
+                    sw.WriteLine((i + 1) + "\t" + SumForcesManager.SumForces(cables)[i].X.ToString("N2") + "\t" + SumForcesManager.SumForces(cables)[i].Y.ToString("N2"));
                 }
                 sw.WriteLine("\n");
                 
