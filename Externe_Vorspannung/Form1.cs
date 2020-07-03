@@ -142,7 +142,7 @@ namespace Externe_Vorspannung
                     cableBeginActive.Checked, 
                     cableEndActive.Checked);
 
-                cable.cableOrdinates.ordinates = Ordinates();
+                cable.cableOrdinates = Ordinates();
 
                 CableAdd(Int32.Parse(nrCableTypbox.Text), cable);
             }
@@ -169,9 +169,9 @@ namespace Externe_Vorspannung
 
 
                 //loop writes data to the datagridview
-                for (int i = 0; i < cables[nrCable].cableOrdinates.ordinates.Count(); i++)    
+                for (int i = 0; i < cables[nrCable].cableOrdinates.Count(); i++)    
                 {
-                    dataGridView2.Rows.Add(cables[nrCable].cableOrdinates.ordinates.ElementAt(i).X, cables[nrCable].cableOrdinates.ordinates.ElementAt(i).Y);
+                    dataGridView2.Rows.Add(cables[nrCable].cableOrdinates.ElementAt(i).X, cables[nrCable].cableOrdinates.ElementAt(i).Y);
                 }
                 CableDrawing();
             }
@@ -198,7 +198,7 @@ namespace Externe_Vorspannung
 
         private void ForcesSum_Click(object sender, EventArgs e)    // shows a new window with sum forces
         {
-            sumForces openForm = new sumForces(SummForces());
+            SumForces openForm = new SumForces(SumForcesManager.SumForces(cables));
             openForm.Show();
         }
 
@@ -267,7 +267,7 @@ namespace Externe_Vorspannung
                                 n++;
                             }
 
-                            k.cableOrdinates.ordinates = ordinates;
+                            k.cableOrdinates = ordinates;
 
                             cables[k.nrCable] = k;
                         }
@@ -282,9 +282,9 @@ namespace Externe_Vorspannung
                     cableEndActive.Checked = cables[1].cableEndActive;
 
 
-                    for (int i = 0; i < cables[1].cableOrdinates.ordinates.Count(); i++)
+                    for (int i = 0; i < cables[1].cableOrdinates.Count(); i++)
                     {
-                        dataGridView2.Rows.Add(cables[1].cableOrdinates.ordinates.ElementAt(i).X, cables[1].cableOrdinates.ordinates.ElementAt(i).Y);
+                        dataGridView2.Rows.Add(cables[1].cableOrdinates.ElementAt(i).X, cables[1].cableOrdinates.ElementAt(i).Y);
                     }
                     CableDrawing();
                     nrCableTypbox.Text = "1";
@@ -327,9 +327,9 @@ namespace Externe_Vorspannung
                     sw.WriteLine("Rzędne kabla nr " + i + "[m]");
                     sw.WriteLine("Nr" + "\t" + "X" + "\t" + "Y");
 
-                    for (int j = 0; j < cables[i].cableOrdinates.ordinates.Count(); j++)
+                    for (int j = 0; j < cables[i].cableOrdinates.Count(); j++)
                     {
-                        sw.WriteLine((j + 1) + "\t" + cables[i].cableOrdinates.ordinates[j].X + "\t" + cables[i].cableOrdinates.ordinates[j].Y);
+                        sw.WriteLine((j + 1) + "\t" + cables[i].cableOrdinates[j].X + "\t" + cables[i].cableOrdinates[j].Y);
                     }
 
                     sw.WriteLine("\n");
@@ -352,9 +352,9 @@ namespace Externe_Vorspannung
                 sw.WriteLine("Nr" + "\t" + "X" + "\t" + "Y");
 
 
-                for (int i = 0; i < SummForces().GetLength(0); i++)
+                for (int i = 0; i < SumForcesManager.SumForces(cables).Count(); i++)
                 {
-                    sw.WriteLine((i + 1) + "\t" + SummForces()[i, 0].ToString("N2") + "\t" + SummForces()[i, 1].ToString("N2"));
+                    sw.WriteLine((i + 1) + "\t" + SumForcesManager.SumForces(cables)[i].X.ToString("N2") + "\t" + SumForcesManager.SumForces(cables)[i].Y.ToString("N2"));
                 }
                 sw.WriteLine("\n");
                 
@@ -376,64 +376,7 @@ namespace Externe_Vorspannung
             return quantity.Distinct().Count();
         }
 
-        public double[,] SummForces()   // sums the forces from the cables
-        {
-            double[,] sumForces;
-
-            HashSet<double> globalOrdinatesX;
-            globalOrdinatesX = new HashSet<double>();
-            List<double> ordinatesX;
-            Dictionary<double, double> sumForcesX;
-            Dictionary<double, double> sumForcesY;
-
-
-            for (int i = 1; i <= cables.Count(); i++)
-            {
-                for (int j = 0; j < cables[i].cableOrdinates.ordinates.Count(); j++)
-                {
-                    globalOrdinatesX.Add(cables[i].cableOrdinates.ordinates[j].X);
-                }
-            }
-            ordinatesX = globalOrdinatesX.ToList<double>();
-
-            sumForces = new double[ordinatesX.Count(), 3];
-            sumForcesX = new Dictionary<double, double>();
-            sumForcesY = new Dictionary<double, double>();
-
-
-            // making dictionary
-            for (int i = 0; i < ordinatesX.Count(); i++)
-            {
-                sumForcesX.Add(ordinatesX[i], 0);
-                sumForcesY.Add(ordinatesX[i], 0);
-            }
-
-            for (int i = 1; i <= cables.Count(); i++) // loop through cables
-            {
-                for (int j = 0; j < cables[i].cableOrdinates.ordinates.Count(); j++) // loop through "X" ordinate
-                {
-                    for (int k = 0; k < ordinatesX.Count(); k++) // loop looking for a common "X" ordinate
-                    {
-                        if (cables[i].cableOrdinates.ordinates[k].X == ordinatesX[k])
-                        {
-                            ordinatesX.Sort();
-                            sumForcesX[ordinatesX[k]] = cables[i].Forces()[j].X + sumForcesX[ordinatesX[k]];
-                            sumForcesY[ordinatesX[k]] = cables[i].Forces()[j].Y + sumForcesY[ordinatesX[k]];
-                        }
-                    }
-                }
-            }
-
-
-            for (int i = 0; i < ordinatesX.Count; i++) // loop writes values into one array
-            {
-                sumForces[i, 0] = sumForcesX[ordinatesX[i]];
-                sumForces[i, 1] = sumForcesY[ordinatesX[i]];
-                sumForces[i, 2] = ordinatesX[i];
-            }
-
-            return sumForces;
-        }
+        
 
         private void newToolStripMenuItem_Click(object sender, EventArgs e) // save a changes to txt(if you agree) and open new txt data
         {
